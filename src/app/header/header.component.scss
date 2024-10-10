@@ -1,0 +1,28 @@
+.container {
+  height: 96px;
+  width: 100%;
+  background-color: rgba(white, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 8px 8px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.content {
+  max-width: 1920px;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inner {
+  margin-left: 80px;
+  margin-right: 80px;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
