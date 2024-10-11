@@ -3,6 +3,7 @@
   aria-labelledby="time-radio-group-label"
   class="time-radio-group"
   [(ngModel)]="chosenTime"
+  (change)="sendTime(chosenTime)"
 >
   @for (slot of timeslots; track slot) {
   <mat-radio-button class="time-radio-button" [value]="slot">{{

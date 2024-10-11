@@ -21,6 +21,13 @@ import { ChooseTimeComponent } from './choose-time/choose-time.component';
   styleUrl: './maincontent.component.scss',
 })
 export class MaincontentComponent {
+  scheduledMeeting = {
+    date: '',
+    time: '',
+    name: '',
+    email: '',
+  };
+
   selectableDates: Date[] = [
     new Date(2024, 9, 3), // 3. Oktober 2024
     new Date(2024, 9, 5), // 5. Oktober 2024
@@ -43,6 +50,11 @@ export class MaincontentComponent {
     this.dateAdapter.getFirstDayOfWeek = () => {
       return 1;
     };
+  }
+
+  addTime(time: string) {
+    this.scheduledMeeting.time = time;
+    console.log(time);
   }
 
   /*

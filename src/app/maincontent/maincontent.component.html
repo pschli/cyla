@@ -16,7 +16,10 @@
           ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <app-choose-time class="choosetime"></app-choose-time>
+        <app-choose-time
+          (timeChosen)="addTime($event)"
+          class="choosetime"
+        ></app-choose-time>
       </div>
       <div class="right"></div>
     </div>
