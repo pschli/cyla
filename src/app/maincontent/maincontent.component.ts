@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DateAdapter } from '@angular/material/core';
 import { ChooseTimeComponent } from './choose-time/choose-time.component';
+import { ChooseDateComponent } from './choose-date/choose-date.component';
 
 @Component({
   selector: 'app-maincontent',
@@ -15,6 +16,7 @@ import { ChooseTimeComponent } from './choose-time/choose-time.component';
     MatInputModule,
     MatDatepickerModule,
     ChooseTimeComponent,
+    ChooseDateComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './maincontent.component.html',
@@ -28,39 +30,8 @@ export class MaincontentComponent {
     email: '',
   };
 
-  selectableDates: Date[] = [
-    new Date(2024, 9, 3), // 3. Oktober 2024
-    new Date(2024, 9, 5), // 5. Oktober 2024
-    new Date(2024, 9, 10), // 10. Oktober 2024
-    new Date(2024, 9, 15), // 15. Oktober 2024
-  ];
-
-  myFilter = (d: Date | null): boolean => {
-    if (!d) {
-      return false;
-    }
-    const dateStr = d.toDateString();
-    return this.selectableDates.some((date) => date.toDateString() === dateStr);
-  };
-
-  constructor(private dateAdapter: DateAdapter<Date>) {}
-
-  ngOnInit(): void {
-    //  this.dateAdapter.setLocale('de-DE');
-    this.dateAdapter.getFirstDayOfWeek = () => {
-      return 1;
-    };
-  }
-
   addTime(time: string) {
     this.scheduledMeeting.time = time;
     console.log(time);
   }
-
-  /*
-  myFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
-  }; */
 }

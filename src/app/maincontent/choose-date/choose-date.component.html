@@ -1,0 +1,13 @@
+<mat-form-field class="datepicker" [formGroup]="date">
+  <mat-label>Wähle ein Datum</mat-label>
+  <input
+    matInput
+    [matDatepickerFilter]="myFilter"
+    [matDatepicker]="picker"
+    [formControl]="date.controls.dateSelected"
+    (dateInput)="showDate()"
+  />
+  <mat-hint>DD/MM/JJJJ</mat-hint>
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
