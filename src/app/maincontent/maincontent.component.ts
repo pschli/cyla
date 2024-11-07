@@ -1,11 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  MAT_DATE_LOCALE,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DateAdapter } from '@angular/material/core';
 import { ChooseTimeComponent } from './choose-time/choose-time.component';
 import { ChooseDateComponent } from './choose-date/choose-date.component';
+import { AppointmentInfoService } from '../services/appointment-info.service';
 
 @Component({
   selector: 'app-maincontent',
@@ -23,15 +27,9 @@ import { ChooseDateComponent } from './choose-date/choose-date.component';
   styleUrl: './maincontent.component.scss',
 })
 export class MaincontentComponent {
-  scheduledMeeting = {
-    date: '',
-    time: '',
-    name: '',
-    email: '',
-  };
+  scheduledMeeting = inject(AppointmentInfoService);
 
   addTime(time: string) {
-    this.scheduledMeeting.time = time;
-    console.log(time);
+    this.scheduledMeeting.scheduledMeeting.time = time;
   }
 }

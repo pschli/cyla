@@ -6,6 +6,12 @@
         (timeChosen)="addTime($event)"
         class="choosetime"
       ></app-choose-time>
+      @if (scheduledMeeting.scheduledMeeting.time) {
+      <div>
+        Du wünschst einen Termin um
+        {{ scheduledMeeting.scheduledMeeting.time }} Uhr.
+      </div>
+      }
     </div>
   </div>
 </div>

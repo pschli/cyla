@@ -5,9 +5,14 @@
     [matDatepickerFilter]="myFilter"
     [matDatepicker]="picker"
     [formControl]="date.controls.dateSelected"
-    (dateInput)="showDate()"
+    (dateChange)="showDate()"
+    (change)="handleInput(pickerInput.value)"
+    #pickerInput
   />
-  <mat-hint>DD/MM/JJJJ</mat-hint>
+  <mat-hint>DD.MM.JJJJ</mat-hint>
   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
+@if (date.controls.dateSelected.invalid) {
+<p>Bitte wähle ein gültiges Datum</p>
+}
