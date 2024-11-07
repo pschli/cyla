@@ -1,17 +1,21 @@
 <div class="container">
   <div class="content">
     <div class="inner">
-      <app-choose-date></app-choose-date>
+      <app-choose-date
+        (newDatepickerEvent)="getTimeslots($event)"
+        (newDateValidatorEvent)="checkDateValidity($event)"
+      ></app-choose-date>
+      @if (dateSelected){
       <app-choose-time
         (timeChosen)="addTime($event)"
         class="choosetime"
       ></app-choose-time>
-      @if (scheduledMeeting.scheduledMeeting.time) {
+      @if (scheduledMeeting.data.time) {
       <div>
-        Du wünschst einen Termin um
-        {{ scheduledMeeting.scheduledMeeting.time }} Uhr.
+        Du wünschst einen Termin am {{ scheduledMeeting.data.date }} um
+        {{ scheduledMeeting.data.time }}
       </div>
-      }
+      } }
     </div>
   </div>
 </div>

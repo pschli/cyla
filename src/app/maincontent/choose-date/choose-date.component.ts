@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  inject,
+  Output,
+} from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { DateAdapter } from '@angular/material/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AppointmentInfoService } from '../../services/appointment-info.service';
+import { DateFormatterService } from '../../services/date-formatter.service';
 
 @Component({
   selector: 'app-choose-date',
@@ -27,12 +34,13 @@ export class ChooseDateComponent {
   });
 
   scheduledMeeting = inject(AppointmentInfoService);
+  dateFormatter = inject(DateFormatterService);
 
   selectableDates: Date[] = [
-    new Date(2024, 10, 3), // 3. Oktober 2024
-    new Date(2024, 10, 5), // 5. Oktober 2024
-    new Date(2024, 10, 10), // 10. Oktober 2024
-    new Date(2024, 10, 15), // 15. Oktober 2024
+    new Date(2024, 10, 3), // 3. November 2024
+    new Date(2024, 10, 5), // 5. November 2024
+    new Date(2024, 10, 10), // 10. November 2024
+    new Date(2024, 10, 15), // 15. November 2024
   ];
 
   myFilter = (d: Date | null): boolean => {
@@ -43,6 +51,9 @@ export class ChooseDateComponent {
     return this.selectableDates.some((date) => date.toDateString() === dateStr);
   };
 
+  @Output() newDatepickerEvent = new EventEmitter<string>();
+  @Output() newDateValidatorEvent = new EventEmitter<boolean>();
+
   constructor(private dateAdapter: DateAdapter<Date>) {}
 
   ngOnInit(): void {
@@ -52,57 +63,38 @@ export class ChooseDateComponent {
     };
   }
 
-  showDate() {
+  sendDate(dateString: string) {
     if (!this.date.controls.dateSelected.invalid) {
-      console.log(this.date.controls.dateSelected.value);
-    }
+      this.scheduledMeeting.data.date = dateString;
+      this.newDateValidatorEvent.emit(true);
+      this.newDatepickerEvent.emit(dateString);
+    } else this.handleInvalid();
   }
 
   handleInput(inputValue: string) {
-    console.log(inputValue);
-    let transformedValue: string = '';
-    let separators: number[] | null = this.findSeparators(inputValue);
-    if (separators) {
-      transformedValue = this.transformInput(inputValue, separators);
-    }
-    console.log(transformedValue);
+    let transformedValue: string = this.dateFormatter.fixInput(inputValue);
     this.date.controls.dateSelected.setValue(new Date(transformedValue));
-    this.showDate();
+    this.handlePick();
   }
 
-  transformInput(inputValue: string, separators: number[]) {
-    let day = inputValue.substring(0, separators[0]);
-    let month = inputValue.substring(separators[0] + 1, separators[1]);
-    let year = inputValue.substring(separators[1] + 1);
-    if (this.formatIsIncorrect(day, month, year)) {
-      return '';
-    } else {
-      return month + '/' + day + '/' + year;
-    }
+  emptyField() {
+    this.date.controls.dateSelected.setValue(null);
+    this.scheduledMeeting.data.date = '';
+    this.handleInvalid();
   }
 
-  formatIsIncorrect(day: string, month: string, year: string) {
-    return (
-      day.length < 1 ||
-      day.length > 2 ||
-      month.length < 1 ||
-      month.length > 2 ||
-      year.length < 2 ||
-      year.length > 4
-    );
-  }
-
-  findSeparators(inputValue: string) {
-    let separators = inputValue.match(/[^0-9]/g);
-    console.log(separators);
-    if (separators && separators.length === 2) {
-      let first = inputValue.indexOf(separators[0]);
-      let second = inputValue.indexOf(separators[1], first + 1);
-      if (first !== -1 && second !== -1) {
-        console.log(first, second);
-        return [first, second];
+  handlePick() {
+    this.handleInvalid();
+    if (!this.date.controls.dateSelected.invalid) {
+      let date = this.date.controls.dateSelected.value;
+      if (date) {
+        let dateString: string = this.dateFormatter.getStringFromDate(date);
+        this.sendDate(dateString);
       }
     }
-    return null;
+  }
+
+  handleInvalid() {
+    this.newDateValidatorEvent.emit(false);
   }
 }

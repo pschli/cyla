@@ -5,8 +5,9 @@
     [matDatepickerFilter]="myFilter"
     [matDatepicker]="picker"
     [formControl]="date.controls.dateSelected"
-    (dateChange)="showDate()"
+    (dateChange)="handlePick()"
     (change)="handleInput(pickerInput.value)"
+    (focus)="emptyField()"
     #pickerInput
   />
   <mat-hint>DD.MM.JJJJ</mat-hint>
