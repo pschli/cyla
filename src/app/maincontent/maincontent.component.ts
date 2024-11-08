@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ChooseTimeComponent } from './choose-time/choose-time.component';
 import { ChooseDateComponent } from './choose-date/choose-date.component';
 import { AppointmentInfoService } from '../services/appointment-info.service';
+import { DateFormatterService } from '../services/date-formatter.service';
 
 @Component({
   selector: 'app-maincontent',
@@ -32,12 +33,17 @@ import { AppointmentInfoService } from '../services/appointment-info.service';
 })
 export class MaincontentComponent {
   scheduledMeeting = inject(AppointmentInfoService);
+  dateFormatter = inject(DateFormatterService);
   dateSelected?: boolean;
+  localDate: string = '';
 
   constructor(private ref: ChangeDetectorRef) {}
 
   addTime(time: string) {
     this.scheduledMeeting.data.time = time;
+    this.localDate = this.dateFormatter.getLocalDate(
+      this.scheduledMeeting.data.date
+    );
   }
 
   checkDateValidity(valid: boolean) {

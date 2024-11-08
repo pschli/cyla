@@ -57,7 +57,7 @@ export class ChooseDateComponent {
   constructor(private dateAdapter: DateAdapter<Date>) {}
 
   ngOnInit(): void {
-    this.dateAdapter.setLocale('de-DE');
+    this.dateAdapter.setLocale('de');
     this.dateAdapter.getFirstDayOfWeek = () => {
       return 1;
     };

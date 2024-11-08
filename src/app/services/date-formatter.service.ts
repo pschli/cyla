@@ -1,3 +1,4 @@
+import { WeekDay } from '@angular/common';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -45,6 +46,21 @@ export class DateFormatterService {
       '/' +
       date.getFullYear().toString()
     );
+  }
+
+  getLocalDate(dateString: string) {
+    let localDate: string = '';
+    const options: Intl.DateTimeFormatOptions | undefined = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    if (dateString) {
+      let date = new Date(dateString);
+      localDate = date.toLocaleDateString('de-DE', options);
+    }
+    return localDate;
   }
 
   findSeparators(inputValue: string) {
