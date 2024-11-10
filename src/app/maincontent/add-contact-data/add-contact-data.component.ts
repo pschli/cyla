@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { AppointmentInfoService } from '../../services/appointment-info.service';
 
 @Component({
   selector: 'app-add-contact-data',
@@ -15,6 +16,8 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './add-contact-data.component.scss',
 })
 export class AddContactDataComponent {
+  scheduledMeeting = inject(AppointmentInfoService);
+
   formData = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     firstname: new FormControl('', [Validators.required]),
@@ -56,8 +59,22 @@ export class AddContactDataComponent {
   validateForm() {
     if (this.formData.valid) {
       this.contactDataValid.emit(true);
+      let name: string =
+        this.formData.controls.firstname.value +
+        ' ' +
+        this.formData.controls.lastname.value;
+      let email: string | null = this.formData.controls.email.value;
+      if (email !== null) {
+        this.sendContactData(name, email);
+      }
     } else {
       this.contactDataValid.emit(false);
+      this.sendContactData();
     }
+  }
+
+  sendContactData(name = '', email = '') {
+    this.scheduledMeeting.data.name = name;
+    this.scheduledMeeting.data.email = email;
   }
 }
