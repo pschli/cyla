@@ -4,14 +4,23 @@
   animationDuration="400"
   #stepper
 >
-  <mat-step [completed]="true">
+  <mat-step [completed]="contactFormCompleted">
+    <ng-template matStepLabel>Dein Daten</ng-template>
+    <div class="step-inner">
+      <app-add-contact-data
+        (contactDataValid)="setContactStepValidity($event)"
+      ></app-add-contact-data>
+    </div>
     <div>
-      <button mat-button matStepperNext>Next</button>
+      <button mat-button matStepperNext [disabled]="!contactFormCompleted">
+        Next
+      </button>
     </div>
   </mat-step>
 
   <mat-step [completed]="dateFormCompleted"
-    ><div class="step-inner">
+    ><ng-template matStepLabel>Wähle Datum und Zeit</ng-template>
+    <div class="step-inner">
       <app-choose-date
         (newDatepickerEvent)="getTimeslots($event)"
         (newDateValidatorEvent)="checkDateValidity($event)"
@@ -30,7 +39,9 @@
     </div>
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
+      <button mat-button matStepperNext [disabled]="!dateFormCompleted">
+        Next
+      </button>
     </div>
   </mat-step>
   <mat-step>

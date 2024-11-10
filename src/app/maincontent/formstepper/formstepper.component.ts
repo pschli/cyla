@@ -10,6 +10,7 @@ import { ChooseTimeComponent } from '../choose-time/choose-time.component';
 import { ChooseDateComponent } from '../choose-date/choose-date.component';
 import { AppointmentInfoService } from '../../services/appointment-info.service';
 import { DateFormatterService } from '../../services/date-formatter.service';
+import { AddContactDataComponent } from '../add-contact-data/add-contact-data.component';
 
 @Component({
   selector: 'app-formstepper',
@@ -26,6 +27,7 @@ import { DateFormatterService } from '../../services/date-formatter.service';
     MatDatepickerModule,
     ChooseTimeComponent,
     ChooseDateComponent,
+    AddContactDataComponent,
   ],
   templateUrl: './formstepper.component.html',
   styleUrl: './formstepper.component.scss',
@@ -35,9 +37,15 @@ export class FormstepperComponent {
   dateFormatter = inject(DateFormatterService);
   dateSelected?: boolean;
   localDate: string = '';
+  contactFormCompleted = false;
   dateFormCompleted = false;
 
   constructor(private ref: ChangeDetectorRef) {}
+
+  setContactStepValidity(event: boolean) {
+    console.log(event);
+    this.contactFormCompleted = event;
+  }
 
   addTime(time: string) {
     this.scheduledMeeting.data.time = time;

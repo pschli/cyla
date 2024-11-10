@@ -1,0 +1,46 @@
+<form action="" [formGroup]="formData">
+  <div>
+    <mat-form-field>
+      <mat-label>Enter first name</mat-label>
+      <input
+        matInput
+        placeholder="First Name"
+        [formControl]="formData.controls.firstname"
+        (blur)="updateErrorMessage('firstname')"
+        (change)="validateForm()"
+        required
+      />
+      @if (formData.controls.firstname.invalid) {
+      <mat-error>{{ errorMessage.firstname }}</mat-error>
+      } </mat-form-field
+    ><mat-form-field>
+      <mat-label>Enter last name</mat-label>
+      <input
+        matInput
+        placeholder="Last Name"
+        [formControl]="formData.controls.lastname"
+        (blur)="updateErrorMessage('lastname')"
+        (change)="validateForm()"
+        required
+      />
+      @if (formData.controls.lastname.invalid) {
+      <mat-error>{{ errorMessage.lastname }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Enter user email</mat-label>
+    <input
+      matInput
+      placeholder="pat@example.com"
+      [formControl]="formData.controls.email"
+      (blur)="updateErrorMessage('email')"
+      (change)="validateForm()"
+      required
+    />
+    @if (formData.controls.email.invalid) {
+    <mat-error>{{ errorMessage.email }}</mat-error>
+    }
+  </mat-form-field>
+</form>
