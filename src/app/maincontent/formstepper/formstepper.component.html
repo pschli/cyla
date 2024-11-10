@@ -1,0 +1,44 @@
+<mat-stepper
+  orientation="vertical"
+  [linear]="true"
+  animationDuration="400"
+  #stepper
+>
+  <mat-step [completed]="true">
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step [completed]="dateFormCompleted"
+    ><div class="step-inner">
+      <app-choose-date
+        (newDatepickerEvent)="getTimeslots($event)"
+        (newDateValidatorEvent)="checkDateValidity($event)"
+      ></app-choose-date>
+      @if (dateSelected){
+      <app-choose-time
+        (timeChosen)="addTime($event)"
+        class="choosetime"
+      ></app-choose-time>
+      @if (scheduledMeeting.data.time && scheduledMeeting.data.date) {
+      <div>
+        Du wünschst einen Termin {{ localDate }} um
+        {{ scheduledMeeting.data.time }} Uhr.
+      </div>
+      } }
+    </div>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-stepper>

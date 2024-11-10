@@ -4,10 +4,7 @@ import {
   Component,
   inject,
 } from '@angular/core';
-import {
-  MAT_DATE_LOCALE,
-  provideNativeDateAdapter,
-} from '@angular/material/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +12,8 @@ import { ChooseTimeComponent } from './choose-time/choose-time.component';
 import { ChooseDateComponent } from './choose-date/choose-date.component';
 import { AppointmentInfoService } from '../services/appointment-info.service';
 import { DateFormatterService } from '../services/date-formatter.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormstepperComponent } from './formstepper/formstepper.component';
 
 @Component({
   selector: 'app-maincontent',
@@ -26,6 +25,7 @@ import { DateFormatterService } from '../services/date-formatter.service';
     MatDatepickerModule,
     ChooseTimeComponent,
     ChooseDateComponent,
+    FormstepperComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './maincontent.component.html',
@@ -36,6 +36,10 @@ export class MaincontentComponent {
   dateFormatter = inject(DateFormatterService);
   dateSelected?: boolean;
   localDate: string = '';
+
+  private _formBuilder = inject(FormBuilder);
+
+  firstFormGroup: FormGroup = this._formBuilder.group({ firstCtrl: [''] });
 
   constructor(private ref: ChangeDetectorRef) {}
 
