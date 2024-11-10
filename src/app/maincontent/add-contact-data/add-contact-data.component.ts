@@ -25,9 +25,6 @@ export class AddContactDataComponent {
     email: '',
     firstname: '',
     lastname: '',
-    address: '',
-    postalcode: '',
-    city: '',
   };
 
   @Output() contactDataValid = new EventEmitter<boolean>();
@@ -58,10 +55,8 @@ export class AddContactDataComponent {
 
   validateForm() {
     if (this.formData.valid) {
-      console.log('form data is valid');
       this.contactDataValid.emit(true);
     } else {
-      console.log('form data is not valid');
       this.contactDataValid.emit(false);
     }
   }
