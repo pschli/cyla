@@ -1,5 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -11,6 +17,9 @@ import { ChooseDateComponent } from '../choose-date/choose-date.component';
 import { AppointmentInfoService } from '../../services/appointment-info.service';
 import { DateFormatterService } from '../../services/date-formatter.service';
 import { AddContactDataComponent } from '../add-contact-data/add-contact-data.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-formstepper',
@@ -24,6 +33,9 @@ import { AddContactDataComponent } from '../add-contact-data/add-contact-data.co
     MatInputModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatListModule,
     MatDatepickerModule,
     ChooseTimeComponent,
     ChooseDateComponent,
@@ -40,10 +52,13 @@ export class FormstepperComponent {
   contactFormCompleted = false;
   dateFormCompleted = false;
 
+  legalCheck = new FormGroup({
+    checked: new FormControl(false, [Validators.required]),
+  });
+
   constructor(private ref: ChangeDetectorRef) {}
 
   setContactStepValidity(event: boolean) {
-    console.log(event);
     this.contactFormCompleted = event;
   }
 
@@ -64,5 +79,9 @@ export class FormstepperComponent {
   getTimeslots(chosenDate: string) {
     this.dateSelected = true;
     this.scheduledMeeting.data.time = '';
+  }
+
+  submitData() {
+    console.log(this.scheduledMeeting.data);
   }
 }

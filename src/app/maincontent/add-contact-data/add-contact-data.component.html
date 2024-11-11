@@ -8,6 +8,7 @@
         [formControl]="formData.controls.firstname"
         (blur)="updateErrorMessage('firstname')"
         (change)="validateForm()"
+        autocomplete="given-name"
         required
       />
       @if (formData.controls.firstname.invalid) {
@@ -21,6 +22,7 @@
         [formControl]="formData.controls.lastname"
         (blur)="updateErrorMessage('lastname')"
         (change)="validateForm()"
+        autocomplete="family-name"
         required
       />
       @if (formData.controls.lastname.invalid) {
@@ -37,6 +39,7 @@
       [formControl]="formData.controls.email"
       (blur)="updateErrorMessage('email')"
       (change)="validateForm()"
+      autocomplete="email"
       required
     />
     @if (formData.controls.email.invalid) {

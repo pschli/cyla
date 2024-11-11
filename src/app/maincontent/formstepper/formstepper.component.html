@@ -44,12 +44,42 @@
       </button>
     </div>
   </mat-step>
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <p>You are now done.</p>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
+  <mat-step [formGroup]="legalCheck">
+    <ng-template matStepLabel>Prüfen und Absenden</ng-template>
+    <mat-card class="summary"
+      ><h3>Bitte kontrolliere deine Eingaben.</h3>
+      <mat-list role="list">
+        <mat-list-item role="listitem"
+          >Name: <span>{{ scheduledMeeting.data.name }}</span></mat-list-item
+        >
+        <mat-list-item role="listitem"
+          >Email: <span>{{ scheduledMeeting.data.email }}</span></mat-list-item
+        >
+        <mat-list-item role="listitem"
+          >Datum: <span>{{ localDate }}</span></mat-list-item
+        >
+        <mat-list-item role="listitem"
+          >Uhrzeit:
+          <span>{{ scheduledMeeting.data.time }} Uhr</span></mat-list-item
+        >
+      </mat-list>
+
+      <p>
+        <mat-checkbox [formControl]="legalCheck.controls.checked"
+          >Ich akzeptiere die Datenschutzbedingungen
+        </mat-checkbox>
+      </p>
+      <div>
+        <button mat-button matStepperPrevious>Zurück</button>
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="!legalCheck.controls.checked.value"
+          (click)="submitData()"
+        >
+          Abschicken
+        </button>
+      </div></mat-card
+    >
   </mat-step>
 </mat-stepper>
