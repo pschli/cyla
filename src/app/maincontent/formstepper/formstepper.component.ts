@@ -20,6 +20,7 @@ import { AddContactDataComponent } from '../add-contact-data/add-contact-data.co
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formstepper',
@@ -56,7 +57,7 @@ export class FormstepperComponent {
     checked: new FormControl(false, [Validators.required]),
   });
 
-  constructor(private ref: ChangeDetectorRef) {}
+  constructor(private ref: ChangeDetectorRef, private router: Router) {}
 
   setContactStepValidity(event: boolean) {
     this.contactFormCompleted = event;
@@ -83,5 +84,13 @@ export class FormstepperComponent {
 
   submitData() {
     console.log(this.scheduledMeeting.data);
+    this.router.navigate(['/', 'success']).then(
+      (nav) => {
+        console.log(nav); // true if navigation is successful
+      },
+      (err) => {
+        console.log(err); // when there's an error
+      }
+    );
   }
 }
