@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
 
 /* latin-ext */
 @font-face {
@@ -40,4 +41,12 @@ body {
 h1 {
   font-weight: 600;
   font-size: 48px;
+}
+
+a {
+  text-decoration: underline;
+  cursor: pointer;
+  &:hover {
+    color: var(--mat-full-pseudo-checkbox-selected-icon-color);
+  }
 }

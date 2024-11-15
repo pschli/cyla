@@ -1,0 +1,66 @@
+@import "../../../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+
+.outer {
+  margin: 80px;
+  margin-top: 120px;
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.formfield {
+  padding-left: 0;
+  padding-right: 0;
+  min-width: 436px;
+  display: flex;
+  flex-direction: column;
+  div {
+    display: flex;
+    gap: 12px;
+    mat-form-field {
+      width: 100%;
+    }
+  }
+  button {
+    border: none;
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+    border-radius: 100px;
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(100, 100, 100, 0.1);
+    }
+  }
+}
+
+.signup-btn {
+  width: 100%;
+}
+
+.mat-mdc-dialog-actions {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.loginlink {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 28px;
+}
+
+.authservice {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}

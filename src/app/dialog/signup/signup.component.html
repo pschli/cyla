@@ -1,0 +1,126 @@
+<div class="outer">
+  <div class="logo">Cyla</div>
+  <div class="inner">
+    <form action="" [formGroup]="formData">
+      <mat-dialog-content class="formfield">
+        <div>
+          <mat-form-field>
+            <mat-label>Enter first name</mat-label>
+            <input
+              matInput
+              placeholder="First Name"
+              [formControl]="formData.controls.firstname"
+              (blur)="updateErrorMessage('firstname')"
+              required
+            />
+            @if (formData.controls.firstname.invalid) {
+            <mat-error>{{ errorMessage.firstname }}</mat-error>
+            } </mat-form-field
+          ><mat-form-field>
+            <mat-label>Enter last name</mat-label>
+            <input
+              matInput
+              placeholder="Last Name"
+              [formControl]="formData.controls.lastname"
+              (blur)="updateErrorMessage('lastname')"
+              required
+            />
+            @if (formData.controls.lastname.invalid) {
+            <mat-error>{{ errorMessage.lastname }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+          <mat-label>Enter user email</mat-label>
+          <input
+            matInput
+            placeholder="pat@example.com"
+            autocomplete="email"
+            [formControl]="formData.controls.email"
+            (blur)="updateErrorMessage('email')"
+            required
+          />
+          @if (formData.controls.email.invalid) {
+          <mat-error>{{ errorMessage.email }}</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Enter your password</mat-label>
+          <input
+            matInput
+            [type]="hide() ? 'password' : 'text'"
+            [formControl]="formData.controls.password"
+            autocomplete="new-password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Repeat your password</mat-label>
+          <input
+            matInput
+            [type]="hide() ? 'password' : 'text'"
+            [formControl]="formData.controls.repeatpw"
+            (input)="checkEqual()"
+            autocomplete="new-password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          @if (formData.controls.repeatpw.invalid) {
+          <mat-error>{{ errorMessage.repeatpw }}</mat-error
+          >}
+        </mat-form-field>
+      </mat-dialog-content>
+      <div>
+        <mat-dialog-actions>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            class="signup-btn"
+            [disabled]="formData.invalid"
+          >
+            Registieren
+          </button>
+        </mat-dialog-actions>
+      </div>
+    </form>
+    <div class="loginlink">
+      <span>Du hast bereits ein Konto?&nbsp;</span
+      ><a (click)="openLogin()">Melde dich hier an</a>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="authservice">
+      <button mat-stroked-button color="basic" class="signup-btn">
+        <div>
+          <img
+            src="assets/icons/google-icon-logo-svgrepo-com.svg"
+            alt=""
+          /><span>Weiter mit Google</span>
+        </div>
+      </button>
+      <button mat-stroked-button color="basic" class="signup-btn">
+        <div>
+          <img
+            src="assets/icons/apple-black-logo-svgrepo-com.svg"
+            alt=""
+          /><span>Weiter mit Apple</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
