@@ -121,7 +121,7 @@ export class SignupComponent {
       }
     } else if (field === 'repeatpw') {
       if (this.formData.controls.repeatpw.hasError('notEqual')) {
-        this.errorMessage.repeatpw = "passwort doesn't match";
+        this.errorMessage.repeatpw = "Passwort doesn't match";
       } else {
         this.errorMessage.lastname = '';
       }
