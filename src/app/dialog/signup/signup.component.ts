@@ -19,6 +19,8 @@ import { LandingComponent } from '../../landing/landing.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from '../login/login.component';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -37,6 +39,8 @@ import { LoginComponent } from '../login/login.component';
 })
 export class SignupComponent {
   readonly dialogRef = inject(MatDialogRef<LandingComponent>);
+  router = inject(Router);
+  authService = inject(AuthService);
   loading: boolean = false;
 
   formData = new FormGroup({
@@ -57,6 +61,8 @@ export class SignupComponent {
       Validators.required,
     ]),
   });
+
+  firebaseErrorMessage: string | null = null;
 
   hide = signal(true);
   clickEvent(event: MouseEvent) {
@@ -149,5 +155,34 @@ export class SignupComponent {
     this.formData.reset();
     this.loading = false;
     this.dialogRef.close();
+  }
+
+  registerUser() {
+    let rawData = this.formData.getRawValue();
+    if (
+      rawData.email &&
+      rawData.password &&
+      rawData.firstname &&
+      rawData.lastname
+    ) {
+      this.formData.reset();
+      this.loading = true;
+      this.dialogRef.close();
+      this.authService
+        .register(
+          rawData.email,
+          rawData.password,
+          rawData.firstname,
+          rawData.lastname
+        )
+        .subscribe({
+          next: () => {
+            this.router.navigateByUrl('admin');
+          },
+          error: (err) => {
+            this.firebaseErrorMessage = err.code;
+          },
+        });
+    }
   }
 }
