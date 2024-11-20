@@ -22,6 +22,13 @@ import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
+type NonNullData = {
+  email: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+};
+
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -158,6 +165,30 @@ export class SignupComponent {
   }
 
   registerUser() {
+    let validData: NonNullData = this.processRawData();
+    this.loading = true;
+    this.authService
+      .register(
+        validData.email,
+        validData.password,
+        validData.firstname,
+        validData.lastname
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigateByUrl('admin');
+          this.formData.reset();
+          this.dialogRef.close();
+        },
+        error: (err) => {
+          this.firebaseErrorMessage = err.code;
+          this.loading = false;
+        },
+      });
+  }
+
+  processRawData(): NonNullData {
+    let validData!: NonNullData;
     let rawData = this.formData.getRawValue();
     if (
       rawData.email &&
@@ -165,24 +196,13 @@ export class SignupComponent {
       rawData.firstname &&
       rawData.lastname
     ) {
-      this.formData.reset();
-      this.loading = true;
-      this.dialogRef.close();
-      this.authService
-        .register(
-          rawData.email,
-          rawData.password,
-          rawData.firstname,
-          rawData.lastname
-        )
-        .subscribe({
-          next: () => {
-            this.router.navigateByUrl('admin');
-          },
-          error: (err) => {
-            this.firebaseErrorMessage = err.code;
-          },
-        });
+      validData = {
+        email: rawData.email,
+        password: rawData.password,
+        firstname: rawData.firstname,
+        lastname: rawData.lastname,
+      };
     }
+    return validData;
   }
 }

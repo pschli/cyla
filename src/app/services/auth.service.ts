@@ -20,7 +20,6 @@ export class AuthService {
     firstname: string,
     lastname: string
   ): Observable<void> {
-    console.log(email, password);
     let displayName = `${firstname} ${lastname}`;
     const promise = createUserWithEmailAndPassword(
       this.firebaseAuth,
@@ -29,7 +28,6 @@ export class AuthService {
     ).then((response) =>
       updateProfile(response.user, { displayName: displayName })
     );
-
     return from(promise);
   }
 }
