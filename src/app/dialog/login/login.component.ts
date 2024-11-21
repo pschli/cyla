@@ -18,6 +18,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { SignupComponent } from '../signup/signup.component';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -36,6 +38,8 @@ import { SignupComponent } from '../signup/signup.component';
 })
 export class LoginComponent {
   readonly dialogRef = inject(MatDialogRef<SignupComponent>);
+  router = inject(Router);
+  authService = inject(AuthService);
   loading: boolean = false;
 
   formData = new FormGroup({
@@ -43,16 +47,7 @@ export class LoginComponent {
       Validators.required,
       Validators.email,
     ]),
-    firstname: new FormControl({ value: '', disabled: this.loading }, [
-      Validators.required,
-    ]),
-    lastname: new FormControl({ value: '', disabled: this.loading }, [
-      Validators.required,
-    ]),
     password: new FormControl({ value: '', disabled: this.loading }, [
-      Validators.required,
-    ]),
-    repeatpw: new FormControl({ value: '', disabled: this.loading }, [
       Validators.required,
     ]),
   });
@@ -62,6 +57,8 @@ export class LoginComponent {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
+
+  firebaseErrorMessage: string | null = null;
 
   errorMessage = {
     email: '',
@@ -100,5 +97,22 @@ export class LoginComponent {
     this.formData.reset();
     this.loading = false;
     this.dialogRef.close();
+  }
+
+  loginUser() {
+    let rawData = this.formData.getRawValue();
+    this.loading = true;
+    if (rawData.email && rawData.password)
+      this.authService.login(rawData.email, rawData.password).subscribe({
+        next: () => {
+          this.router.navigateByUrl('admin');
+          this.formData.reset();
+          this.dialogRef.close();
+        },
+        error: (err) => {
+          this.firebaseErrorMessage = err.code;
+          this.loading = false;
+        },
+      });
   }
 }
