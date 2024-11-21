@@ -1,3 +1,7 @@
 <mat-toolbar>
   <span>Cyla</span>
+  @if (authService.currentUserSig()) {<span (click)="logout()">Logout</span>}
+  @else {
+  <span (click)="login()">Login</span>
+  }
 </mat-toolbar>
