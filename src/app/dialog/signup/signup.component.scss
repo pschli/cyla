@@ -25,6 +25,27 @@
       width: 100%;
     }
   }
+  .password-help {
+    flex-direction: column;
+    gap: 0;
+
+    margin-bottom: 12px;
+    margin-left: 16px;
+    margin-right: 16px;
+
+    p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 17px;
+    }
+  }
+
+  .text-gone {
+    display: none;
+  }
+  .error-color {
+    color: var(--mat-form-field-error-text-color, var(--mat-app-error));
+  }
   button {
     border: none;
     background-color: transparent;

@@ -21,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 type NonNullData = {
   email: string;
@@ -33,6 +34,7 @@ type NonNullData = {
   selector: 'app-signup',
   standalone: true,
   imports: [
+    NgClass,
     MatDialogModule,
     MatButton,
     MatDividerModule,
@@ -50,6 +52,9 @@ export class SignupComponent {
   authService = inject(AuthService);
   loading: boolean = false;
 
+  strongPasswordRegx: RegExp =
+    /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
+
   formData = new FormGroup({
     email: new FormControl({ value: '', disabled: this.loading }, [
       Validators.required,
@@ -63,6 +68,7 @@ export class SignupComponent {
     ]),
     password: new FormControl({ value: '', disabled: this.loading }, [
       Validators.required,
+      Validators.pattern(this.strongPasswordRegx),
     ]),
     repeatpw: new FormControl({ value: '', disabled: this.loading }, [
       Validators.required,
@@ -81,6 +87,7 @@ export class SignupComponent {
     email: '',
     firstname: '',
     lastname: '',
+    password: '',
     repeatpw: '',
   };
 
@@ -103,6 +110,12 @@ export class SignupComponent {
     )
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage('lastname'));
+    merge(
+      this.formData.controls.password.statusChanges,
+      this.formData.controls.password.valueChanges
+    )
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessage('password'));
     merge(
       this.formData.controls.repeatpw.statusChanges,
       this.formData.controls.repeatpw.valueChanges
@@ -131,6 +144,14 @@ export class SignupComponent {
         this.errorMessage.lastname = 'You must enter a name';
       } else {
         this.errorMessage.lastname = '';
+      }
+    } else if (field === 'password') {
+      if (this.formData.controls.password.hasError('required')) {
+        this.errorMessage.password = 'You must enter a password';
+      } else if (this.formData.controls.password.hasError('pattern')) {
+        this.errorMessage.password = 'Password too weak.';
+      } else {
+        this.errorMessage.password = '';
       }
     } else if (field === 'repeatpw') {
       if (this.formData.controls.repeatpw.hasError('notEqual')) {

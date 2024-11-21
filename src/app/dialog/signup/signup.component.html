@@ -50,7 +50,9 @@
             matInput
             [type]="hide() ? 'password' : 'text'"
             [formControl]="formData.controls.password"
+            (blur)="updateErrorMessage('password')"
             autocomplete="new-password"
+            required
           />
           <button
             mat-icon-button
@@ -61,7 +63,69 @@
           >
             <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
+          @if (formData.controls.password.invalid) {
+          <mat-error>{{ errorMessage.password }}</mat-error>
+          }
         </mat-form-field>
+        @if (formData.controls.password.dirty) {
+        <div class="password-help">
+          <p
+            [ngClass]="{
+              'text-gone':
+                formData.controls.password.value?.match('^(?=.*[A-Z])'),
+              'error-color':
+                formData.controls.password.hasError('pattern') &&
+                formData.controls.password.touched
+            }"
+          >
+            At least one uppercase letter.
+          </p>
+
+          <p
+            [ngClass]="{
+              'text-gone':
+                formData.controls.password.value?.match('(?=.*[a-z])'),
+              'error-color':
+                formData.controls.password.hasError('pattern') &&
+                formData.controls.password.touched
+            }"
+          >
+            At least one lowercase letter.
+          </p>
+          <p
+            [ngClass]="{
+              'text-gone':
+                formData.controls.password.value?.match('(.*[0-9].*)'),
+              'error-color':
+                formData.controls.password.hasError('pattern') &&
+                formData.controls.password.touched
+            }"
+          >
+            At least one digit.
+          </p>
+          <p
+            [ngClass]="{
+              'text-gone':
+                formData.controls.password.value?.match('(?=.*[!@#$%^&*])'),
+              'error-color':
+                formData.controls.password.hasError('pattern') &&
+                formData.controls.password.touched
+            }"
+          >
+            At least one special character.
+          </p>
+          <p
+            [ngClass]="{
+              'text-gone': formData.controls.password.value?.match('.{8,}'),
+              'error-color':
+                formData.controls.password.hasError('pattern') &&
+                formData.controls.password.touched
+            }"
+          >
+            At least 8 characters long.
+          </p>
+        </div>
+        }
         <mat-form-field>
           <mat-label>Repeat your password</mat-label>
           <input
@@ -100,6 +164,7 @@
         </mat-dialog-actions>
       </div>
     </form>
+
     <div class="loginlink">
       <span>Du hast bereits ein Konto?&nbsp;</span
       ><a (click)="openLogin()">Melde dich hier an</a>
