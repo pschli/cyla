@@ -4,11 +4,12 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LoginComponent } from '../dialog/login/login.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatDialogModule],
+  imports: [MatToolbarModule, MatDialogModule, MatButtonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })

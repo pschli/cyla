@@ -127,35 +127,37 @@ export class SignupComponent {
   updateErrorMessage(field: string) {
     if (field === 'email') {
       if (this.formData.controls.email.hasError('required')) {
-        this.errorMessage.email = 'You must enter a value';
+        this.errorMessage.email = 'Bitte E-Mail eingeben';
       } else if (this.formData.controls.email.hasError('email')) {
-        this.errorMessage.email = 'Not a valid email';
+        this.errorMessage.email = 'Keine gültige E-Mail';
+      } else if (this.formData.controls.email.hasError('emailAlreadyInUse')) {
+        this.errorMessage.email = 'E-Mail existiert bereits';
       } else {
         this.errorMessage.email = '';
       }
     } else if (field === 'firstname') {
       if (this.formData.controls.firstname.hasError('required')) {
-        this.errorMessage.firstname = 'You must enter a name';
+        this.errorMessage.firstname = 'Bitte Namen eingeben';
       } else {
         this.errorMessage.firstname = '';
       }
     } else if (field === 'lastname') {
       if (this.formData.controls.lastname.hasError('required')) {
-        this.errorMessage.lastname = 'You must enter a name';
+        this.errorMessage.lastname = 'Bitte Namen eingeben';
       } else {
         this.errorMessage.lastname = '';
       }
     } else if (field === 'password') {
       if (this.formData.controls.password.hasError('required')) {
-        this.errorMessage.password = 'You must enter a password';
+        this.errorMessage.password = 'Bitte Passwort eingeben';
       } else if (this.formData.controls.password.hasError('pattern')) {
-        this.errorMessage.password = 'Password too weak.';
+        this.errorMessage.password = 'Passwort zu schwach.';
       } else {
         this.errorMessage.password = '';
       }
     } else if (field === 'repeatpw') {
       if (this.formData.controls.repeatpw.hasError('notEqual')) {
-        this.errorMessage.repeatpw = "Passwort doesn't match";
+        this.errorMessage.repeatpw = 'Passwort stimmt nicht überein';
       } else {
         this.errorMessage.lastname = '';
       }
@@ -202,8 +204,7 @@ export class SignupComponent {
           this.dialogRef.close();
         },
         error: (err) => {
-          this.firebaseErrorMessage = err.code;
-          this.loading = false;
+          this.handleSigninError(err.code);
         },
       });
   }
@@ -225,5 +226,22 @@ export class SignupComponent {
       };
     }
     return validData;
+  }
+
+  handleSigninError(error: string) {
+    switch (error) {
+      case 'auth/email-already-in-use':
+        this.emailAlreadyInUse();
+        break;
+      default:
+        //  console.error(error);
+        break;
+    }
+    this.loading = false;
+  }
+
+  emailAlreadyInUse() {
+    this.formData.controls.email.setErrors({ emailAlreadyInUse: true });
+    this.updateErrorMessage('email');
   }
 }

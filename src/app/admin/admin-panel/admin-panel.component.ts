@@ -24,7 +24,6 @@ export class AdminPanelComponent implements OnInit {
         this.authService.currentUserSig.set(null);
         this.router.navigateByUrl('');
       }
-      console.log(this.authService.currentUserSig());
     });
   }
 }
