@@ -6,9 +6,6 @@
 
 .content {
   max-width: 1920px;
-
-  margin-left: auto;
-  margin-right: auto;
   display: flex;
 }
 
@@ -17,6 +14,14 @@
   margin-right: 80px;
   margin-top: 80px;
   width: 100%;
-  display: flex;
-  justify-content: center;
+
+  > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    > mat-card-header {
+      margin-bottom: 200px;
+    }
+  }
 }
