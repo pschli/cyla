@@ -1,0 +1,22 @@
+.container {
+  min-height: calc(100vh - 64px);
+  width: 100%;
+  display: flex;
+}
+
+.content {
+  max-width: 1920px;
+
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+.inner {
+  margin-left: 80px;
+  margin-right: 80px;
+  margin-top: 80px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
