@@ -1,5 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -16,12 +21,21 @@ import { MatButtonModule } from '@angular/material/button';
 export class HeaderComponent {
   authService = inject(AuthService);
   router = inject(Router);
+  private _snackBar = inject(MatSnackBar);
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   constructor(private dialogRef: MatDialog, public dialog: MatDialog) {}
 
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('');
+    this._snackBar.open('Erfolgreich ausgeloggt', 'OK', {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 5000,
+    });
   }
 
   login() {

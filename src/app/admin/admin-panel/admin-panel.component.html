@@ -1,7 +1,7 @@
 <div class="container">
   <div class="content">
-    <div class="inner" *ngIf="authService.user$ | async; let user">
-      <h1>Willkommen {{ user.displayName }}</h1>
+    <div class="inner" *ngIf="username$ | async; let user">
+      <h1>Willkommen {{ user }}</h1>
       <div>
         <mat-card appearance="outlined">
           <mat-card-header

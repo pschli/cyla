@@ -26,13 +26,13 @@ export class AuthService {
     firstname: string,
     lastname: string
   ): Observable<void> {
-    let displayName = `${firstname} ${lastname}`;
+    // let displayName = `${firstname} ${lastname}`;
     const promise = createUserWithEmailAndPassword(
       this.firebaseAuth,
       email,
       password
-    ).then((response) =>
-      updateProfile(response.user, { displayName: displayName })
+    ).then(
+      (response) => updateProfile(response.user, { displayName: lastname }) // change here if uncomment
     );
     return from(promise);
   }
