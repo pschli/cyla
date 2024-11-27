@@ -5,11 +5,18 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { map } from 'rxjs/operators';
+import { MonthDisplayComponent } from './month-display/month-display.component';
 
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [AsyncPipe, NgIf, MatCardModule, MatButtonModule],
+  imports: [
+    AsyncPipe,
+    NgIf,
+    MatCardModule,
+    MatButtonModule,
+    MonthDisplayComponent,
+  ],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.scss',
 })
