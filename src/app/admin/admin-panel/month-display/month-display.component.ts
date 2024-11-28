@@ -1,5 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
+  MatCalendar,
   MatCalendarCellCssClasses,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
@@ -21,6 +22,8 @@ export class MonthDisplayComponent {
   selectedDate = new Date('11/30/2024');
   selectedDates = [new Date('11/30/2024'), new Date('11/27/2024')];
 
+  @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
+
   dateClass = (date: Date): MatCalendarCellCssClasses => {
     let comparableDates: number[] = [];
     this.selectedDates.forEach((dateElement) => {
@@ -33,6 +36,8 @@ export class MonthDisplayComponent {
   };
 
   public selectedChange(event: Date | null): void {
-    console.log('Teste', event);
+    if (event) this.selectedDates.push(event);
+    console.log(this.selectedDates.length);
+    this.calendar?.updateTodaysDate();
   }
 }
