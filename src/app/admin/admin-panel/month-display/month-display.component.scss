@@ -2,8 +2,8 @@
   margin-top: 24px;
   display: flex;
   > div {
-    height: 680px;
-    width: 580px;
+    height: 480px;
+    width: 420px;
 
     border-radius: 24px;
     background-color: var(
@@ -11,8 +11,4 @@
       var(--mat-app-surface)
     );
   }
-}
-
-.mat-calendar-controls {
-  display: none;
 }

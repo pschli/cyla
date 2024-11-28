@@ -2,27 +2,44 @@
   min-height: calc(100vh - 64px);
   width: 100%;
   display: flex;
+  justify-content: center;
 }
 
 .content {
-  max-width: 1920px;
-  display: flex;
-  flex: 1;
-}
-
-.inner {
+  max-width: 1440px;
   margin-left: 80px;
   margin-right: 80px;
   margin-top: 80px;
-  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
 
+.inner {
+  flex: 1;
   > div {
+    margin-top: 36px;
     width: 100%;
     display: flex;
 
     gap: 24px;
     > mat-card:first-child {
-      min-width: 450px;
+      flex: 4;
     }
+    > mat-card:last-child {
+      flex: 3;
+    }
+  }
+}
+
+.guiding-text {
+  display: flex;
+  align-items: center;
+  margin-top: 36px;
+
+  gap: 12px;
+  > span {
+    font-size: 18px;
+    font-weight: 600;
   }
 }

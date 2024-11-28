@@ -1,5 +1,8 @@
 <div class="md-wrapper">
   <div>
-    <mat-calendar [headerComponent]="customHeader"></mat-calendar>
+    <mat-calendar
+      [headerComponent]="customHeader"
+      (selectedChange)="selectedChange($event)"
+    ></mat-calendar>
   </div>
 </div>
