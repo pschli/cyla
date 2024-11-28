@@ -20,41 +20,32 @@ import { DateDataService } from '../../../services/date-data.service';
 export class MonthDisplayComponent {
   readonly customHeader = CalendarCustomHeader;
   activeMonth = 10;
-  selectedDate = new Date('11/30/2024');
-  selectedDates = inject(DateDataService);
+  userDates = inject(DateDataService);
 
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
 
   dateClass = (date: Date): MatCalendarCellCssClasses => {
-    let comparableDates: number[] = this.getComparableDates(
-      this.selectedDates.selectedDates
+    let comparableDates: number[] = this.userDates.getComparableDates(
+      this.userDates.selected,
+      this.activeMonth
     );
     if (comparableDates.includes(date.getDate())) return 'highlight-date';
     else return '';
   };
 
   public selectedChange(event: Date | null): void {
-    let comparableDates: number[] = this.getComparableDates(
-      this.selectedDates.selectedDates
+    let comparableDates: number[] = this.userDates.getComparableDates(
+      this.userDates.selected,
+      this.activeMonth
     );
     if (event && !comparableDates.includes(event.getDate())) {
-      this.selectedDates.selectedDates.push(event);
+      this.userDates.selected.push(event);
     } else if (event && comparableDates.includes(event.getDate())) {
-      let index = this.selectedDates.selectedDates.findIndex(
+      let index = this.userDates.selected.findIndex(
         (dateElement) => dateElement.getDate() === event.getDate()
       );
-      this.selectedDates.selectedDates.splice(index, 1);
+      this.userDates.selected.splice(index, 1);
     }
     this.calendar?.updateTodaysDate();
-  }
-
-  private getComparableDates(dates: Date[]): number[] {
-    let comparableDates: number[] = [];
-    dates.forEach((dateElement) => {
-      if (dateElement.getMonth() === this.activeMonth) {
-        comparableDates.push(dateElement.getDate());
-      }
-    });
-    return comparableDates;
   }
 }

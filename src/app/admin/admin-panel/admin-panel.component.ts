@@ -24,7 +24,7 @@ import { DateDataService } from '../../services/date-data.service';
 export class AdminPanelComponent implements AfterViewInit {
   authService = inject(AuthService);
   router = inject(Router);
-  selectedDates = inject(DateDataService);
+  userDates = inject(DateDataService);
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
 
@@ -44,6 +44,6 @@ export class AdminPanelComponent implements AfterViewInit {
   }
 
   showObject() {
-    console.log(this.selectedDates.selectedDates);
+    console.log(this.userDates.selected);
   }
 }
