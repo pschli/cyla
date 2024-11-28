@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import {
-  MatCalendarCellClassFunction,
   MatCalendarCellCssClasses,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
@@ -18,13 +17,14 @@ import { CalendarCustomHeader } from '../calendar-custom-header/calendar-custom-
 })
 export class MonthDisplayComponent {
   readonly customHeader = CalendarCustomHeader;
+  activeMonth = 10;
   selectedDate = new Date('11/30/2024');
-  selectedDates = [new Date('11/30/2024'), new Date('11/29/2024')];
+  selectedDates = [new Date('11/30/2024'), new Date('11/27/2024')];
 
   dateClass = (date: Date): MatCalendarCellCssClasses => {
     let comparableDates: number[] = [];
     this.selectedDates.forEach((dateElement) => {
-      if (dateElement.getMonth() === 10) {
+      if (dateElement.getMonth() === this.activeMonth) {
         comparableDates.push(dateElement.getDate());
       }
     });
