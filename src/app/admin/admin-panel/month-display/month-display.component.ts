@@ -25,19 +25,32 @@ export class MonthDisplayComponent {
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
 
   dateClass = (date: Date): MatCalendarCellCssClasses => {
-    let comparableDates: number[] = [];
-    this.selectedDates.forEach((dateElement) => {
-      if (dateElement.getMonth() === this.activeMonth) {
-        comparableDates.push(dateElement.getDate());
-      }
-    });
+    let comparableDates: number[] = this.getComparableDates(this.selectedDates);
     if (comparableDates.includes(date.getDate())) return 'highlight-date';
     else return '';
   };
 
   public selectedChange(event: Date | null): void {
-    if (event) this.selectedDates.push(event);
-    console.log(this.selectedDates.length);
+    let comparableDates: number[] = this.getComparableDates(this.selectedDates);
+    if (event && !comparableDates.includes(event.getDate())) {
+      this.selectedDates.push(event);
+    } else if (event && comparableDates.includes(event.getDate())) {
+      let index = this.selectedDates.findIndex(
+        (dateElement) => dateElement.getDate() === event.getDate()
+      );
+      this.selectedDates.splice(index, 1);
+    }
+
     this.calendar?.updateTodaysDate();
+  }
+
+  private getComparableDates(dates: Date[]): number[] {
+    let comparableDates: number[] = [];
+    dates.forEach((dateElement) => {
+      if (dateElement.getMonth() === this.activeMonth) {
+        comparableDates.push(dateElement.getDate());
+      }
+    });
+    return comparableDates;
   }
 }
