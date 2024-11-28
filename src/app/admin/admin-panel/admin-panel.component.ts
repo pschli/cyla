@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { map } from 'rxjs/operators';
 import { MonthDisplayComponent } from './month-display/month-display.component';
+import { DateDataService } from '../../services/date-data.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -23,6 +24,7 @@ import { MonthDisplayComponent } from './month-display/month-display.component';
 export class AdminPanelComponent implements AfterViewInit {
   authService = inject(AuthService);
   router = inject(Router);
+  selectedDates = inject(DateDataService);
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
 
@@ -39,5 +41,9 @@ export class AdminPanelComponent implements AfterViewInit {
         this.router.navigateByUrl('');
       }
     });
+  }
+
+  showObject() {
+    console.log(this.selectedDates.selectedDates);
   }
 }
