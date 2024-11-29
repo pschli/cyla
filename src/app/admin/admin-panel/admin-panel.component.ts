@@ -60,4 +60,11 @@ export class AdminPanelComponent implements AfterViewInit {
       this.monthsToDisplay.push(new Date(currentYear, currentMonth + i));
     }
   }
+
+  addMonth() {
+    let lastMonth = this.monthsToDisplay[this.monthsToDisplay.length - 1];
+    this.monthsToDisplay.push(
+      new Date(lastMonth.getFullYear(), lastMonth.getMonth() + 1)
+    );
+  }
 }

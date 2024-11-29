@@ -49,4 +49,17 @@
 .month-card-container {
   display: flex;
   flex-wrap: wrap;
+  > div:not(:last-child) {
+    > button {
+      display: none;
+    }
+  }
+  > div:last-child {
+    position: relative;
+    > button {
+      position: absolute;
+      bottom: 4px;
+      right: -60px;
+    }
+  }
 }

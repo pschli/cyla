@@ -31,7 +31,10 @@
       <div class="month-card-container">
         @for (month of monthsToDisplay; track $index) {
         <div>
-          <app-month-display [inputMonth]="month"></app-month-display>
+          <app-month-display [inputMonth]="month"></app-month-display
+          ><button mat-fab extended color="primary" (click)="addMonth()">
+            +
+          </button>
         </div>
         }
       </div>
