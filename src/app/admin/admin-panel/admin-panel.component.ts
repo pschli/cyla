@@ -60,8 +60,4 @@ export class AdminPanelComponent implements AfterViewInit {
       this.monthsToDisplay.push(new Date(currentYear, currentMonth + i));
     }
   }
-
-  showObject() {
-    this.loadMonthsNumber();
-  }
 }
