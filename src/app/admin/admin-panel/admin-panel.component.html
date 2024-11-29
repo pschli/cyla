@@ -32,8 +32,13 @@
         @for (month of monthsToDisplay; track $index) {
         <div>
           <app-month-display [inputMonth]="month"></app-month-display
-          ><button mat-fab extended color="primary" (click)="addMonth()">
-            +
+          ><button
+            mat-fab
+            color="primary"
+            (click)="addMonth()"
+            aria-label="button with an add icon"
+          >
+            <mat-icon>add</mat-icon>
           </button>
         </div>
         }

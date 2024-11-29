@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { map } from 'rxjs/operators';
 import { MonthDisplayComponent } from './month-display/month-display.component';
 import { DateDataService } from '../../services/date-data.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-admin-panel',
@@ -17,6 +18,7 @@ import { DateDataService } from '../../services/date-data.service';
     MatCardModule,
     MatButtonModule,
     MonthDisplayComponent,
+    MatIconModule,
   ],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.scss',
