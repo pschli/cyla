@@ -19,7 +19,8 @@ import { DateDataService } from '../../../services/date-data.service';
 })
 export class MonthDisplayComponent {
   readonly customHeader = CalendarCustomHeader;
-  activeMonth = 10;
+  activeMonth = 11;
+  startingMonth = new Date(2024, this.activeMonth);
   userDates = inject(DateDataService);
 
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
