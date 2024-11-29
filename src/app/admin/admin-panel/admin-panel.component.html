@@ -28,7 +28,8 @@
         <span>Deine bisherige Planung</span
         ><button mat-stroked-button>anzeigen</button>
       </div>
-      <app-month-display></app-month-display>
+      @for (month of monthsToDisplay; track $index) {
+      <app-month-display [inputMonth]="month"></app-month-display>}
       <button mat-flat-button color="primary" (click)="showObject()">
         show Selected Dates Object
       </button>

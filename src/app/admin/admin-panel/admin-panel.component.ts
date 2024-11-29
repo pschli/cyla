@@ -27,6 +27,7 @@ export class AdminPanelComponent implements AfterViewInit {
   userDates = inject(DateDataService);
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
+  monthsToDisplay: Date[] = [];
 
   ngAfterViewInit(): void {
     this.loading = true;
@@ -36,14 +37,31 @@ export class AdminPanelComponent implements AfterViewInit {
           email: user.email!,
           username: user.displayName!,
         });
+        this.loading = false;
       } else {
         this.authService.currentUserSig.set(null);
         this.router.navigateByUrl('');
       }
     });
+    this.loadMonthsNumber();
+  }
+
+  loadMonthsNumber() {
+    this.userDates.updateDates();
+    let lastDate = this.userDates.selected[this.userDates.selected.length - 1];
+    let lastYear = lastDate.getFullYear();
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let yearDiff = lastYear - currentYear;
+    let lastMonth = lastDate.getMonth() + yearDiff * 12;
+    let monthDiff = lastMonth - currentMonth;
+    this.monthsToDisplay = [];
+    for (let i = 0; i <= monthDiff; i++) {
+      this.monthsToDisplay.push(new Date(currentYear, currentMonth + i));
+    }
   }
 
   showObject() {
-    console.log(this.userDates.selected);
+    this.loadMonthsNumber();
   }
 }

@@ -25,6 +25,5 @@ export class CalendarCustomHeader<D> {
       this._calendar.activeDate,
       this._dateFormats.display.monthYearA11yLabel
     );
-    console.log(this.monthHeadline);
   }
 }

@@ -1,4 +1,10 @@
-import { Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   MatCalendar,
   MatCalendarCellCssClasses,
@@ -19,9 +25,15 @@ import { DateDataService } from '../../../services/date-data.service';
 })
 export class MonthDisplayComponent {
   readonly customHeader = CalendarCustomHeader;
-  activeMonth = 11;
-  startingMonth = new Date(2024, this.activeMonth);
+  @Input() inputMonth?: Date;
+  startingMonth: Date = new Date();
+  activeMonth = this.startingMonth.getMonth();
   userDates = inject(DateDataService);
+
+  ngOnInit(): void {
+    if (this.inputMonth) this.startingMonth = this.inputMonth;
+    this.activeMonth = this.startingMonth.getMonth();
+  }
 
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
 
@@ -29,6 +41,7 @@ export class MonthDisplayComponent {
     let comparableDates: number[] = this.userDates.getComparableDates(
       this.userDates.selected,
       this.activeMonth
+      // fix activeYear!
     );
     if (comparableDates.includes(date.getDate())) return 'highlight-date';
     else return '';
@@ -47,6 +60,7 @@ export class MonthDisplayComponent {
       );
       this.userDates.selected.splice(index, 1);
     }
+    this.userDates.updateDates();
     this.calendar?.updateTodaysDate();
   }
 }
