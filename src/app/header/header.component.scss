@@ -1,3 +1,7 @@
 mat-toolbar {
   justify-content: space-between;
+  > span {
+    font-family: "Molle";
+    font-size: 24px;
+  }
 }
