@@ -19,10 +19,17 @@ export class DateDataService {
   }
 
   // fix activeYear!
-  getComparableDates(dates: Date[], activeMonth: number): number[] {
+  getComparableDates(
+    dates: Date[],
+    activeMonth: number,
+    activeYear: number
+  ): number[] {
     let comparableDates: number[] = [];
     dates.forEach((dateElement) => {
-      if (dateElement.getMonth() === activeMonth) {
+      if (
+        dateElement.getMonth() === activeMonth &&
+        dateElement.getFullYear() === activeYear
+      ) {
         comparableDates.push(dateElement.getDate());
       }
     });

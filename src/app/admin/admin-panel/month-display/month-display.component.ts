@@ -28,11 +28,13 @@ export class MonthDisplayComponent {
   @Input() inputMonth?: Date;
   startingMonth: Date = new Date();
   activeMonth = this.startingMonth.getMonth();
+  activeYear = this.startingMonth.getFullYear();
   userDates = inject(DateDataService);
 
   ngOnInit(): void {
     if (this.inputMonth) this.startingMonth = this.inputMonth;
     this.activeMonth = this.startingMonth.getMonth();
+    this.activeYear = this.startingMonth.getFullYear();
   }
 
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
@@ -40,8 +42,8 @@ export class MonthDisplayComponent {
   dateClass = (date: Date): MatCalendarCellCssClasses => {
     let comparableDates: number[] = this.userDates.getComparableDates(
       this.userDates.selected,
-      this.activeMonth
-      // fix activeYear!
+      this.activeMonth,
+      this.activeYear
     );
     if (comparableDates.includes(date.getDate())) return 'highlight-date';
     else return '';
@@ -50,7 +52,8 @@ export class MonthDisplayComponent {
   public selectedChange(event: Date | null): void {
     let comparableDates: number[] = this.userDates.getComparableDates(
       this.userDates.selected,
-      this.activeMonth
+      this.activeMonth,
+      this.activeYear
     );
     if (event && !comparableDates.includes(event.getDate())) {
       this.userDates.selected.push(event);
