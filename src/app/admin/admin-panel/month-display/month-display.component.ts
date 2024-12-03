@@ -26,6 +26,7 @@ import { DateDataService } from '../../../services/date-data.service';
 export class MonthDisplayComponent {
   readonly customHeader = CalendarCustomHeader;
   @Input() inputMonth?: Date;
+  minDate: Date = new Date();
   startingMonth: Date = new Date();
   activeMonth = this.startingMonth.getMonth();
   activeYear = this.startingMonth.getFullYear();
