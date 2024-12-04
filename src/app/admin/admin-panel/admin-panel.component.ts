@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -30,6 +30,7 @@ export class AdminPanelComponent implements AfterViewInit {
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
   monthsToDisplay: Date[] = [];
+  activeMode = signal(0);
 
   ngAfterViewInit(): void {
     this.loading = true;
@@ -68,5 +69,9 @@ export class AdminPanelComponent implements AfterViewInit {
     this.monthsToDisplay.push(
       new Date(lastMonth.getFullYear(), lastMonth.getMonth() + 1)
     );
+  }
+
+  setActiveMode(mode: number) {
+    this.activeMode.set(mode);
   }
 }

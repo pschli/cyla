@@ -25,8 +25,22 @@
         </mat-card>
       </div>
       <div class="guiding-text">
-        <span>Deine bisherige Planung</span
-        ><button mat-stroked-button>anzeigen</button>
+        <span>Deine Planung</span>@if (activeMode() === 0) {<button
+          mat-flat-button
+          color="primary"
+        >
+          Info</button
+        >} @else {<button mat-stroked-button (click)="setActiveMode(0)">
+          Info</button
+        >} @if (activeMode() === 1) {<button mat-flat-button color="primary">
+          Tage auswählen</button
+        >} @else {<button mat-stroked-button (click)="setActiveMode(1)">
+          Tage auswählen</button
+        >} @if (activeMode() === 2) {<button mat-flat-button color="primary">
+          Zeiten bearbeiten</button
+        >} @else {<button mat-stroked-button (click)="setActiveMode(2)">
+          Zeiten bearbeiten</button
+        >}
       </div>
       <div class="month-card-container">
         @for (month of monthsToDisplay; track $index) {
