@@ -8,11 +8,13 @@ import { map } from 'rxjs/operators';
 import { MonthDisplayComponent } from './month-display/month-display.component';
 import { DateDataService } from '../../services/date-data.service';
 import { MatIconModule } from '@angular/material/icon';
+import { DatesInfoComponent } from '../dates-info/dates-info.component';
 
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
   imports: [
+    DatesInfoComponent,
     AsyncPipe,
     NgIf,
     MatCardModule,

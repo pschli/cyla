@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { UserDates } from '../interfaces/user-dates';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DateDataService {
   selected: Date[] = [];
+  userDates: UserDates[] = [];
 
   constructor() {
     this.selected = [

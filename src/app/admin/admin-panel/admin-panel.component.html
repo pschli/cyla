@@ -42,7 +42,11 @@
           Zeiten bearbeiten</button
         >}
       </div>
-      @if (activeMode() === 1) {
+      @if (activeMode() === 0) {
+      <div class="dates-info-container">
+        <app-dates-info></app-dates-info>
+      </div>
+      } @if (activeMode() === 1) {
       <div class="month-card-container">
         @for (month of monthsToDisplay; track $index) {
         <div>
