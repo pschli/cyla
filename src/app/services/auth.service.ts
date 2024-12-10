@@ -9,16 +9,28 @@ import {
 } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 import { UserInterface } from '../interfaces/user.interface';
+import { FirestoreService } from './firestore.service';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   firebaseAuth = inject(Auth);
+  fs = inject(FirestoreService);
   user$ = user(this.firebaseAuth);
   currentUserSig = signal<UserInterface | null | undefined>(undefined);
+  auth = getAuth();
 
-  constructor() {}
+  constructor() {
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.fs.currentUid = user.uid;
+      } else {
+        this.fs.currentUid = '';
+      }
+    });
+  }
 
   register(
     email: string,
@@ -26,14 +38,15 @@ export class AuthService {
     firstname: string,
     lastname: string
   ): Observable<void> {
-    // let displayName = `${firstname} ${lastname}`;
     const promise = createUserWithEmailAndPassword(
       this.firebaseAuth,
       email,
       password
-    ).then(
-      (response) => updateProfile(response.user, { displayName: lastname }) // change here if uncomment
-    );
+    ).then((response) => {
+      updateProfile(response.user, { displayName: firstname });
+      this.fs.currentUid = response.user.uid;
+      this.fs.createUserBaseData(response.user.uid, email, firstname, lastname);
+    });
     return from(promise);
   }
 
@@ -42,11 +55,15 @@ export class AuthService {
       this.firebaseAuth,
       email,
       password
-    ).then(() => {});
+    ).then((response) => {
+      this.fs.currentUid = response.user.uid;
+      console.log(response.user.uid);
+    });
     return from(promise);
   }
 
   logout(): Observable<void> {
+    this.fs.currentUid = '';
     const promise = signOut(this.firebaseAuth);
     return from(promise);
   }

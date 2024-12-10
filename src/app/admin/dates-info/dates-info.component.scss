@@ -1,0 +1,18 @@
+.button-container {
+  display: flex;
+  gap: 4px;
+}
+
+.reserved {
+  background: hsl(from var(--mat-snack-bar-button-color) h s l / 30%);
+}
+
+.blocked {
+  background-color: rgb(240, 240, 240);
+  color: grey;
+}
+
+.taken {
+  background: var(--mat-snack-bar-button-color);
+  color: white;
+}

@@ -1,0 +1,48 @@
+import { inject, Injectable } from '@angular/core';
+import {
+  CollectionReference,
+  doc,
+  Firestore,
+  setDoc,
+} from '@angular/fire/firestore';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class FirestoreService {
+  private firestore = inject(Firestore);
+  usersCollection?: CollectionReference;
+  currentUid: string = '';
+
+  constructor() {}
+
+  async createUserBaseData(
+    uid: string,
+    email: string,
+    firstname: string,
+    lastname: string
+  ) {
+    if (!uid) return;
+    this.currentUid = uid;
+    try {
+      await setDoc(doc(this.firestore, 'users', uid), {
+        email: email,
+        firstname: firstname,
+        lastname: lastname,
+      });
+    } catch (e) {
+      console.error('Error saving user data:', e);
+    }
+  }
+
+  async saveAppointmentData(dateData: any) {
+    if (!this.currentUid) return;
+    try {
+      await setDoc(doc(this.firestore, 'data', this.currentUid), {
+        dates: dateData,
+      });
+    } catch (e) {
+      console.error('Error saving Date data:', e);
+    }
+  }
+}

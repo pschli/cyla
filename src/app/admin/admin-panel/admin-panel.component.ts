@@ -15,8 +15,6 @@ import { DatesInfoComponent } from '../dates-info/dates-info.component';
   standalone: true,
   imports: [
     DatesInfoComponent,
-    AsyncPipe,
-    NgIf,
     MatCardModule,
     MatButtonModule,
     MonthDisplayComponent,
@@ -31,11 +29,16 @@ export class AdminPanelComponent implements AfterViewInit {
   userDates = inject(DateDataService);
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
+  user: string = '';
+
   monthsToDisplay: Date[] = [];
   activeMode = signal(0);
 
   ngAfterViewInit(): void {
     this.loading = true;
+    this.username$.subscribe((name) => {
+      if (name) this.user = name;
+    });
     this.authService.user$.subscribe((user) => {
       if (user) {
         this.authService.currentUserSig.set({

@@ -2,12 +2,14 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { UserDates } from '../interfaces/user-dates';
 import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
 import { DateFormatterService } from './date-formatter.service';
+import { FirestoreService } from './firestore.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DateDataService implements OnDestroy {
   dateFormatter = inject(DateFormatterService);
+  fs = inject(FirestoreService);
   selected: Date[] = [];
   userDates: UserDates[] = [
     {
@@ -15,26 +17,26 @@ export class DateDataService implements OnDestroy {
       times: [
         {
           time: '15.00',
-          reserved: false,
+          reserved: true,
           blocked: false,
           taken: false,
         },
         {
           time: '16.00',
           reserved: false,
-          blocked: false,
+          blocked: true,
           taken: false,
         },
         {
           time: '17.00',
           reserved: false,
           blocked: false,
-          taken: false,
+          taken: true,
         },
         {
           time: '18.00',
           reserved: false,
-          blocked: false,
+          blocked: true,
           taken: false,
         },
       ],
@@ -144,6 +146,7 @@ export class DateDataService implements OnDestroy {
     let validDates = this.getFutureDates(userDatesArr);
     let sortedDates = this.sortDates(validDates);
     this.userDates$.next(sortedDates);
+    this.fs.saveAppointmentData(sortedDates);
   }
 
   sortDates(userDatesArr: UserDates[]): UserDates[] {
