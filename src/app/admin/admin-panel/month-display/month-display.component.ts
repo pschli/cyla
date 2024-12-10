@@ -57,14 +57,10 @@ export class MonthDisplayComponent {
       this.activeYear
     );
     if (event && !comparableDates.includes(event.getDate())) {
-      this.userDates.selected.push(event);
+      this.userDates.addToSelected(event);
     } else if (event && comparableDates.includes(event.getDate())) {
-      let index = this.userDates.selected.findIndex(
-        (dateElement) => dateElement.getDate() === event.getDate()
-      );
-      this.userDates.selected.splice(index, 1);
+      this.userDates.removeFromSelected(event);
     }
-    this.userDates.updateDates();
     this.calendar?.updateTodaysDate();
   }
 }
