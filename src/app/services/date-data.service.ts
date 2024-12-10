@@ -1,6 +1,6 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { UserDates } from '../interfaces/user-dates';
-import { BehaviorSubject, from, map, Observable, of, Subscription } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
 import { DateFormatterService } from './date-formatter.service';
 
 @Injectable({
@@ -10,9 +10,93 @@ export class DateDataService implements OnDestroy {
   dateFormatter = inject(DateFormatterService);
   selected: Date[] = [];
   userDates: UserDates[] = [
-    { date: '1/30/2025', times: [] },
-    { date: '1/05/2025', times: [] },
-    { date: '1/01/2025', times: [] },
+    {
+      date: '1/30/2025',
+      times: [
+        {
+          time: '15.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+        {
+          time: '16.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+        {
+          time: '17.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+        {
+          time: '18.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+      ],
+    },
+    {
+      date: '1/05/2025',
+      times: [
+        {
+          time: '15.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+        {
+          time: '16.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+        {
+          time: '17.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+        {
+          time: '18.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+      ],
+    },
+    {
+      date: '1/01/2025',
+      times: [
+        {
+          time: '15.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+        {
+          time: '16.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+        {
+          time: '17.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+        {
+          time: '18.00',
+          reserved: false,
+          blocked: false,
+          taken: false,
+        },
+      ],
+    },
     { date: '12/30/2024', times: [] },
   ];
   userDates$: BehaviorSubject<Array<UserDates>>;
@@ -33,17 +117,6 @@ export class DateDataService implements OnDestroy {
     });
     this.updateDates();
   }
-
-  // constructor() {
-  //   this.selected = [];
-  //   this.userDates$ = from(this.userDates);
-  //   this.selected$ = this.userDates$.pipe(map(({ date }) => new Date(date)));
-  //   this.selectedSub = this.selected$.subscribe((date) => {
-  //     this.selected.push(date);
-  //     console.log(date);
-  //   });
-  //   this.updateDates();
-  // }
 
   ngOnDestroy(): void {
     this.selectedSub?.unsubscribe();
@@ -67,25 +140,29 @@ export class DateDataService implements OnDestroy {
   }
 
   updateDates() {
-    let validDates = this.getFutureDates();
+    let userDatesArr = [...this.userDates$.getValue()];
+    let validDates = this.getFutureDates(userDatesArr);
     let sortedDates = this.sortDates(validDates);
-    this.selected = sortedDates;
+    this.userDates$.next(sortedDates);
   }
 
-  sortDates(dates: Date[]): Date[] {
-    dates.sort((a: Date, b: Date) => a.getTime() - b.getTime());
-    return dates;
+  sortDates(userDatesArr: UserDates[]): UserDates[] {
+    userDatesArr.sort(
+      (a: UserDates, b: UserDates) =>
+        new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+    return userDatesArr;
   }
 
-  getFutureDates(): Date[] {
+  getFutureDates(userDatesArr: UserDates[]): UserDates[] {
     let currentDate: Date = new Date();
-    let returnDates: Date[] = [];
-    this.selected.forEach((date) => {
-      if (date > currentDate) {
-        returnDates.push(date);
+    let returnDatesArr: UserDates[] = [];
+    userDatesArr.forEach((data) => {
+      if (new Date(data.date) > currentDate) {
+        returnDatesArr.push(data);
       }
     });
-    return returnDates;
+    return returnDatesArr;
   }
 
   // handle sync userDates <> selected

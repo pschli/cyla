@@ -1,13 +1,15 @@
 <mat-accordion>
-  @for (day of userDates.selected; track $index) {
+  @for (date of userDates.userDates$.getValue(); track $index) {
 
   <mat-expansion-panel hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ formatDate(day) }}
+        {{ dateFormatter.getLocalDate(date.date) }}
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p>This is the primary content of the panel.</p>
+    @for (timeslot of date.times; track $index) {
+    <button mat-flat-button>{{ timeslot.time }}</button>
+    }
   </mat-expansion-panel>
   }</mat-accordion
 >

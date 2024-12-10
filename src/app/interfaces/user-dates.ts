@@ -5,7 +5,7 @@ export interface UserDates {
     reserved: boolean;
     blocked: boolean;
     taken: boolean;
-    appointment: {
+    appointment?: {
       username: string;
       email: string;
     };
