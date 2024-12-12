@@ -10,7 +10,7 @@ import {
   providedIn: 'root',
 })
 export class FirestoreService {
-  private firestore = inject(Firestore);
+  firestore = inject(Firestore);
   usersCollection?: CollectionReference;
   currentUid: string = '';
 
@@ -35,12 +35,14 @@ export class FirestoreService {
     }
   }
 
-  async saveAppointmentData(dateData: any) {
+  async saveSelected(dateData: any) {
     if (!this.currentUid) return;
     try {
-      await setDoc(doc(this.firestore, 'data', this.currentUid), {
-        dates: dateData,
-      });
+      await setDoc(
+        doc(this.firestore, 'data', this.currentUid, 'datesCol', dateData.date),
+        dateData,
+        { merge: true }
+      );
     } catch (e) {
       console.error('Error saving Date data:', e);
     }

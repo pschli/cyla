@@ -15,7 +15,7 @@ import { NgClass } from '@angular/common';
 export class DatesInfoComponent {
   readonly panelOpenState = signal(false);
   dateFormatter = inject(DateFormatterService);
-  userDates = inject(DateDataService);
+  //  userDates = inject(DateDataService);
 
   formatDate(day: string): string {
     return this.dateFormatter.getLocalDate(day);

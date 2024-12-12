@@ -1,8 +1,9 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { UserDates } from '../interfaces/user-dates';
 import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
 import { DateFormatterService } from './date-formatter.service';
 import { FirestoreService } from './firestore.service';
+import { collection, collectionData, Firestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -10,114 +11,25 @@ import { FirestoreService } from './firestore.service';
 export class DateDataService implements OnDestroy {
   dateFormatter = inject(DateFormatterService);
   fs = inject(FirestoreService);
+  appointmentData$: Observable<UserDates[]>;
   selected: Date[] = [];
-  userDates: UserDates[] = [
-    {
-      date: '1/30/2025',
-      times: [
-        {
-          time: '15.00',
-          reserved: true,
-          blocked: false,
-          taken: false,
-        },
-        {
-          time: '16.00',
-          reserved: false,
-          blocked: true,
-          taken: false,
-        },
-        {
-          time: '17.00',
-          reserved: false,
-          blocked: false,
-          taken: true,
-        },
-        {
-          time: '18.00',
-          reserved: false,
-          blocked: true,
-          taken: false,
-        },
-      ],
-    },
-    {
-      date: '1/05/2025',
-      times: [
-        {
-          time: '15.00',
-          reserved: false,
-          blocked: false,
-          taken: false,
-        },
-        {
-          time: '16.00',
-          reserved: false,
-          blocked: false,
-          taken: false,
-        },
-        {
-          time: '17.00',
-          reserved: false,
-          blocked: false,
-          taken: false,
-        },
-        {
-          time: '18.00',
-          reserved: false,
-          blocked: false,
-          taken: false,
-        },
-      ],
-    },
-    {
-      date: '1/01/2025',
-      times: [
-        {
-          time: '15.00',
-          reserved: false,
-          blocked: false,
-          taken: false,
-        },
-        {
-          time: '16.00',
-          reserved: false,
-          blocked: false,
-          taken: false,
-        },
-        {
-          time: '17.00',
-          reserved: false,
-          blocked: false,
-          taken: false,
-        },
-        {
-          time: '18.00',
-          reserved: false,
-          blocked: false,
-          taken: false,
-        },
-      ],
-    },
-    { date: '12/30/2024', times: [] },
-  ];
-  userDates$: BehaviorSubject<Array<UserDates>>;
-  selected$: Observable<Array<Date>>;
+  dataLoaded = new BehaviorSubject<string | undefined>(undefined);
   selectedSub?: Subscription;
 
   constructor() {
-    this.selected = [];
-    this.userDates$ = new BehaviorSubject(this.userDates);
-    this.selected$ = this.userDates$.pipe(
-      map((data) => data.map((obj) => new Date(obj.date)))
+    const DateCollection = collection(
+      this.fs.firestore,
+      `data/${this.fs.currentUid}/datesCol`
     );
-    this.selectedSub = this.selected$.subscribe((dates) => {
+    this.appointmentData$ = collectionData(DateCollection) as Observable<any>;
+    this.selectedSub = this.appointmentData$.subscribe((data) => {
       this.selected = [];
-      dates.map((date) => {
-        this.selected.push(date);
+      data.forEach((element) => {
+        this.selected.push(new Date(element.date));
       });
+      this.updateDates();
+      this.dataLoaded.next('loaded');
     });
-    this.updateDates();
   }
 
   ngOnDestroy(): void {
@@ -142,53 +54,43 @@ export class DateDataService implements OnDestroy {
   }
 
   updateDates() {
-    let userDatesArr = [...this.userDates$.getValue()];
-    let validDates = this.getFutureDates(userDatesArr);
+    if (!this.selected) return;
+    let validDates = this.getFutureDates(this.selected);
     let sortedDates = this.sortDates(validDates);
-    this.userDates$.next(sortedDates);
-    this.fs.saveAppointmentData(sortedDates);
+    this.selected = sortedDates;
   }
 
-  sortDates(userDatesArr: UserDates[]): UserDates[] {
-    userDatesArr.sort(
-      (a: UserDates, b: UserDates) =>
-        new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
+  sortDates(userDatesArr: Date[]): Date[] {
+    userDatesArr.sort((a: Date, b: Date) => a.getTime() - b.getTime());
     return userDatesArr;
   }
 
-  getFutureDates(userDatesArr: UserDates[]): UserDates[] {
+  getFutureDates(userDatesArr: Date[]): Date[] {
     let currentDate: Date = new Date();
-    let returnDatesArr: UserDates[] = [];
-    userDatesArr.forEach((data) => {
-      if (new Date(data.date) > currentDate) {
-        returnDatesArr.push(data);
+    let returnDatesArr: Date[] = [];
+    userDatesArr.forEach((date) => {
+      if (date > currentDate) {
+        returnDatesArr.push(date);
       }
     });
     return returnDatesArr;
   }
 
-  // handle sync userDates <> selected
-
   addToSelected(date: Date) {
     this.selected.push(date);
     let dateString = this.dateFormatter.getStringFromDate(date);
-    this.userDates$.next([
-      ...this.userDates$.getValue(),
-      { date: dateString, times: [] },
-    ]);
-    this.updateDates();
+    this.fs.saveSelected({ date: dateString, times: [] });
   }
 
   removeFromSelected(date: Date) {
-    let dateString = this.dateFormatter.getStringFromDate(date);
-    let userDatesArr = [...this.userDates$.getValue()];
-    userDatesArr.forEach((item, index) => {
-      if (item.date === dateString) {
-        userDatesArr.splice(index, 1);
-      }
-    });
-    this.userDates$.next(userDatesArr);
-    this.updateDates();
+    // let dateString = this.dateFormatter.getStringFromDate(date);
+    // let userDatesArr = [...this.userDates$.getValue()];
+    // userDatesArr.forEach((item, index) => {
+    //   if (item.date === dateString) {
+    //     userDatesArr.splice(index, 1);
+    //   }
+    // });
+    // this.userDates$.next(userDatesArr);
+    // this.updateDates();
   }
 }

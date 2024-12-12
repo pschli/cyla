@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { AsyncPipe, NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { map } from 'rxjs/operators';
@@ -9,6 +8,7 @@ import { MonthDisplayComponent } from './month-display/month-display.component';
 import { DateDataService } from '../../services/date-data.service';
 import { MatIconModule } from '@angular/material/icon';
 import { DatesInfoComponent } from '../dates-info/dates-info.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-admin-panel',
@@ -30,9 +30,19 @@ export class AdminPanelComponent implements AfterViewInit {
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
   user: string = '';
-
   monthsToDisplay: Date[] = [];
   activeMode = signal(0);
+  monthLoaded = false;
+
+  constructor() {
+    this.userDates.dataLoaded.pipe(takeUntilDestroyed()).subscribe({
+      next: (data) => {
+        if (!data || this.monthLoaded) return;
+        this.loadMonthsNumber();
+        this.monthLoaded = true;
+      },
+    });
+  }
 
   ngAfterViewInit(): void {
     this.loading = true;
@@ -51,12 +61,13 @@ export class AdminPanelComponent implements AfterViewInit {
         this.router.navigateByUrl('');
       }
     });
-    this.loadMonthsNumber();
   }
 
   loadMonthsNumber() {
-    this.userDates.updateDates();
-    let lastDate = this.userDates.selected[this.userDates.selected.length - 1];
+    let lastDate = new Date();
+    if (this.userDates.selected.length > 0) {
+      lastDate = this.userDates.selected[this.userDates.selected.length - 1];
+    }
     let lastYear = lastDate.getFullYear();
     let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
@@ -67,6 +78,7 @@ export class AdminPanelComponent implements AfterViewInit {
     for (let i = 0; i <= monthDiff; i++) {
       this.monthsToDisplay.push(new Date(currentYear, currentMonth + i));
     }
+    return true;
   }
 
   addMonth() {

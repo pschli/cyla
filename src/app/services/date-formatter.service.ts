@@ -23,7 +23,7 @@ export class DateFormatterService {
     if (this.formatIsIncorrect(day, month, year)) {
       return '';
     } else {
-      return month + '/' + day + '/' + year;
+      return month + '-' + day + '-' + year;
     }
   }
 
@@ -41,9 +41,9 @@ export class DateFormatterService {
   getStringFromDate(date: Date) {
     return (
       (date.getMonth() + 1).toString() +
-      '/' +
+      '-' +
       date.getDate().toString() +
-      '/' +
+      '-' +
       date.getFullYear().toString()
     );
   }
