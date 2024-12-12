@@ -1,9 +1,9 @@
-import { inject, Injectable, OnDestroy, signal } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { UserDates } from '../interfaces/user-dates';
-import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DateFormatterService } from './date-formatter.service';
 import { FirestoreService } from './firestore.service';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { collection, collectionData } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -83,14 +83,12 @@ export class DateDataService implements OnDestroy {
   }
 
   removeFromSelected(date: Date) {
-    // let dateString = this.dateFormatter.getStringFromDate(date);
-    // let userDatesArr = [...this.userDates$.getValue()];
-    // userDatesArr.forEach((item, index) => {
-    //   if (item.date === dateString) {
-    //     userDatesArr.splice(index, 1);
-    //   }
-    // });
-    // this.userDates$.next(userDatesArr);
-    // this.updateDates();
+    let dateString = this.dateFormatter.getStringFromDate(date);
+    this.selected.forEach((item, index) => {
+      if (this.dateFormatter.getStringFromDate(item) === dateString) {
+        this.selected.splice(index, 1);
+      }
+    });
+    this.fs.removeSelected(dateString);
   }
 }

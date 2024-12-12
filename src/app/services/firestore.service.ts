@@ -1,7 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import {
   CollectionReference,
+  deleteDoc,
   doc,
+  DocumentReference,
   Firestore,
   setDoc,
 } from '@angular/fire/firestore';
@@ -45,6 +47,22 @@ export class FirestoreService {
       );
     } catch (e) {
       console.error('Error saving Date data:', e);
+    }
+  }
+
+  async removeSelected(dateString: string) {
+    console.log(dateString);
+    const dateRef: DocumentReference = doc(
+      this.firestore,
+      'data',
+      this.currentUid,
+      'datesCol',
+      dateString
+    );
+    try {
+      await deleteDoc(dateRef);
+    } catch (e) {
+      console.error("Couldn't delete date.", e);
     }
   }
 }
