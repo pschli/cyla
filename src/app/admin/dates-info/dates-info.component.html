@@ -1,7 +1,8 @@
-<!-- <mat-accordion>
-  @for (date of userDates.userDates$.getValue(); track $index) {
-
-  <mat-expansion-panel hideToggle>
+<mat-accordion>
+  <mat-expansion-panel
+    hideToggle
+    *ngFor="let date of userDates.appointmentData$ | async"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ formatDate(date.date) }}
@@ -23,5 +24,4 @@
       }
     </div>
   </mat-expansion-panel>
-  }</mat-accordion
-> -->
+</mat-accordion>

@@ -51,7 +51,6 @@ export class FirestoreService {
   }
 
   async removeSelected(dateString: string) {
-    console.log(dateString);
     const dateRef: DocumentReference = doc(
       this.firestore,
       'data',
