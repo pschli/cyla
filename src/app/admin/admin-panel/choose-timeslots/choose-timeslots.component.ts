@@ -1,4 +1,10 @@
-import { Component, inject, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CalendarCustomHeader } from '../calendar-custom-header/calendar-custom-header.component';
 import { DateDataService } from '../../../services/date-data.service';
 import {
@@ -15,6 +21,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
   imports: [MatDatepickerModule],
   templateUrl: './choose-timeslots.component.html',
   styleUrl: './choose-timeslots.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class ChooseTimeslotsComponent {
   readonly customHeader = CalendarCustomHeader;
@@ -28,7 +35,6 @@ export class ChooseTimeslotsComponent {
 
   ngOnInit(): void {
     if (this.inputMonth) this.startingMonth = this.inputMonth;
-    console.log(this.startingMonth);
     this.activeMonth = this.startingMonth.getMonth();
     this.activeYear = this.startingMonth.getFullYear();
   }
@@ -37,12 +43,15 @@ export class ChooseTimeslotsComponent {
 
   dateClass = (date: Date): MatCalendarCellCssClasses => {
     let comparableDates: number[] = this.userDates.getComparableDates(
-      this.userDates.selected,
+      this.markedToEdit,
       this.activeMonth,
       this.activeYear
     );
-    if (comparableDates.includes(date.getDate())) return 'highlight-date';
-    else return '';
+    if (comparableDates.includes(date.getDate())) {
+      return 'marked-date';
+    } else {
+      return '';
+    }
   };
 
   public selectedChange(event: Date | null): void {
