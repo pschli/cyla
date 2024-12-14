@@ -1,0 +1,11 @@
+<div class="md-wrapper">
+  <div>
+    <mat-calendar
+      [headerComponent]="customHeader"
+      (selectedChange)="selectedChange($event)"
+      [dateClass]="dateClass"
+      [startAt]="startingMonth"
+      [minDate]="minDate"
+    ></mat-calendar>
+  </div>
+</div>

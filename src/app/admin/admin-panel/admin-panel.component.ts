@@ -9,6 +9,7 @@ import { DateDataService } from '../../services/date-data.service';
 import { MatIconModule } from '@angular/material/icon';
 import { DatesInfoComponent } from '../dates-info/dates-info.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
 
 @Component({
   selector: 'app-admin-panel',
@@ -19,6 +20,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatButtonModule,
     MonthDisplayComponent,
     MatIconModule,
+    ChooseTimeslotsComponent,
   ],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.scss',
