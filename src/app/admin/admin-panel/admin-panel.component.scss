@@ -33,38 +33,55 @@
   > button {
     margin-top: 24px;
   }
-}
+  .guiding-text {
+    display: flex;
+    align-items: center;
+    margin-top: 36px;
 
-.guiding-text {
-  display: flex;
-  align-items: center;
-  margin-top: 36px;
-
-  gap: 12px;
-  > span {
-    font-size: 18px;
-    font-weight: 600;
-  }
-}
-.month-card-container {
-  display: flex;
-  flex-wrap: wrap;
-  > div:not(:last-child) {
-    > button {
-      display: none;
+    gap: 12px;
+    > span {
+      font-size: 18px;
+      font-weight: 600;
     }
   }
-  > div:last-child {
-    position: relative;
-    > button {
-      position: absolute;
-      bottom: 4px;
-      right: -60px;
+
+  .dates-info-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 44px;
+  }
+
+  .month-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    > div:not(:last-child) {
+      > button {
+        display: none;
+      }
+    }
+    > div:last-child {
+      position: relative;
+      > button {
+        position: absolute;
+        bottom: 4px;
+        right: -60px;
+      }
     }
   }
-}
 
-.dates-info-container {
-  display: flex;
-  flex-direction: column;
+  .timeslot-outer {
+    display: flex;
+    gap: 48px;
+
+    .timeslot-card-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .controls-container {
+      background-color: aqua;
+      margin-top: 24px;
+      display: flex;
+    }
+  }
 }

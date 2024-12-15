@@ -34,8 +34,6 @@ export class ChooseTimeslotsComponent {
   activeMonth = this.startingMonth.getMonth();
   activeYear = this.startingMonth.getFullYear();
 
-  markedToEdit: Date[] = [];
-
   ngOnInit(): void {
     if (this.inputMonth) this.startingMonth = this.inputMonth;
     this.activeMonth = this.startingMonth.getMonth();
@@ -46,7 +44,7 @@ export class ChooseTimeslotsComponent {
 
   dateClass = (date: Date): MatCalendarCellCssClasses => {
     let comparableDates: number[] = this.userDates.getComparableDates(
-      this.markedToEdit,
+      this.userDates.markedToEdit,
       this.activeMonth,
       this.activeYear
     );
@@ -57,6 +55,16 @@ export class ChooseTimeslotsComponent {
     }
   };
 
+  dateFilter = (d: Date | null): boolean => {
+    const comparableDates: number[] = this.userDates.getComparableDates(
+      this.userDates.selected,
+      this.activeMonth,
+      this.activeYear
+    );
+    const day = (d || new Date()).getDate();
+    return comparableDates.includes(day);
+  };
+
   public selectedChange(event: Date | null): void {
     let comparableDates: number[] = this.userDates.getComparableDates(
       this.userDates.selected,
@@ -64,7 +72,7 @@ export class ChooseTimeslotsComponent {
       this.activeYear
     );
     let markedDates: number[] = this.userDates.getComparableDates(
-      this.markedToEdit,
+      this.userDates.markedToEdit,
       this.activeMonth,
       this.activeYear
     );
@@ -73,7 +81,7 @@ export class ChooseTimeslotsComponent {
       comparableDates.includes(event.getDate()) &&
       !markedDates.includes(event.getDate())
     ) {
-      this.markedToEdit.push(event);
+      this.userDates.markedToEdit.push(event);
     } else if (
       event &&
       comparableDates.includes(event.getDate()) &&
@@ -85,11 +93,11 @@ export class ChooseTimeslotsComponent {
   }
 
   unmarkDate(date: Date) {
-    let index = this.markedToEdit.findIndex(
+    let index = this.userDates.markedToEdit.findIndex(
       (marked) =>
         this.dateFormatter.getStringFromDate(marked) ===
         this.dateFormatter.getStringFromDate(date)
     );
-    this.markedToEdit.splice(index, 1);
+    this.userDates.markedToEdit.splice(index, 1);
   }
 }

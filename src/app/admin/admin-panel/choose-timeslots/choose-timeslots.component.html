@@ -1,6 +1,7 @@
 <div class="md-wrapper">
   <div>
     <mat-calendar
+      [dateFilter]="dateFilter"
       [headerComponent]="customHeader"
       (selectedChange)="selectedChange($event)"
       [dateClass]="dateClass"

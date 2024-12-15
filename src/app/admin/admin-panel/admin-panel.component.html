@@ -63,13 +63,17 @@
         }
       </div>
       } @if (activeMode() === 2) {
-      <div class="month-card-container">
-        @for (month of monthsToDisplay; track $index) {
-        <div>
-          <app-choose-timeslots [inputMonth]="month"></app-choose-timeslots>
+      <div class="timeslot-outer">
+        <div class="timeslot-card-container">
+          @for (month of monthsToDisplay; track $index) {
+          <div>
+            <app-choose-timeslots [inputMonth]="month"></app-choose-timeslots>
+          </div>
+          }
         </div>
-        }
+        <div class="controls-container">Here</div>
       </div>
+
       }
     </div>
   </div>

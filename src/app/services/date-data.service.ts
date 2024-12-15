@@ -13,6 +13,7 @@ export class DateDataService implements OnDestroy {
   fs = inject(FirestoreService);
   appointmentData$: Observable<UserDates[]>;
   selected: Date[] = [];
+  markedToEdit: Date[] = [];
   dataLoaded = new BehaviorSubject<string | undefined>(undefined);
   selectedSub?: Subscription;
 
