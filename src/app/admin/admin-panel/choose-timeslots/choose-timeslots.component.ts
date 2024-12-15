@@ -13,6 +13,7 @@ import {
   MatDatepickerModule,
 } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { DateFormatterService } from '../../../services/date-formatter.service';
 
 @Component({
   selector: 'app-choose-timeslots',
@@ -25,12 +26,14 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 })
 export class ChooseTimeslotsComponent {
   readonly customHeader = CalendarCustomHeader;
+  userDates = inject(DateDataService);
+  dateFormatter = inject(DateFormatterService);
   @Input() inputMonth?: Date;
   minDate: Date = new Date();
   startingMonth: Date = new Date();
   activeMonth = this.startingMonth.getMonth();
   activeYear = this.startingMonth.getFullYear();
-  userDates = inject(DateDataService);
+
   markedToEdit: Date[] = [];
 
   ngOnInit(): void {
@@ -76,8 +79,17 @@ export class ChooseTimeslotsComponent {
       comparableDates.includes(event.getDate()) &&
       markedDates.includes(event.getDate())
     ) {
-      console.log('unmark');
+      this.unmarkDate(event);
     }
     this.calendar?.updateTodaysDate();
+  }
+
+  unmarkDate(date: Date) {
+    let index = this.markedToEdit.findIndex(
+      (marked) =>
+        this.dateFormatter.getStringFromDate(marked) ===
+        this.dateFormatter.getStringFromDate(date)
+    );
+    this.markedToEdit.splice(index, 1);
   }
 }
