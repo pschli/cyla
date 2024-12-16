@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DatesInfoComponent } from '../dates-info/dates-info.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-admin-panel',
@@ -21,6 +22,7 @@ import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.co
     MonthDisplayComponent,
     MatIconModule,
     ChooseTimeslotsComponent,
+    NgIf,
   ],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.scss',
@@ -35,6 +37,15 @@ export class AdminPanelComponent implements AfterViewInit {
   monthsToDisplay: Date[] = [];
   activeMode = signal(0);
   monthLoaded = false;
+  dayToggledOn = {
+    mo: false,
+    di: false,
+    mi: false,
+    do: false,
+    fr: false,
+    sa: false,
+    so: false,
+  };
 
   constructor() {
     this.userDates.dataLoaded.pipe(takeUntilDestroyed()).subscribe({
@@ -92,5 +103,11 @@ export class AdminPanelComponent implements AfterViewInit {
 
   setActiveMode(mode: number) {
     this.activeMode.set(mode);
+  }
+
+  toggleWeekday(weekday: 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so') {
+    this.dayToggledOn[weekday]
+      ? (this.dayToggledOn[weekday] = false)
+      : (this.dayToggledOn[weekday] = true);
   }
 }
