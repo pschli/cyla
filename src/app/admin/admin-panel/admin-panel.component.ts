@@ -11,6 +11,7 @@ import { DatesInfoComponent } from '../dates-info/dates-info.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
 import { NgIf } from '@angular/common';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-admin-panel',
@@ -23,6 +24,7 @@ import { NgIf } from '@angular/common';
     MatIconModule,
     ChooseTimeslotsComponent,
     NgIf,
+    MatDividerModule,
   ],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.scss',

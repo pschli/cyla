@@ -24,11 +24,11 @@
           </mat-card-actions>
         </mat-card>
       </div>
+
       <div class="guiding-text">
-        <span>Deine Planung</span>@if (activeMode() === 0) {<button
-          mat-flat-button
-          color="primary"
-        >
+        <span>Deine Planung</span><mat-divider [vertical]="true"></mat-divider>
+
+        @if (activeMode() === 0) {<button mat-flat-button color="primary">
           Info</button
         >} @else {<button mat-stroked-button (click)="setActiveMode(0)">
           Info</button
@@ -53,7 +53,6 @@
           <app-month-display [inputMonth]="month"></app-month-display
           ><button
             mat-fab
-            color="primary"
             (click)="addMonth()"
             aria-label="button with an add icon"
           >
