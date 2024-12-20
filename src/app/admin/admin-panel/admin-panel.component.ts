@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, inject, signal } from '@angular/core';
+import {
+  AfterViewInit,
+  booleanAttribute,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DatesInfoComponent } from '../dates-info/dates-info.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
-import { NgIf } from '@angular/common';
+import { NgIf, WeekDay } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { DateFormatterService } from '../../services/date-formatter.service';
 
@@ -118,7 +124,18 @@ export class AdminPanelComponent implements AfterViewInit {
     this.activeMode.set(mode);
   }
 
-  toggleWeekday(weekday: 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so') {
+  toggleAll(toggleState: 'on' | 'off') {
+    let switchOn = false;
+    if (toggleState === 'on') switchOn = true;
+    let allDays: Weekday[] = ['mo', 'di', 'mi', 'do', 'fr', 'sa', 'so'];
+    allDays.forEach((day) => {
+      this.dayToggledOn[day] = switchOn;
+      this.updateMarkedDates(day);
+    });
+    this.userDates.increaseCounter();
+  }
+
+  toggleWeekday(weekday: Weekday) {
     this.dayToggledOn[weekday]
       ? (this.dayToggledOn[weekday] = false)
       : (this.dayToggledOn[weekday] = true);
@@ -126,12 +143,12 @@ export class AdminPanelComponent implements AfterViewInit {
     this.userDates.increaseCounter();
   }
 
-  updateMarkedDates(day: 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so') {
+  updateMarkedDates(day: Weekday) {
     if (this.dayToggledOn[day]) this.markDatesByWeekday(day);
     else this.unmarkDatesByWeekday(day);
   }
 
-  markDatesByWeekday(day: 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so') {
+  markDatesByWeekday(day: Weekday) {
     this.userDates.selected.forEach((date) => {
       if (date.getDay() === this.dayNumber[day] && this.dateIsNotMarked(date)) {
         this.userDates.markedToEdit.push(date);
@@ -139,7 +156,7 @@ export class AdminPanelComponent implements AfterViewInit {
     });
   }
 
-  unmarkDatesByWeekday(day: 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so') {
+  unmarkDatesByWeekday(day: Weekday) {
     let toUnmark = this.userDates.markedToEdit.filter(
       (date) => date.getDay() === this.dayNumber[day]
     );
@@ -166,3 +183,5 @@ export class AdminPanelComponent implements AfterViewInit {
     );
   }
 }
+
+type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';

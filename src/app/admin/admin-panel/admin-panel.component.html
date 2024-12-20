@@ -71,7 +71,11 @@
           }
         </div>
         <div class="controls-container">
-          <div><button mat-stroked-button>Alle auswählen</button></div>
+          <div>
+            <button mat-stroked-button (click)="toggleAll('on')">
+              Alle auswählen
+            </button>
+          </div>
           <div class="weekday-row">
             <span>Nach Wochentag auswählen</span>
             <div>
@@ -181,7 +185,9 @@
             <button mat-fab extended>
               <mat-icon>edit</mat-icon>bearbeiten
             </button>
-            <button mat-button>Auswahl löschen</button>
+            <button mat-button (click)="toggleAll('off')">
+              Auswahl löschen
+            </button>
           </div>
         </div>
       </div>
