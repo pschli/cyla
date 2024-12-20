@@ -124,6 +124,10 @@ export class AdminPanelComponent implements AfterViewInit {
     this.activeMode.set(mode);
   }
 
+  openEditTimeslots() {
+    console.log('openEditTimeSlots');
+  }
+
   toggleAll(toggleState: 'on' | 'off') {
     let switchOn = false;
     if (toggleState === 'on') switchOn = true;
