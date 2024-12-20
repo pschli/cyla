@@ -12,6 +12,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
 import { NgIf } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
+import { DateFormatterService } from '../../services/date-formatter.service';
 
 @Component({
   selector: 'app-admin-panel',
@@ -33,6 +34,7 @@ export class AdminPanelComponent implements AfterViewInit {
   authService = inject(AuthService);
   router = inject(Router);
   userDates = inject(DateDataService);
+  dateFormatter = inject(DateFormatterService);
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
   user: string = '';
@@ -47,6 +49,15 @@ export class AdminPanelComponent implements AfterViewInit {
     fr: false,
     sa: false,
     so: false,
+  };
+  dayNumber = {
+    mo: 1,
+    di: 2,
+    mi: 3,
+    do: 4,
+    fr: 5,
+    sa: 6,
+    so: 0,
   };
 
   constructor() {
@@ -111,5 +122,47 @@ export class AdminPanelComponent implements AfterViewInit {
     this.dayToggledOn[weekday]
       ? (this.dayToggledOn[weekday] = false)
       : (this.dayToggledOn[weekday] = true);
+    this.updateMarkedDates(weekday);
+    this.userDates.increaseCounter();
+  }
+
+  updateMarkedDates(day: 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so') {
+    if (this.dayToggledOn[day]) this.markDatesByWeekday(day);
+    else this.unmarkDatesByWeekday(day);
+  }
+
+  markDatesByWeekday(day: 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so') {
+    this.userDates.selected.forEach((date) => {
+      if (date.getDay() === this.dayNumber[day] && this.dateIsNotMarked(date)) {
+        this.userDates.markedToEdit.push(date);
+      }
+    });
+  }
+
+  unmarkDatesByWeekday(day: 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so') {
+    let toUnmark = this.userDates.markedToEdit.filter(
+      (date) => date.getDay() === this.dayNumber[day]
+    );
+    toUnmark.forEach((unmark) => {
+      let index = this.userDates.markedToEdit.findIndex((marked) => {
+        if (this.compareDateByString(unmark, marked)) return true;
+        else return false;
+      });
+      this.userDates.markedToEdit.splice(index, 1);
+    });
+  }
+
+  dateIsNotMarked(date: Date) {
+    let result = this.userDates.markedToEdit.some((markedDate) => {
+      this.compareDateByString(markedDate, date);
+    });
+    return !result;
+  }
+
+  compareDateByString(first: Date, second: Date) {
+    return (
+      this.dateFormatter.getStringFromDate(first) ===
+      this.dateFormatter.getStringFromDate(second)
+    );
   }
 }

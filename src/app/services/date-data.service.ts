@@ -12,9 +12,13 @@ export class DateDataService implements OnDestroy {
   dateFormatter = inject(DateFormatterService);
   fs = inject(FirestoreService);
   appointmentData$: Observable<UserDates[]>;
-  selected: Date[] = [];
-  markedToEdit: Date[] = [];
+
+  selected: Date[] = []; // dates selected in month display
+  markedToEdit: Date[] = []; // dates selected in choose timeslots
+
   dataLoaded = new BehaviorSubject<string | undefined>(undefined);
+  refreshCounter$ = new BehaviorSubject<number>(0);
+
   selectedSub?: Subscription;
 
   constructor() {
@@ -91,5 +95,10 @@ export class DateDataService implements OnDestroy {
       }
     });
     this.fs.removeSelected(dateString);
+  }
+
+  increaseCounter() {
+    let count = this.refreshCounter$.value;
+    this.refreshCounter$.next(count++ % 10);
   }
 }

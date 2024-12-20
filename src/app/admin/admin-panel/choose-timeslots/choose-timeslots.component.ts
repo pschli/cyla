@@ -2,6 +2,7 @@ import {
   Component,
   inject,
   Input,
+  OnDestroy,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -24,7 +25,7 @@ import { DateFormatterService } from '../../../services/date-formatter.service';
   styleUrl: './choose-timeslots.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class ChooseTimeslotsComponent {
+export class ChooseTimeslotsComponent implements OnDestroy {
   readonly customHeader = CalendarCustomHeader;
   userDates = inject(DateDataService);
   dateFormatter = inject(DateFormatterService);
@@ -33,11 +34,18 @@ export class ChooseTimeslotsComponent {
   startingMonth: Date = new Date();
   activeMonth = this.startingMonth.getMonth();
   activeYear = this.startingMonth.getFullYear();
+  refreshTriger = this.userDates.refreshCounter$.subscribe((trigger) => {
+    this.refreshCalendar();
+  });
 
   ngOnInit(): void {
     if (this.inputMonth) this.startingMonth = this.inputMonth;
     this.activeMonth = this.startingMonth.getMonth();
     this.activeYear = this.startingMonth.getFullYear();
+  }
+
+  ngOnDestroy(): void {
+    this.refreshTriger.unsubscribe();
   }
 
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
@@ -65,7 +73,7 @@ export class ChooseTimeslotsComponent {
     return comparableDates.includes(day);
   };
 
-  public selectedChange(event: Date | null): void {
+  selectedChange(event: Date | null): void {
     let comparableDates: number[] = this.userDates.getComparableDates(
       this.userDates.selected,
       this.activeMonth,
@@ -99,5 +107,9 @@ export class ChooseTimeslotsComponent {
         this.dateFormatter.getStringFromDate(date)
     );
     this.userDates.markedToEdit.splice(index, 1);
+  }
+
+  refreshCalendar() {
+    this.calendar?.updateTodaysDate();
   }
 }
