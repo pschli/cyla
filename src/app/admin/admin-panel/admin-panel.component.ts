@@ -16,9 +16,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { DatesInfoComponent } from '../dates-info/dates-info.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
-import { NgIf, WeekDay } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { DateFormatterService } from '../../services/date-formatter.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EditTimeslotsComponent } from './dialog/edit-timeslots/edit-timeslots.component';
 
 @Component({
   selector: 'app-admin-panel',
@@ -66,7 +68,7 @@ export class AdminPanelComponent implements AfterViewInit {
     so: 0,
   };
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     this.userDates.dataLoaded.pipe(takeUntilDestroyed()).subscribe({
       next: (data) => {
         if (!data || this.monthLoaded) return;
@@ -125,7 +127,9 @@ export class AdminPanelComponent implements AfterViewInit {
   }
 
   openEditTimeslots() {
-    console.log('openEditTimeSlots');
+    if (this.userDates.markedToEdit.length > 0) {
+      const dialogRef = this.dialog.open(EditTimeslotsComponent);
+    }
   }
 
   toggleAll(toggleState: 'on' | 'off') {

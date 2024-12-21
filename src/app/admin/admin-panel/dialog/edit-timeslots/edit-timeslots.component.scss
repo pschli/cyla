@@ -1,0 +1,10 @@
+.outer {
+  margin: 24px;
+}
+
+.selection-bar {
+  > form {
+    display: flex;
+    gap: 12px;
+  }
+}
