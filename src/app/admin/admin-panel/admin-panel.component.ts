@@ -128,7 +128,9 @@ export class AdminPanelComponent implements AfterViewInit {
 
   openEditTimeslots() {
     if (this.userDates.markedToEdit.length > 0) {
-      const dialogRef = this.dialog.open(EditTimeslotsComponent);
+      const dialogRef = this.dialog.open(EditTimeslotsComponent, {
+        panelClass: 'custom-dialog-panel',
+      });
     }
   }
 

@@ -12,6 +12,7 @@ import {
   MatDialog,
   MatDialogActions,
   MatDialogContent,
+  MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatDivider } from '@angular/material/divider';
@@ -90,7 +91,7 @@ export class EditTimeslotsComponent {
     interval: this.intervalFormControl,
   });
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialogRef: MatDialogRef<EditTimeslotsComponent>) {
     merge(
       this.editTimeslotForm.controls.end.valueChanges,
       this.editTimeslotForm.controls.start.valueChanges,
@@ -113,5 +114,10 @@ export class EditTimeslotsComponent {
         this.editTimeslotForm.controls.interval.value?.timevalue
       );
     }
+  }
+
+  closeDialog(event: Event) {
+    event.preventDefault();
+    this.dialogRef.close();
   }
 }

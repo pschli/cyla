@@ -126,3 +126,7 @@ a {
     color: var(--mat-full-pseudo-checkbox-selected-icon-color);
   }
 }
+
+.custom-dialog-panel {
+  max-width: 100% !important;
+}

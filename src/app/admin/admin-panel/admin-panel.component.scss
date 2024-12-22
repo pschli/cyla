@@ -1,3 +1,7 @@
+:root {
+  --mat-dialog-container-max-width: 100%;
+}
+
 .container {
   min-height: calc(100vh - 64px);
   width: 100%;
@@ -82,14 +86,23 @@
       flex-direction: column;
     }
 
+    @keyframes controls {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
     .controls-container {
       margin-top: 24px;
       display: flex;
       flex-direction: column;
+      animation: controls 160ms ease-in-out forwards;
+
       > div.weekday-row {
         margin-top: 24px;
-        > span {
-        }
         > div {
           margin-top: 12px;
           display: flex;
@@ -108,4 +121,13 @@
       }
     }
   }
+}
+
+.cdk-overlay-pane,
+.mat-mdc-dialog-panel {
+  max-width: 100%;
+}
+
+#cdk-overlay-0 {
+  max-width: 100%;
 }
