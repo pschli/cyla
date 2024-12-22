@@ -1,3 +1,16 @@
+@keyframes enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+mat-accordion {
+  animation: enter 160ms ease-in-out forwards;
+}
+
 .button-container {
   display: flex;
   gap: 4px;
