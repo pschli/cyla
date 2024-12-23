@@ -18,7 +18,6 @@ export class DateDataService implements OnDestroy {
   markedToEdit: Date[] = []; // dates selected in choose timeslots
 
   dataLoaded = new BehaviorSubject<string | undefined>(undefined);
-  refreshCounter$ = new BehaviorSubject<number>(0);
 
   selectedSub?: Subscription;
 
@@ -104,10 +103,5 @@ export class DateDataService implements OnDestroy {
       }
     });
     this.fs.removeSelected(dateString);
-  }
-
-  increaseCounter() {
-    let count = this.refreshCounter$.value;
-    this.refreshCounter$.next(count++ % 10);
   }
 }

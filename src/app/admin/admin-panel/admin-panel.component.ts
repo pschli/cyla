@@ -21,6 +21,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { DateFormatterService } from '../../services/date-formatter.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTimeslotsComponent } from './dialog/edit-timeslots/edit-timeslots.component';
+import { RefreshCalendarStateService } from '../../services/refresh-calendar-state.service';
 
 type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
 
@@ -45,6 +46,7 @@ export class AdminPanelComponent implements AfterViewInit {
   router = inject(Router);
   userDates = inject(DateDataService);
   dateFormatter = inject(DateFormatterService);
+  refreshCalendarService = inject(RefreshCalendarStateService);
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
   user: string = '';
@@ -153,13 +155,13 @@ export class AdminPanelComponent implements AfterViewInit {
       this.dayToggledOn[day] = switchOn;
       this.updateMarkedDates(day);
     });
-    this.userDates.increaseCounter();
+    this.refreshCalendarService.requestUpdate();
   }
 
   toggleWeekday(weekday: Weekday) {
     this.dayToggledOn[weekday] = !this.dayToggledOn[weekday];
     this.updateMarkedDates(weekday);
-    this.userDates.increaseCounter();
+    this.refreshCalendarService.requestUpdate();
   }
 
   updateMarkedDates(day: Weekday) {

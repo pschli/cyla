@@ -15,6 +15,7 @@ import {
 } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { DateFormatterService } from '../../../services/date-formatter.service';
+import { RefreshCalendarStateService } from '../../../services/refresh-calendar-state.service';
 
 @Component({
   selector: 'app-choose-timeslots',
@@ -29,14 +30,17 @@ export class ChooseTimeslotsComponent implements OnDestroy {
   readonly customHeader = CalendarCustomHeader;
   userDates = inject(DateDataService);
   dateFormatter = inject(DateFormatterService);
+  refreshCalendarService = inject(RefreshCalendarStateService);
   @Input() inputMonth?: Date;
   minDate: Date = new Date();
   startingMonth: Date = new Date();
   activeMonth = this.startingMonth.getMonth();
   activeYear = this.startingMonth.getFullYear();
-  refreshTriger = this.userDates.refreshCounter$.subscribe((trigger) => {
-    this.refreshCalendar();
-  });
+  refreshTrigger = this.refreshCalendarService
+    .getTrigger()
+    .subscribe((trigger) => {
+      this.refreshCalendar();
+    });
 
   ngOnInit(): void {
     if (this.inputMonth) this.startingMonth = this.inputMonth;
@@ -45,7 +49,7 @@ export class ChooseTimeslotsComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.refreshTriger.unsubscribe();
+    this.refreshTrigger.unsubscribe();
   }
 
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
