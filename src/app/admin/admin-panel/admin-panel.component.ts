@@ -22,6 +22,8 @@ import { DateFormatterService } from '../../services/date-formatter.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTimeslotsComponent } from './dialog/edit-timeslots/edit-timeslots.component';
 
+type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
+
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
@@ -200,5 +202,3 @@ export class AdminPanelComponent implements AfterViewInit {
     );
   }
 }
-
-type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
