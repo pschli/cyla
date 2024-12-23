@@ -1,13 +1,24 @@
-mat-dialog-content {
-  display: flex;
-  flex-direction: column;
-  > form {
-    width: 100%;
-    display: inline block;
+.dialog-content {
+  margin-bottom: 48px;
 
-    gap: 12px;
-    > mat-form-field {
-      margin-right: 12px;
+  > form {
+    display: flex;
+    gap: 24px;
+    > div {
+      display: inline block;
+      > span:nth-child(2) {
+        margin-left: 4px;
+        font-weight: 600;
+      }
+
+      > div.timeselector {
+        margin-top: 4px;
+        display: flex;
+        gap: 8px;
+        > mat-form-field {
+          width: 112px;
+        }
+      }
     }
   }
 }

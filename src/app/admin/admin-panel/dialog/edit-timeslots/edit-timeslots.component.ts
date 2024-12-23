@@ -15,7 +15,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { MatDivider } from '@angular/material/divider';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -34,7 +34,7 @@ interface Time {
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatDivider,
+
     MatButtonModule,
     MatDialogTitle,
     MatDialogContent,
@@ -44,74 +44,74 @@ interface Time {
   styleUrl: './edit-timeslots.component.scss',
 })
 export class EditTimeslotsComponent {
-  startControl = new FormControl<Time | null>(null, Validators.required);
-  endControl = new FormControl<Time | null>(null, Validators.required);
+  startHours = new FormControl<Time | null>(null, Validators.required);
+  startMinutes = new FormControl<Time | null>(null, Validators.required);
+  endHours = new FormControl<Time | null>(null, Validators.required);
+  endMinutes = new FormControl<Time | null>(null, Validators.required);
   intervalFormControl = new FormControl<Time | null>(null, Validators.required);
-  times: Time[] = [
-    { timevalue: '0:00 Uhr' },
-    { timevalue: '1:00 Uhr' },
-    { timevalue: '2:00 Uhr' },
-    { timevalue: '3:00 Uhr' },
-    { timevalue: '4:00 Uhr' },
-    { timevalue: '5:00 Uhr' },
-    { timevalue: '6:00 Uhr' },
-    { timevalue: '7:00 Uhr' },
-    { timevalue: '8:00 Uhr' },
-    { timevalue: '9:00 Uhr' },
-    { timevalue: '10:00 Uhr' },
-    { timevalue: '11:00 Uhr' },
-    { timevalue: '12:00 Uhr' },
-    { timevalue: '13:00 Uhr' },
-    { timevalue: '14:00 Uhr' },
-    { timevalue: '15:00 Uhr' },
-    { timevalue: '16:00 Uhr' },
-    { timevalue: '17:00 Uhr' },
-    { timevalue: '18:00 Uhr' },
-    { timevalue: '19:00 Uhr' },
-    { timevalue: '20:00 Uhr' },
-    { timevalue: '21:00 Uhr' },
-    { timevalue: '22:00 Uhr' },
-    { timevalue: '23:00 Uhr' },
+  hours: Time[] = [
+    { timevalue: '0' },
+    { timevalue: '1' },
+    { timevalue: '2' },
+    { timevalue: '3' },
+    { timevalue: '4' },
+    { timevalue: '5' },
+    { timevalue: '6' },
+    { timevalue: '7' },
+    { timevalue: '8' },
+    { timevalue: '9' },
+    { timevalue: '10' },
+    { timevalue: '11' },
+    { timevalue: '12' },
+    { timevalue: '13' },
+    { timevalue: '14' },
+    { timevalue: '15' },
+    { timevalue: '16' },
+    { timevalue: '17' },
+    { timevalue: '18' },
+    { timevalue: '19' },
+    { timevalue: '20' },
+    { timevalue: '21' },
+    { timevalue: '22' },
+    { timevalue: '23' },
   ];
-  intervals: Time[] = [
-    { timevalue: '10 Minuten' },
-    { timevalue: '15 Minuten' },
-    { timevalue: '20 Minuten' },
-    { timevalue: '30 Minuten' },
-    { timevalue: '45 Minuten' },
-    { timevalue: '1 Stunde' },
-    { timevalue: '1,5 Stunden' },
-    { timevalue: '2 Stunden' },
-    { timevalue: '4 Stunden' },
-    { timevalue: '8 Stunden' },
-  ];
+  minutes: Time[] = [];
   editTimeslotForm = new FormGroup({
-    start: this.startControl,
-    end: this.endControl,
-    interval: this.intervalFormControl,
+    startHours: this.startHours,
+    startMinutes: this.startMinutes,
+    endHours: this.endHours,
+    endMinutes: this.endMinutes,
   });
 
   constructor(public dialogRef: MatDialogRef<EditTimeslotsComponent>) {
+    for (let min = 0; min < 60; min++) {
+      let minuteString = '';
+      if (min < 10) {
+        minuteString = '0' + min.toString();
+      } else {
+        minuteString = min.toString();
+      }
+      this.minutes.push({ timevalue: minuteString });
+    }
     merge(
-      this.editTimeslotForm.controls.end.valueChanges,
-      this.editTimeslotForm.controls.start.valueChanges,
-      this.editTimeslotForm.controls.interval.valueChanges
+      this.editTimeslotForm.controls.endHours.valueChanges,
+      this.editTimeslotForm.controls.startHours.valueChanges,
+      this.editTimeslotForm.controls.endMinutes.valueChanges,
+      this.editTimeslotForm.controls.startMinutes.valueChanges
     )
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateTimeslots());
   }
 
   updateTimeslots() {
-    if (
-      this.startControl.valid &&
-      this.endControl.valid &&
-      this.intervalFormControl.valid
-    ) {
+    if (this.editTimeslotForm.valid) {
       console.log(
         'updating',
-        this.editTimeslotForm.controls.start.value?.timevalue,
-        this.editTimeslotForm.controls.end.value?.timevalue,
-        this.editTimeslotForm.controls.interval.value?.timevalue
+        this.editTimeslotForm.controls.startHours.value?.timevalue,
+        this.editTimeslotForm.controls.startMinutes.value?.timevalue,
+        this.editTimeslotForm.controls.endHours.value?.timevalue,
+        this.editTimeslotForm.controls.endMinutes.value?.timevalue
+        // Interval
       );
     }
   }
