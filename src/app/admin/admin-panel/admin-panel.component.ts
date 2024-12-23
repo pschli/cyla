@@ -67,6 +67,15 @@ export class AdminPanelComponent implements AfterViewInit {
     sa: 6,
     so: 0,
   };
+  dayString: [Weekday, string][] = [
+    ['mo', 'Mon'],
+    ['di', 'Die'],
+    ['mi', 'Mit'],
+    ['do', 'Don'],
+    ['fr', 'Fre'],
+    ['sa', 'Sam'],
+    ['so', 'Son'],
+  ];
 
   constructor(public dialog: MatDialog) {
     this.userDates.dataLoaded.pipe(takeUntilDestroyed()).subscribe({
@@ -146,9 +155,7 @@ export class AdminPanelComponent implements AfterViewInit {
   }
 
   toggleWeekday(weekday: Weekday) {
-    this.dayToggledOn[weekday]
-      ? (this.dayToggledOn[weekday] = false)
-      : (this.dayToggledOn[weekday] = true);
+    this.dayToggledOn[weekday] = !this.dayToggledOn[weekday];
     this.updateMarkedDates(weekday);
     this.userDates.increaseCounter();
   }

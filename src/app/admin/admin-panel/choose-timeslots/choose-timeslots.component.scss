@@ -1,7 +1,7 @@
 @keyframes fade-in {
   from {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.9);
   }
   to {
     opacity: 1;
@@ -13,7 +13,7 @@
   margin-top: 24px;
   display: flex;
   animation-name: fade-in;
-  animation-duration: 200ms;
+  animation-duration: 160ms;
   animation-timing-function: ease-in-out;
 
   > div {
@@ -29,6 +29,6 @@
 }
 
 .marked-date .mat-calendar-body-cell-content {
-  background-color: hsl(from var(--mat-snack-bar-button-color) h s l / 30%);
+  background-color: hsl(from var(--mat-snack-bar-button-color) h s l / 50%);
   border-radius: 100%;
 }

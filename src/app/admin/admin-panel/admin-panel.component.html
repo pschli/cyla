@@ -79,106 +79,22 @@
           <div class="weekday-row">
             <span>Nach Wochentag auswählen</span>
             <div>
+              @for (day of dayString; track day) {
               <button
                 mat-flat-button
-                *ngIf="dayToggledOn['mo'] === true"
-                (click)="toggleWeekday('mo')"
+                *ngIf="dayToggledOn[day[0]] === true"
+                (click)="toggleWeekday(day[0])"
                 color="primary"
               >
-                Mon
+                {{ day[1] }}
               </button>
               <button
                 mat-stroked-button
-                *ngIf="dayToggledOn['mo'] === false"
-                (click)="toggleWeekday('mo')"
+                *ngIf="dayToggledOn[day[0]] === false"
+                (click)="toggleWeekday(day[0])"
               >
-                Mon
-              </button>
-              <button
-                mat-flat-button
-                *ngIf="dayToggledOn['di'] === true"
-                (click)="toggleWeekday('di')"
-                color="primary"
-              >
-                Die
-              </button>
-              <button
-                mat-stroked-button
-                *ngIf="dayToggledOn['di'] === false"
-                (click)="toggleWeekday('di')"
-              >
-                Die</button
-              ><button
-                mat-flat-button
-                *ngIf="dayToggledOn['mi'] === true"
-                (click)="toggleWeekday('mi')"
-                color="primary"
-              >
-                Mit
-              </button>
-              <button
-                mat-stroked-button
-                *ngIf="dayToggledOn['mi'] === false"
-                (click)="toggleWeekday('mi')"
-              >
-                Mit</button
-              ><button
-                mat-flat-button
-                *ngIf="dayToggledOn['do'] === true"
-                (click)="toggleWeekday('do')"
-                color="primary"
-              >
-                Don
-              </button>
-              <button
-                mat-stroked-button
-                *ngIf="dayToggledOn['do'] === false"
-                (click)="toggleWeekday('do')"
-              >
-                Don</button
-              ><button
-                mat-flat-button
-                *ngIf="dayToggledOn['fr'] === true"
-                (click)="toggleWeekday('fr')"
-                color="primary"
-              >
-                Fre
-              </button>
-              <button
-                mat-stroked-button
-                *ngIf="dayToggledOn['fr'] === false"
-                (click)="toggleWeekday('fr')"
-              >
-                Fre</button
-              ><button
-                mat-flat-button
-                *ngIf="dayToggledOn['sa'] === true"
-                (click)="toggleWeekday('sa')"
-                color="primary"
-              >
-                Sam
-              </button>
-              <button
-                mat-stroked-button
-                *ngIf="dayToggledOn['sa'] === false"
-                (click)="toggleWeekday('sa')"
-              >
-                Sam</button
-              ><button
-                mat-flat-button
-                *ngIf="dayToggledOn['so'] === true"
-                (click)="toggleWeekday('so')"
-                color="primary"
-              >
-                Son
-              </button>
-              <button
-                mat-stroked-button
-                *ngIf="dayToggledOn['so'] === false"
-                (click)="toggleWeekday('so')"
-              >
-                Son
-              </button>
+                {{ day[1] }}</button
+              >}
             </div>
           </div>
           <div class="edit-row">
