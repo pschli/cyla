@@ -80,6 +80,12 @@ export class EditTimeslotsComponent {
       }
       this.minutes.push({ timevalue: minuteString });
     }
+    merge(this.editTimeslotForm.controls.intervalHours.valueChanges)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.checkDuration());
+    merge(this.editTimeslotForm.controls.intervalMinutes.valueChanges)
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.checkDuration());
     merge(
       this.editTimeslotForm.controls.endHours.valueChanges,
       this.editTimeslotForm.controls.startHours.valueChanges,
@@ -103,9 +109,30 @@ export class EditTimeslotsComponent {
     }
   }
 
-  getNumberValue(value: string | undefined): number {
+  checkDuration() {
+    console.log('checking');
+    let hourValue = this.getNumberValue(
+      this.editTimeslotForm.controls.intervalHours.value?.timevalue
+    );
+    let minuteValue = this.getNumberValue(
+      this.editTimeslotForm.controls.intervalMinutes.value?.timevalue
+    );
+    if (hourValue === null || minuteValue === null) return;
+    if (hourValue + minuteValue === 0) {
+      this.editTimeslotForm.controls.intervalMinutes.setErrors({
+        'sum is zero': true,
+      });
+      console.log('error');
+    }
+  }
+
+  getNumberValue(value: string | undefined): number | null {
     if (value) return parseInt(value);
-    else return 0;
+    else return null;
+  }
+
+  getValueToDisplay(): number {
+    return 1;
   }
 
   closeDialog(event: Event) {

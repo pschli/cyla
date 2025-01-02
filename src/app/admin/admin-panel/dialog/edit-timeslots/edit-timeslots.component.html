@@ -6,11 +6,7 @@
         <span>Termindauer:</span>
         @if (editTimeslotForm.controls.intervalHours.valid &&
         editTimeslotForm.controls.intervalMinutes.valid) {<span
-          *ngIf="
-            getNumberValue(
-              editTimeslotForm.controls.intervalHours.value?.timevalue
-            ) > 0
-          "
+          *ngIf="getValueToDisplay()"
           >{{ editTimeslotForm.controls.intervalHours.value?.timevalue }} Stunde
           und </span
         ><span
@@ -42,6 +38,8 @@
             </mat-select>
             @if (intervalMinutes.hasError('required')) {
             <mat-error>Bitte Termindauer auswählen</mat-error>
+            } @if (intervalMinutes.hasError('sum is zero')) {
+            <mat-error>Termindauer darf nicht null sein</mat-error>
             }
           </mat-form-field>
         </div>
