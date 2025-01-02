@@ -2,9 +2,7 @@
   margin-bottom: 48px;
 
   > form {
-    display: flex;
-    gap: 24px;
-    > div {
+    > div.interval {
       display: inline block;
       > span:nth-child(2) {
         margin-left: 4px;
@@ -17,6 +15,26 @@
         gap: 8px;
         > mat-form-field {
           width: 112px;
+        }
+      }
+    }
+    > div.horizontal {
+      display: flex;
+      gap: 24px;
+      > div {
+        display: inline block;
+        > span:nth-child(2) {
+          margin-left: 4px;
+          font-weight: 600;
+        }
+
+        > div.timeselector {
+          margin-top: 4px;
+          display: flex;
+          gap: 8px;
+          > mat-form-field {
+            width: 112px;
+          }
         }
       }
     }

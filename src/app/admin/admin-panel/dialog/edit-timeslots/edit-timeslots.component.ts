@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -19,7 +20,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { merge } from 'rxjs';
+import { interval, merge } from 'rxjs';
 
 interface Time {
   timevalue: string;
@@ -34,7 +35,7 @@ interface Time {
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-
+    NgIf,
     MatButtonModule,
     MatDialogTitle,
     MatDialogContent,
@@ -44,6 +45,8 @@ interface Time {
   styleUrl: './edit-timeslots.component.scss',
 })
 export class EditTimeslotsComponent {
+  intervalHours = new FormControl<Time | null>(null, Validators.required);
+  intervalMinutes = new FormControl<Time | null>(null, Validators.required);
   startHours = new FormControl<Time | null>(null, Validators.required);
   startMinutes = new FormControl<Time | null>(null, Validators.required);
   endHours = new FormControl<Time | null>(null, Validators.required);
@@ -51,7 +54,10 @@ export class EditTimeslotsComponent {
   intervalFormControl = new FormControl<Time | null>(null, Validators.required);
   hours: Time[] = [];
   minutes: Time[] = [];
+
   editTimeslotForm = new FormGroup({
+    intervalHours: this.intervalHours,
+    intervalMinutes: this.intervalMinutes,
     startHours: this.startHours,
     startMinutes: this.startMinutes,
     endHours: this.endHours,
@@ -95,6 +101,11 @@ export class EditTimeslotsComponent {
         // Interval
       );
     }
+  }
+
+  getNumberValue(value: string | undefined): number {
+    if (value) return parseInt(value);
+    else return 0;
   }
 
   closeDialog(event: Event) {
