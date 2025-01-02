@@ -7,8 +7,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class RefreshCalendarStateService {
   private refreshCounter$ = new BehaviorSubject<number>(0);
 
-  constructor() {}
-
   public getTrigger(): Observable<number> {
     return this.refreshCounter$;
   }

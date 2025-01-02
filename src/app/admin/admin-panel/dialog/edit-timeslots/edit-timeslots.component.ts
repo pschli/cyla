@@ -49,32 +49,7 @@ export class EditTimeslotsComponent {
   endHours = new FormControl<Time | null>(null, Validators.required);
   endMinutes = new FormControl<Time | null>(null, Validators.required);
   intervalFormControl = new FormControl<Time | null>(null, Validators.required);
-  hours: Time[] = [
-    { timevalue: '0' },
-    { timevalue: '1' },
-    { timevalue: '2' },
-    { timevalue: '3' },
-    { timevalue: '4' },
-    { timevalue: '5' },
-    { timevalue: '6' },
-    { timevalue: '7' },
-    { timevalue: '8' },
-    { timevalue: '9' },
-    { timevalue: '10' },
-    { timevalue: '11' },
-    { timevalue: '12' },
-    { timevalue: '13' },
-    { timevalue: '14' },
-    { timevalue: '15' },
-    { timevalue: '16' },
-    { timevalue: '17' },
-    { timevalue: '18' },
-    { timevalue: '19' },
-    { timevalue: '20' },
-    { timevalue: '21' },
-    { timevalue: '22' },
-    { timevalue: '23' },
-  ];
+  hours: Time[] = [];
   minutes: Time[] = [];
   editTimeslotForm = new FormGroup({
     startHours: this.startHours,
@@ -84,6 +59,12 @@ export class EditTimeslotsComponent {
   });
 
   constructor(public dialogRef: MatDialogRef<EditTimeslotsComponent>) {
+    for (let hour = 0; hour < 24; hour++) {
+      let hourString = '';
+      hourString = hour.toString();
+
+      this.hours.push({ timevalue: hourString });
+    }
     for (let min = 0; min < 60; min++) {
       let minuteString = '';
       if (min < 10) {
