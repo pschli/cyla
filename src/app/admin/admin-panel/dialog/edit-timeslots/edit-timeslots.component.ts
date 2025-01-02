@@ -110,7 +110,6 @@ export class EditTimeslotsComponent {
   }
 
   checkDuration() {
-    console.log('checking');
     let hourValue = this.getNumberValue(
       this.editTimeslotForm.controls.intervalHours.value?.timevalue
     );
@@ -122,7 +121,6 @@ export class EditTimeslotsComponent {
       this.editTimeslotForm.controls.intervalMinutes.setErrors({
         'sum is zero': true,
       });
-      console.log('error');
     }
   }
 
@@ -131,8 +129,10 @@ export class EditTimeslotsComponent {
     else return null;
   }
 
-  getValueToDisplay(): number {
-    return 1;
+  getValueToDisplay(value: string | undefined): number {
+    if (value) {
+      return parseInt(value);
+    } else return 0;
   }
 
   closeDialog(event: Event) {

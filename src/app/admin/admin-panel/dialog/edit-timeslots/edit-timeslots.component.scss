@@ -4,13 +4,14 @@
   > form {
     > div.interval {
       display: inline block;
-      > span:nth-child(2) {
+      > span:not(:first-child) {
         margin-left: 4px;
         font-weight: 600;
       }
 
       > div.timeselector {
         margin-top: 4px;
+        margin-bottom: 40px;
         display: flex;
         gap: 8px;
         > mat-form-field {

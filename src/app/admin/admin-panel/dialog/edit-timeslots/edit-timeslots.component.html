@@ -6,13 +6,71 @@
         <span>Termindauer:</span>
         @if (editTimeslotForm.controls.intervalHours.valid &&
         editTimeslotForm.controls.intervalMinutes.valid) {<span
-          *ngIf="getValueToDisplay()"
-          >{{ editTimeslotForm.controls.intervalHours.value?.timevalue }} Stunde
-          und </span
-        ><span
+          *ngIf="
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalHours.value?.timevalue
+            ) > 0 &&
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalHours.value?.timevalue
+            ) < 2
+          "
           >{{
-            editTimeslotForm.controls.intervalMinutes.value?.timevalue
+            editTimeslotForm.controls.intervalHours.value?.timevalue
           }}
+          Stunde </span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalHours.value?.timevalue
+            ) > 0 &&
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalHours.value?.timevalue
+            ) < 2 &&
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalMinutes.value?.timevalue
+            ) > 0
+          "
+          >und </span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalHours.value?.timevalue
+            ) > 1
+          "
+          >{{
+            editTimeslotForm.controls.intervalHours.value?.timevalue
+          }}
+          Stunden </span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalHours.value?.timevalue
+            ) > 1 &&
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalMinutes.value?.timevalue
+            ) > 0
+          "
+          >und </span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalMinutes.value?.timevalue
+            ) > 0 &&
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalMinutes.value?.timevalue
+            ) < 2
+          "
+        >
+          {{ editTimeslotForm.controls.intervalMinutes.value?.timevalue }}
+          Minute</span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              editTimeslotForm.controls.intervalMinutes.value?.timevalue
+            ) > 1
+          "
+        >
+          {{ editTimeslotForm.controls.intervalMinutes.value?.timevalue }}
           Minuten</span
         >}
         <div class="timeselector">
