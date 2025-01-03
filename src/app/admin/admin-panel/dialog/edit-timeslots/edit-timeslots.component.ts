@@ -1,3 +1,12 @@
+import {
+  animate,
+  group,
+  query,
+  stagger,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -10,7 +19,6 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
-  MatDialog,
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
@@ -20,7 +28,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { interval, merge } from 'rxjs';
+import { merge } from 'rxjs';
 
 interface Time {
   timevalue: string;
@@ -40,6 +48,36 @@ interface Time {
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
+  ],
+  animations: [
+    trigger('addSelection', [
+      transition('* => *', [
+        query(':self', [style({ height: 0, width: '280px' })]),
+        query(':enter', [style({ opacity: 0, scale: 0.9 })], {
+          optional: true,
+        }),
+        query(
+          ':leave',
+          [
+            style({ opacity: 1, scale: 1 }),
+            animate('125ms ease-in', style({ opacity: 0, scale: 0.9 })),
+          ],
+          { optional: true }
+        ),
+        group([
+          query(':self', [
+            animate('0.3s ease-in', style({ height: '*', width: '*' })),
+          ]),
+          query(
+            ':enter',
+            stagger(100, [
+              animate('125ms ease-in', style({ opacity: 1, scale: 1 })),
+            ]),
+            { optional: true }
+          ),
+        ]),
+      ]),
+    ]),
   ],
   templateUrl: './edit-timeslots.component.html',
   styleUrl: './edit-timeslots.component.scss',

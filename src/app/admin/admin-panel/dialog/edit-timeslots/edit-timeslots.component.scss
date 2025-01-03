@@ -1,7 +1,9 @@
 .dialog-content {
   margin-bottom: 48px;
+  overflow: hidden;
 
   > form {
+    margin-top: 24px;
     > div.interval {
       display: inline block;
       > span:not(:first-child) {
@@ -22,6 +24,8 @@
     > div.horizontal {
       display: flex;
       gap: 24px;
+      overflow: hidden;
+
       > div {
         display: inline block;
         > span:nth-child(2) {
