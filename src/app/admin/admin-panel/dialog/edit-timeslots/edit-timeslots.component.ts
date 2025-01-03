@@ -51,7 +51,7 @@ interface Time {
   ],
   animations: [
     trigger('addSelection', [
-      transition('* => *', [
+      transition('* => true', [
         query(':self', [style({ height: 0, width: '280px' })]),
         query(':enter', [style({ opacity: 0, scale: 0.9 })], {
           optional: true,
