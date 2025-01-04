@@ -95,6 +95,7 @@ export class EditTimeslotsComponent {
   intervalFormControl = new FormControl<Time | null>(null, Validators.required);
   hours: Time[] = [];
   minutes: Time[] = [];
+  endTimes: Time[] = [];
 
   editTimeslotForm = new FormGroup({
     intervalHours: this.intervalHours,
@@ -132,15 +133,89 @@ export class EditTimeslotsComponent {
     )
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateEndTimeOptions());
+    merge(
+      this.editTimeslotForm.controls.startHours.valueChanges,
+      this.editTimeslotForm.controls.startMinutes.valueChanges,
+      this.editTimeslotForm.controls.intervalMinutes.valueChanges,
+      this.editTimeslotForm.controls.intervalHours.valueChanges,
+      this.editTimeslotForm.controls.endHours.valueChanges
+    )
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.showTimeslots());
   }
 
   updateEndTimeOptions() {
     if (
       this.editTimeslotForm.controls.startHours.valid &&
-      this.editTimeslotForm.controls.startMinutes.valid
+      this.editTimeslotForm.controls.startMinutes.valid &&
+      this.editTimeslotForm.controls.intervalHours.valid &&
+      this.editTimeslotForm.controls.intervalMinutes.valid
     ) {
+      const timevalues: string[] = this.getTimeValues();
+      if (timevalues.length > 0) {
+        let endTimes: number[] = this.calculateEndTimes(timevalues);
+        let endTimeStrings: string[] = this.convertMinutesToTimeValue(endTimes);
+        this.setEndTimes(endTimeStrings);
+      }
       this.editTimeslotForm.controls.endHours.enable();
     }
+  }
+
+  showTimeslots() {
+    if (this.editTimeslotForm.valid) console.log('calculating timeslots');
+  }
+
+  setEndTimes(endTimeStrings: string[]) {
+    console.log(endTimeStrings);
+    endTimeStrings.forEach((value) => {
+      this.endTimes.push({ timevalue: value });
+    });
+  }
+
+  calculateEndTimes(timevalues: string[]) {
+    let endTimes: number[] = [];
+    let [hour, minute, durationH, durationMin] = timevalues;
+    let startNum = parseInt(minute) + parseInt(hour) * 60;
+    let durationNum = parseInt(durationMin) + parseInt(durationH) * 60;
+    let nextNum = startNum + durationNum;
+    while (nextNum < 24 * 60) {
+      endTimes.push(nextNum);
+      nextNum += durationNum;
+    }
+    return endTimes;
+  }
+
+  convertMinutesToTimeValue(endTimes: number[]) {
+    let endTimeStrings: string[] = [];
+    endTimes.forEach((value) => {
+      let minutes = value % 60;
+      let minuteString = minutes.toString();
+      if (minutes < 10) minuteString = '0' + minuteString;
+      let hours = (value - minutes) / 60;
+      endTimeStrings.push(hours.toString() + ':' + minuteString);
+    });
+    return endTimeStrings;
+  }
+
+  getTimeValues() {
+    let hour: string;
+    let minutes: string;
+    let durationH: string;
+    let durationMin: string;
+    if (
+      this.editTimeslotForm.controls.startHours.value !== null &&
+      this.editTimeslotForm.controls.startMinutes.value !== null &&
+      this.editTimeslotForm.controls.intervalHours.value !== null &&
+      this.editTimeslotForm.controls.intervalMinutes.value !== null
+    ) {
+      hour = this.editTimeslotForm.controls.startHours.value.timevalue;
+      minutes = this.editTimeslotForm.controls.startMinutes.value.timevalue;
+      durationH = this.editTimeslotForm.controls.intervalHours.value.timevalue;
+      durationMin =
+        this.editTimeslotForm.controls.intervalMinutes.value.timevalue;
+      return [hour, minutes, durationH, durationMin];
+    }
+    return [];
   }
 
   checkDuration() {
