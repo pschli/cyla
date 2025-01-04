@@ -87,8 +87,11 @@ export class EditTimeslotsComponent {
   intervalMinutes = new FormControl<Time | null>(null, Validators.required);
   startHours = new FormControl<Time | null>(null, Validators.required);
   startMinutes = new FormControl<Time | null>(null, Validators.required);
-  endHours = new FormControl<Time | null>(null, Validators.required);
-  endMinutes = new FormControl<Time | null>(null, Validators.required);
+  endHours = new FormControl<Time | null>(
+    { value: null, disabled: true },
+    Validators.required
+  );
+
   intervalFormControl = new FormControl<Time | null>(null, Validators.required);
   hours: Time[] = [];
   minutes: Time[] = [];
@@ -99,7 +102,6 @@ export class EditTimeslotsComponent {
     startHours: this.startHours,
     startMinutes: this.startMinutes,
     endHours: this.endHours,
-    endMinutes: this.endMinutes,
   });
 
   constructor(public dialogRef: MatDialogRef<EditTimeslotsComponent>) {
@@ -125,25 +127,19 @@ export class EditTimeslotsComponent {
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.checkDuration());
     merge(
-      this.editTimeslotForm.controls.endHours.valueChanges,
       this.editTimeslotForm.controls.startHours.valueChanges,
-      this.editTimeslotForm.controls.endMinutes.valueChanges,
       this.editTimeslotForm.controls.startMinutes.valueChanges
     )
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateTimeslots());
+      .subscribe(() => this.updateEndTimeOptions());
   }
 
-  updateTimeslots() {
-    if (this.editTimeslotForm.valid) {
-      console.log(
-        'updating',
-        this.editTimeslotForm.controls.startHours.value?.timevalue,
-        this.editTimeslotForm.controls.startMinutes.value?.timevalue,
-        this.editTimeslotForm.controls.endHours.value?.timevalue,
-        this.editTimeslotForm.controls.endMinutes.value?.timevalue
-        // Interval
-      );
+  updateEndTimeOptions() {
+    if (
+      this.editTimeslotForm.controls.startHours.valid &&
+      this.editTimeslotForm.controls.startMinutes.valid
+    ) {
+      this.editTimeslotForm.controls.endHours.enable();
     }
   }
 
