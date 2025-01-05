@@ -70,10 +70,17 @@
     > p {
       font-size: 16px;
     }
-    div {
+    div.timeslot-container {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+    }
+    div.add-button-container {
+      margin: 12px 0;
+      position: relative;
+      > button.add-button {
+        float: left;
+      }
     }
   }
 }

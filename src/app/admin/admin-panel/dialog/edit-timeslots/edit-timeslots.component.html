@@ -205,16 +205,17 @@
         Hier kannst Du einzelne Termine deaktivieren. Mit Klick auf das
         Pluszeichen erstellst du ein weiteres Zeitfenster.
       </p>
-      <div>
+      <div class="timeslot-container">
         <button mat-flat-button *ngFor="let time of selectedTimes; index as i">
           {{ time.timevalue }}
         </button>
       </div>
-
-      <button mat-fab extended>
-        <mat-icon>add</mat-icon>
-        weitere hinzufügen
-      </button>
+      <div class="add-button-container">
+        <button class="add-button" mat-button>
+          <mat-icon>add</mat-icon>
+          weitere hinzufügen
+        </button>
+      </div>
     </div>
 
     }

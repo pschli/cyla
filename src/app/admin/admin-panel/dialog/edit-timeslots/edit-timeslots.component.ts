@@ -142,10 +142,16 @@ export class EditTimeslotsComponent {
     }
     merge(this.editTimeslotForm.controls.intervalHours.valueChanges)
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.checkDuration());
+      .subscribe(() => {
+        this.checkDuration();
+        this.updateEndTimeOptions();
+      });
     merge(this.editTimeslotForm.controls.intervalMinutes.valueChanges)
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.checkDuration());
+      .subscribe(() => {
+        this.checkDuration();
+        this.updateEndTimeOptions();
+      });
     merge(
       this.editTimeslotForm.controls.startHours.valueChanges,
       this.editTimeslotForm.controls.startMinutes.valueChanges
@@ -168,6 +174,7 @@ export class EditTimeslotsComponent {
   }
 
   updateEndTimeOptions() {
+    this.editTimeslotForm.controls.endHours.setValue(null);
     if (
       this.editTimeslotForm.controls.startHours.valid &&
       this.editTimeslotForm.controls.startMinutes.valid &&
@@ -187,12 +194,11 @@ export class EditTimeslotsComponent {
   showTimeslots() {
     this.selectedTimes = [];
     if (this.editTimeslotForm.valid) {
-      this.selectedTimes.push({
-        timevalue:
-          this.editTimeslotForm.controls.startHours.value?.timevalue +
-          ':' +
-          this.editTimeslotForm.controls.startMinutes.value?.timevalue,
-      });
+      let timeString =
+        this.editTimeslotForm.controls.startHours.value?.timevalue +
+        ':' +
+        this.editTimeslotForm.controls.startMinutes.value?.timevalue;
+      this.selectedTimes.push({ timevalue: timeString });
       this.endTimes.forEach((timeslot) => {
         if (this.isEarlierThanSelectedEnd(timeslot.timevalue)) {
           this.selectedTimes.push(timeslot);
@@ -202,6 +208,7 @@ export class EditTimeslotsComponent {
   }
 
   setEndTimes(endTimeStrings: string[]) {
+    this.endTimes = [];
     endTimeStrings.forEach((value) => {
       this.endTimes.push({ timevalue: value });
     });
