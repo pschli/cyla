@@ -107,13 +107,11 @@
         <p
           [@addText]="
             editTimeslotForm.controls.intervalHours.valid &&
-            editTimeslotForm.controls.intervalMinutes.valid &&
-            animationEnded
+            editTimeslotForm.controls.intervalMinutes.valid
           "
           *ngIf="
             editTimeslotForm.controls.intervalHours.valid &&
-            editTimeslotForm.controls.intervalMinutes.valid &&
-            animationEnded
+            editTimeslotForm.controls.intervalMinutes.valid
           "
         >
           Wähle das Zeitfenster, in dem du Termine anbieten möchtest. Du kannst
@@ -200,8 +198,8 @@
     </form>
 
     @if (editTimeslotForm.valid) {
-    <div class="starting-times">
-      <p>
+    <div [@addText]="editTimeslotForm.valid" class="starting-times">
+      <p [@addText]="editTimeslotForm.valid">
         Hier kannst Du einzelne Termine deaktivieren. Mit Klick auf das
         Pluszeichen erstellst du ein weiteres Zeitfenster.
       </p>

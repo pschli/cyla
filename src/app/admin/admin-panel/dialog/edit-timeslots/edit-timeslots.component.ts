@@ -7,7 +7,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -29,7 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { filter, from, map, merge, of } from 'rxjs';
+import { merge } from 'rxjs';
 
 interface Time {
   timevalue: string;
@@ -46,7 +46,6 @@ interface Time {
     MatInputModule,
     NgIf,
     NgFor,
-    AsyncPipe,
     MatButtonModule,
     MatIconModule,
     MatDialogTitle,
@@ -86,6 +85,15 @@ interface Time {
       ]),
     ]),
     trigger('addText', [
+      transition('* => true', [
+        query(':self', [
+          style({ height: 0, opacity: 0 }),
+
+          animate('0.3s ease-in-out', style({ height: '*', opacity: 1 })),
+        ]),
+      ]),
+    ]),
+    trigger('addButtons', [
       transition('* => true', [
         query(':self', [
           style({ height: 0, opacity: 0 }),
