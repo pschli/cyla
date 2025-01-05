@@ -26,6 +26,7 @@ import {
 } from '@angular/material/dialog';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { filter, from, map, merge, of } from 'rxjs';
@@ -47,6 +48,7 @@ interface Time {
     NgFor,
     AsyncPipe,
     MatButtonModule,
+    MatIconModule,
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
@@ -183,7 +185,14 @@ export class EditTimeslotsComponent {
   }
 
   showTimeslots() {
+    this.selectedTimes = [];
     if (this.editTimeslotForm.valid) {
+      this.selectedTimes.push({
+        timevalue:
+          this.editTimeslotForm.controls.startHours.value?.timevalue +
+          ':' +
+          this.editTimeslotForm.controls.startMinutes.value?.timevalue,
+      });
       this.endTimes.forEach((timeslot) => {
         if (this.isEarlierThanSelectedEnd(timeslot.timevalue)) {
           this.selectedTimes.push(timeslot);
@@ -264,16 +273,25 @@ export class EditTimeslotsComponent {
     else return null;
   }
 
+  getTimeNumber(value: string): number {
+    let numberValue: number = 0;
+    let timeArray = value.split(':');
+    if (timeArray[0] && timeArray[1]) {
+      numberValue = parseInt(timeArray[0]) * 60 + parseInt(timeArray[1]);
+    }
+    return numberValue;
+  }
+
   isEarlierThanSelectedEnd(value: string): boolean {
     if (
       this.editTimeslotForm.controls.endHours.valid &&
       this.editTimeslotForm.controls.endHours.value
     ) {
-      let end =
-        this.editTimeslotForm.controls.endHours.value.timevalue.toString();
-      let endTime = new Date('1970-01-01T' + end);
-      let valueTime = new Date('1970-01-01T' + value);
-      if (valueTime.getTime() < endTime.getTime()) return true;
+      let end = this.getTimeNumber(
+        this.editTimeslotForm.controls.endHours.value.timevalue
+      );
+      let valueNumber = this.getTimeNumber(value);
+      if (valueNumber < end) return true;
       else return false;
     } else return true;
   }

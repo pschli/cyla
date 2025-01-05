@@ -201,9 +201,20 @@
 
     @if (editTimeslotForm.valid) {
     <div class="starting-times">
-      <span *ngFor="let time of selectedTimes; index as i">
-        {{ time.timevalue }}
-      </span>
+      <p>
+        Hier kannst Du einzelne Termine deaktivieren. Mit Klick auf das
+        Pluszeichen erstellst du ein weiteres Zeitfenster.
+      </p>
+      <div>
+        <button mat-flat-button *ngFor="let time of selectedTimes; index as i">
+          {{ time.timevalue }}
+        </button>
+      </div>
+
+      <button mat-fab extended>
+        <mat-icon>add</mat-icon>
+        weitere hinzufügen
+      </button>
     </div>
 
     }
