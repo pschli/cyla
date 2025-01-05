@@ -201,7 +201,9 @@
 
     @if (editTimeslotForm.valid) {
     <div class="starting-times">
-      <span>valid</span>
+      <span *ngFor="let time of selectedTimes; index as i">
+        {{ time.timevalue }}
+      </span>
     </div>
 
     }

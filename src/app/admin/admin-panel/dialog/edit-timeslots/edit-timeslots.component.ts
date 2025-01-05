@@ -7,7 +7,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -28,7 +28,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { merge } from 'rxjs';
+import { filter, from, map, merge, of } from 'rxjs';
 
 interface Time {
   timevalue: string;
@@ -44,6 +44,8 @@ interface Time {
     ReactiveFormsModule,
     MatInputModule,
     NgIf,
+    NgFor,
+    AsyncPipe,
     MatButtonModule,
     MatDialogTitle,
     MatDialogContent,
@@ -66,7 +68,7 @@ interface Time {
         ),
         group([
           query(':self', [
-            animate('0.3s ease-in-out', style({ height: '*', width: '*' })),
+            animate('0.3s ease-in-out', style({ height: '*', width: '392px' })),
           ]),
           query(
             ':enter',
@@ -108,6 +110,7 @@ export class EditTimeslotsComponent {
   hours: Time[] = [];
   minutes: Time[] = [];
   endTimes: Time[] = [];
+  selectedTimes: Time[] = [];
 
   editTimeslotForm = new FormGroup({
     intervalHours: this.intervalHours,
@@ -155,7 +158,11 @@ export class EditTimeslotsComponent {
       this.editTimeslotForm.controls.endHours.valueChanges
     )
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.showTimeslots());
+      .subscribe(() =>
+        setTimeout(() => {
+          this.showTimeslots(); // is this a problem?
+        }, 100)
+      );
   }
 
   updateEndTimeOptions() {
@@ -176,7 +183,13 @@ export class EditTimeslotsComponent {
   }
 
   showTimeslots() {
-    if (this.editTimeslotForm.valid) console.log('calculating timeslots');
+    if (this.editTimeslotForm.valid) {
+      this.endTimes.forEach((timeslot) => {
+        if (this.isEarlierThanSelectedEnd(timeslot.timevalue)) {
+          this.selectedTimes.push(timeslot);
+        }
+      });
+    }
   }
 
   setEndTimes(endTimeStrings: string[]) {
@@ -249,6 +262,20 @@ export class EditTimeslotsComponent {
   getNumberValue(value: string | undefined): number | null {
     if (value) return parseInt(value);
     else return null;
+  }
+
+  isEarlierThanSelectedEnd(value: string): boolean {
+    if (
+      this.editTimeslotForm.controls.endHours.valid &&
+      this.editTimeslotForm.controls.endHours.value
+    ) {
+      let end =
+        this.editTimeslotForm.controls.endHours.value.timevalue.toString();
+      let endTime = new Date('1970-01-01T' + end);
+      let valueTime = new Date('1970-01-01T' + value);
+      if (valueTime.getTime() < endTime.getTime()) return true;
+      else return false;
+    } else return true;
   }
 
   getValueToDisplay(value: string | undefined): number {
