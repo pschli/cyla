@@ -6,7 +6,10 @@
     margin-top: 24px;
     > div.interval {
       display: inline block;
-      > span:not(:first-child) {
+      > p {
+        font-size: 16px;
+      }
+      > span:not(:nth-child(2)) {
         margin-left: 4px;
         font-weight: 600;
       }
@@ -21,25 +24,39 @@
         }
       }
     }
-    > div.horizontal {
+    div.period {
       display: flex;
-      gap: 24px;
-      overflow: hidden;
+      flex-direction: column;
+      > p {
+        font-size: 16px;
+        line-break: auto;
+        max-width: 390px;
+        overflow: hidden;
+      }
+      > div.horizontal {
+        display: flex;
+        gap: 24px;
+        overflow: hidden;
 
-      > div {
-        display: inline block;
-        > span:nth-child(2) {
-          margin-left: 4px;
-          font-weight: 600;
-        }
+        > div {
+          display: inline block;
+          > span:nth-child(2) {
+            margin-left: 4px;
+            font-weight: 600;
+          }
 
-        > div.timeselector {
-          margin-top: 4px;
-          margin-bottom: 40px;
-          display: flex;
-          gap: 8px;
-          > mat-form-field {
-            width: 112px;
+          > div.timeselector {
+            margin-top: 4px;
+            margin-bottom: 40px;
+            display: flex;
+            gap: 8px;
+
+            > mat-form-field {
+              width: 112px;
+            }
+          }
+          > div.marginR {
+            margin-right: 24px;
           }
         }
       }

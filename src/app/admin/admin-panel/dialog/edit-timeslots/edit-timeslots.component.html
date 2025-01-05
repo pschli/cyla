@@ -3,7 +3,8 @@
   <div class="dialog-content">
     <form [formGroup]="editTimeslotForm">
       <div class="interval">
-        <span>Termindauer:</span>
+        <p>Wähle die Dauer der einzelnen Termine.</p>
+        <span class="byline">Termindauer:</span>
         @if (editTimeslotForm.controls.intervalHours.valid &&
         editTimeslotForm.controls.intervalMinutes.valid) {<span
           *ngIf="
@@ -102,74 +103,97 @@
           </mat-form-field>
         </div>
       </div>
-      <div
-        #horizontal
-        class="horizontal"
-        [@addSelection]="
-          editTimeslotForm.controls.intervalHours.valid &&
-          editTimeslotForm.controls.intervalMinutes.valid
-        "
-        *ngIf="
-          editTimeslotForm.controls.intervalHours.valid &&
-          editTimeslotForm.controls.intervalMinutes.valid
-        "
-      >
-        <div class="beginn">
-          <span>Anfangszeit:</span>
-          @if (editTimeslotForm.controls.startHours.valid &&
-          editTimeslotForm.controls.startMinutes.valid) {<span
-            >{{ editTimeslotForm.controls.startHours.value?.timevalue }}:{{
-              editTimeslotForm.controls.startMinutes.value?.timevalue
-            }}
-            Uhr</span
-          >}
-          <div class="timeselector">
-            <mat-form-field>
-              <mat-label>Stunde</mat-label>
-              <mat-select [formControl]="startHours" required>
-                <mat-option>--</mat-option>
-                @for (hour of hours; track hour) {
-                <mat-option [value]="hour">{{ hour.timevalue }}</mat-option>
+      <div class="period">
+        <p
+          [@addText]="
+            editTimeslotForm.controls.intervalHours.valid &&
+            editTimeslotForm.controls.intervalMinutes.valid &&
+            animationEnded
+          "
+          *ngIf="
+            editTimeslotForm.controls.intervalHours.valid &&
+            editTimeslotForm.controls.intervalMinutes.valid &&
+            animationEnded
+          "
+        >
+          Wähle das Zeitfenster, in dem du Termine anbieten möchtest. Du kannst
+          am selben Tag mehrere Abschnitte wählen.
+        </p>
+        <div
+          class="horizontal"
+          [@addSelection]="
+            editTimeslotForm.controls.intervalHours.valid &&
+            editTimeslotForm.controls.intervalMinutes.valid
+          "
+          (@addSelection.start)="animationEnded = false"
+          (@addSelection.done)="animationEnded = true"
+          *ngIf="
+            editTimeslotForm.controls.intervalHours.valid &&
+            editTimeslotForm.controls.intervalMinutes.valid
+          "
+        >
+          <div class="beginn">
+            <span>Anfangszeit:</span>
+            @if (editTimeslotForm.controls.startHours.valid &&
+            editTimeslotForm.controls.startMinutes.valid) {<span
+              >{{ editTimeslotForm.controls.startHours.value?.timevalue }}:{{
+                editTimeslotForm.controls.startMinutes.value?.timevalue
+              }}
+              Uhr</span
+            >}
+            <div class="timeselector">
+              <mat-form-field>
+                <mat-label>Stunde</mat-label>
+                <mat-select [formControl]="startHours" required>
+                  <mat-option>--</mat-option>
+                  @for (hour of hours; track hour) {
+                  <mat-option [value]="hour">{{ hour.timevalue }}</mat-option>
+                  }
+                </mat-select>
+                @if (startHours.hasError('required')) {
+                <mat-error>Bitte Startzeit auswählen</mat-error>
                 }
-              </mat-select>
-              @if (startHours.hasError('required')) {
-              <mat-error>Bitte Startzeit auswählen</mat-error>
-              }
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Minute</mat-label>
-              <mat-select [formControl]="startMinutes" required>
-                <mat-option>--</mat-option>
-                @for (minute of minutes; track minute) {
-                <mat-option [value]="minute">{{ minute.timevalue }}</mat-option>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Minute</mat-label>
+                <mat-select [formControl]="startMinutes" required>
+                  <mat-option>--</mat-option>
+                  @for (minute of minutes; track minute) {
+                  <mat-option [value]="minute">{{
+                    minute.timevalue
+                  }}</mat-option>
+                  }
+                </mat-select>
+                @if (startMinutes.hasError('required')) {
+                <mat-error>Bitte Startzeit auswählen</mat-error>
                 }
-              </mat-select>
-              @if (startMinutes.hasError('required')) {
-              <mat-error>Bitte Startzeit auswählen</mat-error>
-              }
-            </mat-form-field>
+              </mat-form-field>
+            </div>
           </div>
-        </div>
-        <div class="end">
-          <span>Endzeit:</span>
-          @if (editTimeslotForm.controls.endHours.valid) {<span
-            >{{ editTimeslotForm.controls.endHours.value?.timevalue }} Uhr</span
-          >}
-          <div class="timeselector">
-            <mat-form-field>
-              <mat-label>Ende</mat-label>
-              <mat-select [formControl]="endHours" required>
-                <mat-option>--</mat-option>
-                @for (endTime of endTimes; track endTime) {
-                <mat-option [value]="endTime">{{
-                  endTime.timevalue
-                }}</mat-option>
+          <div class="end">
+            <span>Endzeit:</span>
+            @if (editTimeslotForm.controls.endHours.valid) {<span
+              >{{
+                editTimeslotForm.controls.endHours.value?.timevalue
+              }}
+              Uhr</span
+            >}
+            <div class="timeselector marginR">
+              <mat-form-field>
+                <mat-label>Ende</mat-label>
+                <mat-select [formControl]="endHours" required>
+                  <mat-option>--</mat-option>
+                  @for (endTime of endTimes; track endTime) {
+                  <mat-option [value]="endTime">{{
+                    endTime.timevalue
+                  }}</mat-option>
+                  }
+                </mat-select>
+                @if (endHours.hasError('required')) {
+                <mat-error>Bitte Endzeit auswählen</mat-error>
                 }
-              </mat-select>
-              @if (endHours.hasError('required')) {
-              <mat-error>Bitte Endzeit auswählen</mat-error>
-              }
-            </mat-form-field>
+              </mat-form-field>
+            </div>
           </div>
         </div>
       </div>

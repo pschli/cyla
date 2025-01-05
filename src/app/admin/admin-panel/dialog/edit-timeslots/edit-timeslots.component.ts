@@ -60,21 +60,33 @@ interface Time {
           ':leave',
           [
             style({ opacity: 1, scale: 1 }),
-            animate('125ms ease-in', style({ opacity: 0, scale: 0.9 })),
+            animate('125ms ease-in-out', style({ opacity: 0, scale: 0.9 })),
           ],
           { optional: true }
         ),
         group([
           query(':self', [
-            animate('0.3s ease-in', style({ height: '*', width: '*' })),
+            animate('0.3s ease-in-out', style({ height: '*', width: '*' })),
           ]),
           query(
             ':enter',
             stagger(100, [
-              animate('125ms ease-in', style({ opacity: 1, scale: 1 })),
+              animate(
+                '125ms 100ms ease-in-out',
+                style({ opacity: 1, scale: 1 })
+              ),
             ]),
             { optional: true }
           ),
+        ]),
+      ]),
+    ]),
+    trigger('addText', [
+      transition('* => true', [
+        query(':self', [
+          style({ height: 0, opacity: 0 }),
+
+          animate('0.3s ease-in-out', style({ height: '*', opacity: 1 })),
         ]),
       ]),
     ]),
@@ -104,6 +116,8 @@ export class EditTimeslotsComponent {
     startMinutes: this.startMinutes,
     endHours: this.endHours,
   });
+
+  animationEnded: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<EditTimeslotsComponent>) {
     for (let hour = 0; hour < 24; hour++) {
@@ -166,7 +180,6 @@ export class EditTimeslotsComponent {
   }
 
   setEndTimes(endTimeStrings: string[]) {
-    console.log(endTimeStrings);
     endTimeStrings.forEach((value) => {
       this.endTimes.push({ timevalue: value });
     });
