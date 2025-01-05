@@ -7,7 +7,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { NgFor, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -45,7 +45,6 @@ interface Time {
     ReactiveFormsModule,
     MatInputModule,
     NgIf,
-    NgFor,
     MatButtonModule,
     MatIconModule,
     MatDialogTitle,
@@ -88,7 +87,6 @@ interface Time {
       transition('* => true', [
         query(':self', [
           style({ height: 0, opacity: 0 }),
-
           animate('0.3s ease-in-out', style({ height: '*', opacity: 1 })),
         ]),
       ]),
@@ -112,6 +110,7 @@ export class EditTimeslotsComponent {
   minutes: Time[] = [];
   endTimes: Time[] = [];
   selectedTimes: Time[] = [];
+  deactivatedTimes: string[] = [];
 
   editTimeslotForm = new FormGroup({
     intervalHours: this.intervalHours,
@@ -204,6 +203,17 @@ export class EditTimeslotsComponent {
         }
       });
     }
+  }
+
+  deactivateTimeslot(value: string) {
+    console.log('deactivate');
+    this.deactivatedTimes.push(value);
+  }
+
+  activateTimeslot(value: string) {
+    console.log('activate');
+    let index = this.deactivatedTimes.indexOf(value);
+    this.deactivatedTimes.splice(index, 1);
   }
 
   setEndTimes(endTimeStrings: string[]) {
