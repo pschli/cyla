@@ -93,15 +93,6 @@ interface Time {
         ]),
       ]),
     ]),
-    trigger('addButtons', [
-      transition('* => true', [
-        query(':self', [
-          style({ height: 0, opacity: 0 }),
-
-          animate('0.3s ease-in-out', style({ height: '*', opacity: 1 })),
-        ]),
-      ]),
-    ]),
   ],
   templateUrl: './edit-timeslots.component.html',
   styleUrl: './edit-timeslots.component.scss',
