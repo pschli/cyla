@@ -88,6 +88,10 @@
   src: url(./assets/fonts/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format("woff2");
 }
 
+:root {
+  --light-bg: var(--mat-toolbar-container-background-color);
+}
+
 .material-icons {
   font-family: "Material Icons";
   font-weight: normal;

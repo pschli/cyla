@@ -1,5 +1,8 @@
 <h2 mat-dialog-title>Zeiten bearbeiten</h2>
 <mat-dialog-content>
+  @if (appointmentPeriods.length > 0){
+  <div class="previous-periods">Data here</div>
+  }
   <div class="dialog-content">
     <form [formGroup]="editTimeslotForm">
       <div class="interval">
@@ -231,7 +234,11 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-flat-button [disabled]="!editTimeslotForm.valid">Anwenden</button
+  <button
+    mat-flat-button
+    [disabled]="!editTimeslotForm.valid && appointmentPeriods.length === 0"
+  >
+    Anwenden</button
   ><button mat-button (click)="closeDialog($event)">
     Abbrechen
   </button></mat-dialog-actions

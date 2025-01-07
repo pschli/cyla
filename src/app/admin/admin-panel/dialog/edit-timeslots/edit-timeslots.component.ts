@@ -163,7 +163,9 @@ export class EditTimeslotsComponent {
       this.editTimeslotForm.controls.startMinutes.valueChanges
     )
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateEndTimeOptions());
+      .subscribe(() => {
+        this.checkStartValid(), this.updateEndTimeOptions();
+      });
     merge(
       this.editTimeslotForm.controls.startHours.valueChanges,
       this.editTimeslotForm.controls.startMinutes.valueChanges,
@@ -214,7 +216,6 @@ export class EditTimeslotsComponent {
   }
 
   commitValues() {
-    console.log('commiting values');
     const [hour, minutes, durationH, durationMin] = this.getTimeValues();
     const appointmentPeriod: AppointmentPeriod = {
       start: hour + ':' + minutes,
@@ -224,7 +225,7 @@ export class EditTimeslotsComponent {
     };
     const endTime: string = this.recalculateEndTime(appointmentPeriod);
     appointmentPeriod.end = endTime;
-    console.log(appointmentPeriod);
+    this.appointmentPeriods.push(appointmentPeriod);
   }
 
   recalculateEndTime(appointmentPeriod: AppointmentPeriod): string {
@@ -244,8 +245,8 @@ export class EditTimeslotsComponent {
   }
 
   addAppointmentPeriod() {
-    console.log('addAppointmentPeriod');
     this.commitValues();
+    this.clearForm();
   }
 
   deactivateTimeslot(value: string) {
@@ -275,6 +276,29 @@ export class EditTimeslotsComponent {
       nextNum += durationNum;
     }
     return endTimes;
+  }
+
+  checkStartValid() {
+    console.log('checkStartValid');
+    if (this.appointmentPeriods.length === 0) return;
+    if (
+      this.editTimeslotForm.controls.startHours.value &&
+      this.editTimeslotForm.controls.startMinutes.value
+    ) {
+      const endValue = this.getTimeNumber(
+        this.appointmentPeriods[this.appointmentPeriods.length - 1].end
+      );
+      const startHour =
+        this.editTimeslotForm.controls.startHours.value.timevalue;
+      const startMinutes =
+        this.editTimeslotForm.controls.startMinutes.value.timevalue;
+      const startValue = this.getTimeNumber(startHour + ':' + startMinutes);
+      if (startValue < endValue) this.setStartTimeError();
+    }
+  }
+
+  setStartTimeError() {
+    console.log('startTimeError');
   }
 
   convertMinutesToTimeValue(endTimes: number[]) {
@@ -370,6 +394,15 @@ export class EditTimeslotsComponent {
     if (value) {
       return parseInt(value);
     } else return 0;
+  }
+
+  clearForm() {
+    this.intervalHours.reset();
+    this.intervalMinutes.reset();
+    this.startHours.reset();
+    this.startMinutes.reset();
+    this.endHours.reset();
+    this.editTimeslotForm.controls.endHours.disable();
   }
 
   closeDialog(event: Event) {
