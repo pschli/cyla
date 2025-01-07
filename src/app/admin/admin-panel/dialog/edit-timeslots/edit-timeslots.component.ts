@@ -35,6 +35,13 @@ interface Time {
   timevalue: string;
 }
 
+interface AppointmentPeriod {
+  start: string;
+  end: string;
+  duration: string;
+  times: Time[];
+}
+
 @Component({
   selector: 'app-edit-timeslots',
   standalone: true,
@@ -111,6 +118,7 @@ export class EditTimeslotsComponent {
   endTimes: Time[] = [];
   selectedTimes: Time[] = [];
   deactivatedTimes: string[] = [];
+  appointmentPeriods: AppointmentPeriod[] = [];
 
   editTimeslotForm = new FormGroup({
     intervalHours: this.intervalHours,
@@ -205,13 +213,28 @@ export class EditTimeslotsComponent {
     }
   }
 
+  commitValues() {
+    console.log('commiting values');
+    let [hour, minutes, durationH, durationMin] = this.getTimeValues();
+    let appointmentPeriod: AppointmentPeriod = {
+      start: hour + ':' + minutes,
+      end: this.getEndTime(),
+      duration: durationH + ':' + durationMin,
+      times: [],
+    };
+    console.log(appointmentPeriod);
+  }
+
+  addAppointmentPeriod() {
+    console.log('addAppointmentPeriod');
+    this.commitValues();
+  }
+
   deactivateTimeslot(value: string) {
-    console.log('deactivate');
     this.deactivatedTimes.push(value);
   }
 
   activateTimeslot(value: string) {
-    console.log('activate');
     let index = this.deactivatedTimes.indexOf(value);
     this.deactivatedTimes.splice(index, 1);
   }
@@ -267,6 +290,12 @@ export class EditTimeslotsComponent {
       return [hour, minutes, durationH, durationMin];
     }
     return [];
+  }
+
+  getEndTime(): string {
+    if (this.editTimeslotForm.controls.endHours.value) {
+      return this.editTimeslotForm.controls.endHours.value.timevalue;
+    } else return '24:00';
   }
 
   checkDuration() {
