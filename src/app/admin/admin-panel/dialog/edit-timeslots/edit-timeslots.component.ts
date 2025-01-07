@@ -215,14 +215,21 @@ export class EditTimeslotsComponent {
 
   commitValues() {
     console.log('commiting values');
-    let [hour, minutes, durationH, durationMin] = this.getTimeValues();
-    let appointmentPeriod: AppointmentPeriod = {
+    const [hour, minutes, durationH, durationMin] = this.getTimeValues();
+    const appointmentPeriod: AppointmentPeriod = {
       start: hour + ':' + minutes,
       end: this.getEndTime(),
       duration: durationH + ':' + durationMin,
-      times: [],
+      times: this.filterSelectedTimeslots(),
     };
     console.log(appointmentPeriod);
+  }
+
+  filterSelectedTimeslots(): Time[] {
+    const result: Time[] = this.selectedTimes.filter(
+      (time) => !this.deactivatedTimes.includes(time.timevalue)
+    );
+    return result;
   }
 
   addAppointmentPeriod() {
