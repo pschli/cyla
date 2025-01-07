@@ -222,7 +222,18 @@ export class EditTimeslotsComponent {
       duration: durationH + ':' + durationMin,
       times: this.filterSelectedTimeslots(),
     };
+    const endTime: string = this.recalculateEndTime(appointmentPeriod);
+    appointmentPeriod.end = endTime;
     console.log(appointmentPeriod);
+  }
+
+  recalculateEndTime(appointmentPeriod: AppointmentPeriod): string {
+    const lastAppointment = this.getTimeNumber(
+      appointmentPeriod.times[appointmentPeriod.times.length - 1].timevalue
+    );
+    const duration = this.getTimeNumber(appointmentPeriod.duration);
+    const endTime = this.convertMinutesToHHMM(lastAppointment + duration);
+    return endTime;
   }
 
   filterSelectedTimeslots(): Time[] {
@@ -269,13 +280,20 @@ export class EditTimeslotsComponent {
   convertMinutesToTimeValue(endTimes: number[]) {
     let endTimeStrings: string[] = [];
     endTimes.forEach((value) => {
-      let minutes = value % 60;
-      let minuteString = minutes.toString();
-      if (minutes < 10) minuteString = '0' + minuteString;
-      let hours = (value - minutes) / 60;
-      endTimeStrings.push(hours.toString() + ':' + minuteString);
+      let timeString = this.convertMinutesToHHMM(value);
+      endTimeStrings.push(timeString);
     });
     return endTimeStrings;
+  }
+
+  convertMinutesToHHMM(value: number): string {
+    let timeString: string;
+    let minutes = value % 60;
+    let minuteString = minutes.toString();
+    if (minutes < 10) minuteString = '0' + minuteString;
+    let hours = (value - minutes) / 60;
+    timeString = hours.toString() + ':' + minuteString;
+    return timeString;
   }
 
   getTimeValues() {
