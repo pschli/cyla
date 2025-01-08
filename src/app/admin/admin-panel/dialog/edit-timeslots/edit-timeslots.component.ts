@@ -7,8 +7,8 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -24,9 +24,10 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
@@ -52,12 +53,15 @@ interface AppointmentPeriod {
     ReactiveFormsModule,
     MatInputModule,
     NgIf,
+    NgFor,
     MatButtonModule,
     MatIconModule,
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
+    MatExpansionModule,
   ],
+  encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('addSelection', [
       transition('* => true', [
@@ -129,6 +133,7 @@ export class EditTimeslotsComponent {
   });
 
   animationEnded: boolean = false;
+  cancelIconHover: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<EditTimeslotsComponent>) {
     for (let hour = 0; hour < 24; hour++) {
@@ -394,6 +399,11 @@ export class EditTimeslotsComponent {
     if (value) {
       return parseInt(value);
     } else return 0;
+  }
+
+  cancelAppointmentPeriod(period: AppointmentPeriod) {
+    let index = this.appointmentPeriods.indexOf(period);
+    this.appointmentPeriods.splice(index, 1);
   }
 
   clearForm() {

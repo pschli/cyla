@@ -1,7 +1,33 @@
 <h2 mat-dialog-title>Zeiten bearbeiten</h2>
 <mat-dialog-content>
   @if (appointmentPeriods.length > 0){
-  <div class="previous-periods">Data here</div>
+  <div class="previous-periods">
+    <mat-expansion-panel id="periods-expansion-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ appointmentPeriods.length }} Zeitfenster gewählt</mat-panel-title
+        >
+      </mat-expansion-panel-header>
+      <div
+        class="expansion-element-container"
+        *ngFor="let period of appointmentPeriods"
+      >
+        <span>{{ period.start }} Uhr bis {{ period.end }} Uhr</span
+        ><button
+          (mouseenter)="cancelIconHover = true"
+          (mouseleave)="cancelIconHover = false"
+          (click)="cancelAppointmentPeriod(period)"
+        >
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Cancel Zeitfenster"
+            fontIcon="cancel"
+            [color]="cancelIconHover ? 'warn' : 'primary'"
+          ></mat-icon>
+        </button>
+      </div>
+    </mat-expansion-panel>
+  </div>
   }
   <div class="dialog-content">
     <form [formGroup]="editTimeslotForm">
