@@ -134,6 +134,7 @@ export class EditTimeslotsComponent {
 
   animationEnded: boolean = false;
   cancelIconHover: boolean = false;
+  cancelHoverIndex: number = 0;
 
   constructor(public dialogRef: MatDialogRef<EditTimeslotsComponent>) {
     for (let hour = 0; hour < 24; hour++) {
@@ -284,7 +285,6 @@ export class EditTimeslotsComponent {
   }
 
   checkStartValid() {
-    console.log('checkStartValid');
     if (this.appointmentPeriods.length === 0) return;
     if (
       this.editTimeslotForm.controls.startHours.value &&

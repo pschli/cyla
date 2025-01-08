@@ -32,13 +32,6 @@ div.previous-periods {
         border: none;
         padding: 0;
         cursor: pointer;
-        &:hover {
-          @include mat.icon-overrides(
-            (
-              color: red,
-            )
-          );
-        }
       }
     }
   }

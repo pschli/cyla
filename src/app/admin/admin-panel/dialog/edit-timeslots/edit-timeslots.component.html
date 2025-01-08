@@ -10,19 +10,19 @@
       </mat-expansion-panel-header>
       <div
         class="expansion-element-container"
-        *ngFor="let period of appointmentPeriods"
+        *ngFor="let period of appointmentPeriods; index as i"
       >
         <span>{{ period.start }} Uhr bis {{ period.end }} Uhr</span
-        ><button
-          (mouseenter)="cancelIconHover = true"
-          (mouseleave)="cancelIconHover = false"
-          (click)="cancelAppointmentPeriod(period)"
-        >
+        ><button (click)="cancelAppointmentPeriod(period)">
           <mat-icon
             aria-hidden="false"
             aria-label="Cancel Zeitfenster"
             fontIcon="cancel"
-            [color]="cancelIconHover ? 'warn' : 'primary'"
+            [color]="
+              cancelIconHover && cancelHoverIndex === i ? 'warn' : 'primary'
+            "
+            (mouseenter)="cancelIconHover = true; cancelHoverIndex = i"
+            (mouseleave)="cancelIconHover = false; cancelHoverIndex = i"
           ></mat-icon>
         </button>
       </div>
