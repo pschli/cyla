@@ -8,7 +8,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { NgFor, NgIf } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -32,6 +32,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
+import { DateDataService } from '../../../../services/date-data.service';
+import { UserDates } from '../../../../interfaces/user-dates';
 
 interface Time {
   timevalue: string;
@@ -47,6 +49,12 @@ interface AppointmentPeriod {
 interface TimeslotData {
   time: string;
   duration: string;
+  reserved: boolean;
+  blocked: boolean;
+  taken: boolean;
+  appointment?: {
+    token: string | null;
+  };
 }
 
 @Component({
@@ -113,6 +121,7 @@ interface TimeslotData {
   styleUrl: './edit-timeslots.component.scss',
 })
 export class EditTimeslotsComponent {
+  dateservice = inject(DateDataService);
   intervalHours = new FormControl<Time | null>(null, Validators.required);
   intervalMinutes = new FormControl<Time | null>(null, Validators.required);
   startHours = new FormControl<Time | null>(null, Validators.required);
@@ -463,6 +472,12 @@ export class EditTimeslotsComponent {
         timesArray.push({
           time: time.timevalue,
           duration: period.duration,
+          reserved: false,
+          blocked: false,
+          taken: false,
+          appointment: {
+            token: null,
+          },
         });
       });
     });
@@ -473,6 +488,7 @@ export class EditTimeslotsComponent {
     const timesArray: Array<TimeslotData> = this.destructureAppointmenteriods(
       this.appointmentPeriods
     );
+    this.dateservice.updateTimeslots(timesArray);
   }
 
   closeDialog(event: Event) {

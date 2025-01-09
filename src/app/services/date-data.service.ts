@@ -5,6 +5,17 @@ import { DateFormatterService } from './date-formatter.service';
 import { FirestoreService } from './firestore.service';
 import { collection, collectionData } from '@angular/fire/firestore';
 
+interface TimeslotData {
+  time: string;
+  duration: string;
+  reserved: boolean;
+  blocked: boolean;
+  taken: boolean;
+  appointment?: {
+    token: string | null;
+  };
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -103,5 +114,12 @@ export class DateDataService implements OnDestroy {
       }
     });
     this.fs.removeSelected(dateString);
+  }
+
+  updateTimeslots(timesArray: Array<TimeslotData>) {
+    this.markedToEdit.forEach((date) => {
+      let dateString = this.dateFormatter.getStringFromDate(date);
+      this.fs.saveSelected({ date: dateString, times: timesArray });
+    });
   }
 }
