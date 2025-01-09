@@ -11,6 +11,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
@@ -299,11 +300,28 @@ export class EditTimeslotsComponent {
         this.editTimeslotForm.controls.startMinutes.value.timevalue;
       const startValue = this.getTimeNumber(startHour + ':' + startMinutes);
       if (startValue < endValue) this.setStartTimeError();
+      else this.removeStartTimeError();
     }
   }
 
   setStartTimeError() {
-    console.log('startTimeError');
+    this.editTimeslotForm.controls.startHours.setErrors({
+      'too early': true,
+    });
+    this.editTimeslotForm.controls.startMinutes.setErrors({
+      'too early': true,
+    });
+  }
+
+  removeStartTimeError() {
+    this.removeFormControlError(
+      this.editTimeslotForm.controls.startHours,
+      'too early'
+    );
+    this.removeFormControlError(
+      this.editTimeslotForm.controls.startMinutes,
+      'too early'
+    );
   }
 
   convertMinutesToTimeValue(endTimes: number[]) {
@@ -404,6 +422,15 @@ export class EditTimeslotsComponent {
   cancelAppointmentPeriod(period: AppointmentPeriod) {
     let index = this.appointmentPeriods.indexOf(period);
     this.appointmentPeriods.splice(index, 1);
+  }
+
+  removeFormControlError(control: AbstractControl, errorName: string) {
+    if (control?.errors && control?.errors[errorName]) {
+      delete control.errors[errorName];
+      if (Object.keys(control.errors).length === 0) {
+        control.setErrors(null);
+      }
+    }
   }
 
   clearForm() {
