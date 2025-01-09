@@ -267,6 +267,7 @@
   <button
     mat-flat-button
     [disabled]="!editTimeslotForm.valid && appointmentPeriods.length === 0"
+    (click)="saveAppointmentData()"
   >
     Anwenden</button
   ><button mat-button (click)="closeDialog($event)">

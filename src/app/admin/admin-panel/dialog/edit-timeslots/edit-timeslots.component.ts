@@ -28,7 +28,7 @@ import {
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
@@ -42,6 +42,11 @@ interface AppointmentPeriod {
   end: string;
   duration: string;
   times: Time[];
+}
+
+interface TimeslotData {
+  time: string;
+  duration: string;
 }
 
 @Component({
@@ -186,6 +191,13 @@ export class EditTimeslotsComponent {
           this.showTimeslots(); // is this a problem?
         }, 100)
       );
+  }
+
+  saveAppointmentData() {
+    console.log('saving Appointment Data');
+    if (this.editTimeslotForm.valid) this.commitValues();
+    this.editTimeslotForm.disable();
+    this.sendDataToBackend();
   }
 
   updateEndTimeOptions() {
@@ -440,6 +452,27 @@ export class EditTimeslotsComponent {
     this.startMinutes.reset();
     this.endHours.reset();
     this.editTimeslotForm.controls.endHours.disable();
+  }
+
+  destructureAppointmenteriods(
+    periods: AppointmentPeriod[]
+  ): Array<TimeslotData> {
+    const timesArray: Array<TimeslotData> = [];
+    periods.forEach((period) => {
+      period.times.forEach((time) => {
+        timesArray.push({
+          time: time.timevalue,
+          duration: period.duration,
+        });
+      });
+    });
+    return timesArray;
+  }
+
+  sendDataToBackend() {
+    const timesArray: Array<TimeslotData> = this.destructureAppointmenteriods(
+      this.appointmentPeriods
+    );
   }
 
   closeDialog(event: Event) {
