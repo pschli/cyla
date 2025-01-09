@@ -203,10 +203,10 @@ export class EditTimeslotsComponent {
   }
 
   saveAppointmentData() {
-    console.log('saving Appointment Data');
     if (this.editTimeslotForm.valid) this.commitValues();
     this.editTimeslotForm.disable();
     this.sendDataToBackend();
+    this.dialogRef.close();
   }
 
   updateEndTimeOptions() {
@@ -488,7 +488,12 @@ export class EditTimeslotsComponent {
     const timesArray: Array<TimeslotData> = this.destructureAppointmenteriods(
       this.appointmentPeriods
     );
-    this.dateservice.updateTimeslots(timesArray);
+    let errors = this.dateservice.updateTimeslots(timesArray);
+    if (errors) {
+      console.log('Errors!');
+    } else {
+      console.log('success');
+    }
   }
 
   closeDialog(event: Event) {

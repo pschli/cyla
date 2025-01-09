@@ -45,8 +45,9 @@ export class FirestoreService {
         dateData,
         { merge: true }
       );
+      return 'OK';
     } catch (e) {
-      console.error('Error saving Date data:', e);
+      return `Error saving Date data: ${e}`;
     }
   }
 

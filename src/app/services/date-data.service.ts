@@ -117,9 +117,17 @@ export class DateDataService implements OnDestroy {
   }
 
   updateTimeslots(timesArray: Array<TimeslotData>) {
+    let errors = 0;
     this.markedToEdit.forEach((date) => {
       let dateString = this.dateFormatter.getStringFromDate(date);
-      this.fs.saveSelected({ date: dateString, times: timesArray });
+      try {
+        this.fs.saveSelected({ date: dateString, times: timesArray });
+      } catch (e) {
+        console.error('Error saving Appointment Data', e);
+        errors++;
+      }
     });
+    if (errors > 0) return true;
+    else return false;
   }
 }
