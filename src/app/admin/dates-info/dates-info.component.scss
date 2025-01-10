@@ -11,6 +11,11 @@ mat-accordion {
   animation: enter 160ms ease-in-out forwards;
 }
 
+mat-expansion-panel,
+.mat-expansion-panel:not([class*="mat-elevation-z"]) {
+  box-shadow: none;
+}
+
 .button-container {
   display: flex;
   gap: 4px;

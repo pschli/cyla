@@ -18,11 +18,9 @@
             aria-hidden="false"
             aria-label="Cancel Zeitfenster"
             fontIcon="cancel"
-            [color]="
-              cancelIconHover && cancelHoverIndex === i ? 'warn' : 'primary'
-            "
-            (mouseenter)="cancelIconHover = true; cancelHoverIndex = i"
-            (mouseleave)="cancelIconHover = false; cancelHoverIndex = i"
+            [color]="cancelHoverIndex === i ? 'warn' : 'primary'"
+            (mouseenter)="cancelHoverIndex = i"
+            (mouseleave)="cancelHoverIndex = -1"
           ></mat-icon>
         </button>
       </div>

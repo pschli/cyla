@@ -22,6 +22,7 @@ import { DateFormatterService } from '../../services/date-formatter.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditTimeslotsComponent } from './dialog/edit-timeslots/edit-timeslots.component';
 import { RefreshCalendarStateService } from '../../services/refresh-calendar-state.service';
+import { TimeslotSavedHandlerService } from '../../services/timeslot-saved-handler.service';
 
 type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
 
@@ -47,8 +48,12 @@ export class AdminPanelComponent implements AfterViewInit {
   userDates = inject(DateDataService);
   dateFormatter = inject(DateFormatterService);
   refreshCalendarService = inject(RefreshCalendarStateService);
+  tsh = inject(TimeslotSavedHandlerService);
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
+  successHandlerSub = this.tsh.getTrigger().subscribe((trigger) => {
+    this.handleTimeslotsSaved();
+  });
   user: string = '';
   monthsToDisplay: Date[] = [];
   activeMode = signal(0);
@@ -108,6 +113,10 @@ export class AdminPanelComponent implements AfterViewInit {
         this.router.navigateByUrl('');
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.successHandlerSub.unsubscribe();
   }
 
   loadMonthsNumber() {
@@ -188,6 +197,13 @@ export class AdminPanelComponent implements AfterViewInit {
       });
       this.userDates.markedToEdit.splice(index, 1);
     });
+  }
+
+  handleTimeslotsSaved() {
+    console.log('Data successfully saved');
+    // show snackbar
+    // empty selection
+    // refresh calendars
   }
 
   dateIsNotMarked(date: Date) {

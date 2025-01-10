@@ -34,6 +34,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
 import { DateDataService } from '../../../../services/date-data.service';
 import { UserDates } from '../../../../interfaces/user-dates';
+import { TimeslotSavedHandlerService } from '../../../../services/timeslot-saved-handler.service';
 
 interface Time {
   timevalue: string;
@@ -122,6 +123,7 @@ interface TimeslotData {
 })
 export class EditTimeslotsComponent {
   dateservice = inject(DateDataService);
+  tsh = inject(TimeslotSavedHandlerService);
   intervalHours = new FormControl<Time | null>(null, Validators.required);
   intervalMinutes = new FormControl<Time | null>(null, Validators.required);
   startHours = new FormControl<Time | null>(null, Validators.required);
@@ -148,8 +150,7 @@ export class EditTimeslotsComponent {
   });
 
   animationEnded: boolean = false;
-  cancelIconHover: boolean = false;
-  cancelHoverIndex: number = 0;
+  cancelHoverIndex: number = -1;
 
   constructor(public dialogRef: MatDialogRef<EditTimeslotsComponent>) {
     for (let hour = 0; hour < 24; hour++) {
@@ -206,7 +207,6 @@ export class EditTimeslotsComponent {
     if (this.editTimeslotForm.valid) this.commitValues();
     this.editTimeslotForm.disable();
     this.sendDataToBackend();
-    this.dialogRef.close();
   }
 
   updateEndTimeOptions() {
@@ -493,6 +493,8 @@ export class EditTimeslotsComponent {
       console.log('Errors!');
     } else {
       console.log('success');
+      this.tsh.requestAction();
+      this.dialogRef.close();
     }
   }
 
