@@ -490,9 +490,8 @@ export class EditTimeslotsComponent {
     );
     let errors = this.dateservice.updateTimeslots(timesArray);
     if (errors) {
-      console.log('Errors!');
+      console.error('Error while saving Data!');
     } else {
-      console.log('success');
       this.tsh.requestAction();
       this.dialogRef.close();
     }

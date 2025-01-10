@@ -12,7 +12,6 @@ export class TimeslotSavedHandlerService {
   }
 
   requestAction() {
-    let count = this.successReaction$.value;
-    this.successReaction$.next(count++ % 10);
+    this.successReaction$.next(1);
   }
 }
