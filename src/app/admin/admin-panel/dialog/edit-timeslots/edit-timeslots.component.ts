@@ -34,6 +34,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
 import { DateDataService } from '../../../../services/date-data.service';
 import { TimeslotSavedHandlerService } from '../../../../services/timeslot-saved-handler.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface Time {
   timevalue: string;
@@ -123,6 +124,7 @@ interface TimeslotData {
 export class EditTimeslotsComponent {
   dateservice = inject(DateDataService);
   tsh = inject(TimeslotSavedHandlerService);
+  private _snackBar = inject(MatSnackBar);
   intervalHours = new FormControl<Time | null>(null, Validators.required);
   intervalMinutes = new FormControl<Time | null>(null, Validators.required);
   startHours = new FormControl<Time | null>(null, Validators.required);
@@ -454,11 +456,7 @@ export class EditTimeslotsComponent {
   }
 
   clearForm() {
-    this.intervalHours.reset();
-    this.intervalMinutes.reset();
-    this.startHours.reset();
-    this.startMinutes.reset();
-    this.endHours.reset();
+    this.editTimeslotForm.reset();
     this.editTimeslotForm.controls.endHours.disable();
   }
 
@@ -489,7 +487,15 @@ export class EditTimeslotsComponent {
     );
     let errors = this.dateservice.updateTimeslots(timesArray);
     if (errors) {
-      console.error('Error while saving Data!');
+      this._snackBar.open(
+        'Fehler beim Speichern. Bitte erneut versuchen',
+        'Ok',
+        {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 4000,
+        }
+      );
     } else {
       this.tsh.requestAction();
       this.dialogRef.close();

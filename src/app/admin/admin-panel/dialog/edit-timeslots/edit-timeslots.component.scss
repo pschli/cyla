@@ -2,7 +2,7 @@
 
 div.previous-periods {
   margin: 12px -24px;
-  padding: 12px 24px;
+  padding: 12px 0;
   background-color: var(--mdc-fab-small-container-color);
 
   > #periods-expansion-panel mat-expansion-panel,
@@ -13,20 +13,19 @@ div.previous-periods {
   > #periods-expansion-panel {
     > mat-expansion-panel-header {
       margin: 0;
-      margin-right: 2px;
-      padding: 0;
+      padding: 0 24px;
       border-radius: 0;
       border: none;
     }
     div > div.mat-expansion-panel-body {
       margin: 0;
-      margin-right: 2px;
-      padding: 0 0 16px;
+      padding: 0 24px 16px;
     }
     .expansion-element-container {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      // margin: 0 24px;
       > button {
         background-color: transparent;
         border: none;
