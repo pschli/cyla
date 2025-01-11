@@ -1,6 +1,6 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { UserDates } from '../interfaces/user-dates';
-import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, Subscription } from 'rxjs';
 import { DateFormatterService } from './date-formatter.service';
 import { FirestoreService } from './firestore.service';
 import { collection, collectionData } from '@angular/fire/firestore';
@@ -24,6 +24,7 @@ export class DateDataService implements OnDestroy {
   fs = inject(FirestoreService);
   appointmentData$: Observable<UserDates[]>;
   orderedDates$: Observable<UserDates[]>;
+  orderedAndValid$: Observable<UserDates[]>;
 
   selected: Date[] = []; // dates selected in month display
   markedToEdit: Date[] = []; // dates selected in choose timeslots
@@ -45,6 +46,11 @@ export class DateDataService implements OnDestroy {
         });
         return data;
       })
+    );
+    this.orderedAndValid$ = this.orderedDates$.pipe(
+      map((data) =>
+        data.filter((date) => new Date(date.date) > new Date(Date.now()))
+      )
     );
     this.selectedSub = this.appointmentData$.subscribe((data) => {
       this.selected = [];

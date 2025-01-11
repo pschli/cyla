@@ -1,7 +1,7 @@
 <mat-accordion>
   <mat-expansion-panel
     hideToggle
-    *ngFor="let date of userDates.orderedDates$ | async"
+    *ngFor="let date of userDates.orderedAndValid$ | async"
   >
     <mat-expansion-panel-header>
       <mat-panel-title>
