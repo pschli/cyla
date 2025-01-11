@@ -9,7 +9,8 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="button-container">
-      @for (timeslot of date.times; track $index) {
+      @for (timeslot of date.times; track $index) { @if (timeslot.reserved ||
+      timeslot.blocked || timeslot.taken) {
       <button
         mat-flat-button
         [ngClass]="{
@@ -21,7 +22,10 @@
       >
         {{ timeslot.time }}
       </button>
-      }
+      } @else {
+      <button mat-button (click)="editTimeslot(date.date, timeslot)">
+        {{ timeslot.time }}</button
+      >} }
     </div>
   </mat-expansion-panel>
 </mat-accordion>

@@ -33,7 +33,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
 import { DateDataService } from '../../../../services/date-data.service';
-import { UserDates } from '../../../../interfaces/user-dates';
 import { TimeslotSavedHandlerService } from '../../../../services/timeslot-saved-handler.service';
 
 interface Time {
