@@ -481,11 +481,20 @@ export class EditTimeslotsComponent {
     return timesArray;
   }
 
+  getDurations(periods: AppointmentPeriod[]): Array<string> {
+    const durations: Array<string> = [];
+    periods.forEach((period) => {
+      durations.push(period.duration);
+    });
+    return durations;
+  }
+
   sendDataToBackend() {
     const timesArray: Array<TimeslotData> = this.destructureAppointmenteriods(
       this.appointmentPeriods
     );
-    let errors = this.dateservice.updateTimeslots(timesArray);
+    const durations: Array<string> = this.getDurations(this.appointmentPeriods);
+    let errors = this.dateservice.updateTimeslots(timesArray, durations);
     if (errors) {
       this._snackBar.open(
         'Fehler beim Speichern. Bitte erneut versuchen',

@@ -109,7 +109,7 @@ export class DateDataService implements OnDestroy {
   addToSelected(date: Date) {
     this.selected.push(date);
     let dateString = this.dateFormatter.getStringFromDate(date);
-    this.fs.saveSelected({ date: dateString, times: [] });
+    this.fs.saveSelected({ date: dateString, durations: [], times: [] });
   }
 
   removeFromSelected(date: Date) {
@@ -122,12 +122,16 @@ export class DateDataService implements OnDestroy {
     this.fs.removeSelected(dateString);
   }
 
-  updateTimeslots(timesArray: Array<TimeslotData>) {
+  updateTimeslots(timesArray: Array<TimeslotData>, durations: Array<string>) {
     let errors = 0;
     this.markedToEdit.forEach((date) => {
       let dateString = this.dateFormatter.getStringFromDate(date);
       try {
-        this.fs.saveSelected({ date: dateString, times: timesArray });
+        this.fs.saveSelected({
+          date: dateString,
+          durations: durations,
+          times: timesArray,
+        });
       } catch (e) {
         console.error('Error saving Appointment Data', e);
         errors++;
