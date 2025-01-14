@@ -1,6 +1,10 @@
 <div class="container">
   <div class="content">
     <div class="inner">
+      @if (token) {
+      <p>{{ token }}</p>
+      }
+
       <h2>In nur drei Schritten zu deinem Termin</h2>
       <app-formstepper></app-formstepper>
     </div>
