@@ -40,18 +40,6 @@ export class MaincontentComponent implements OnInit {
     if (this.token) this.getData(this.token);
   }
 
-  // getData(token: string) {
-  //   const functions = getFunctions(getApp());
-  //   connectFunctionsEmulator(functions, '127.0.0.1', 5001);
-  //   const getIdFromToken = httpsCallableFromURL(
-  //     functions,
-  //     'http://127.0.0.1:5001/cyla-d3d28/us-central1/getIdFromToken?token=1234'
-  //   );
-  //   getIdFromToken().then((result) => {
-  //     console.log(result);
-  //   });
-  // }
-
   getData(token: string) {
     let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/getIdFromToken';
     let params = { token: token };
