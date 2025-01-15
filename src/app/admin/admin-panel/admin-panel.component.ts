@@ -54,7 +54,7 @@ export class AdminPanelComponent implements AfterViewInit {
   });
   user: string = '';
   monthsToDisplay: Date[] = [];
-  activeMode = signal(0);
+  activeMode = signal(1);
   monthLoaded = false;
   dayToggledOn = {
     mo: false,

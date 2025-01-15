@@ -30,7 +30,9 @@
       <div class="dates-info-container">
         <app-dates-info></app-dates-info>
       </div>
-      <button mat-fab extended><mat-icon>edit_calendar</mat-icon>Planen</button>
+      <button mat-fab extended [routerLink]="['plan']">
+        <mat-icon>edit_calendar</mat-icon>Planen
+      </button>
     </div>
   </div>
 </div>

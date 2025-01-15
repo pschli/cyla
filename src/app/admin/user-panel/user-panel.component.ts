@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DateDataService } from '../../services/date-data.service';
 import { DateFormatterService } from '../../services/date-formatter.service';
 import { map, Subscription } from 'rxjs';
@@ -21,6 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
+    RouterLink,
   ],
   templateUrl: './user-panel.component.html',
   styleUrl: './user-panel.component.scss',

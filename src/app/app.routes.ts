@@ -15,5 +15,10 @@ export const routes: Routes = [
   { path: 'learnmore', component: LearnmoreComponent },
   { path: 'invalidUserlink', component: InvalidUserlinkComponent },
   { path: 'admin', component: UserPanelComponent, canActivate: [authGuard] },
+  {
+    path: 'admin/plan',
+    component: AdminPanelComponent,
+    canActivate: [authGuard],
+  },
   { path: '**', component: LandingComponent },
 ];

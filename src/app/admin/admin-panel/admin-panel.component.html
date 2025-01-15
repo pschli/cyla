@@ -1,30 +1,7 @@
 <div class="container">
   <div class="content">
     <div class="inner">
-      <!-- <div>
-        <mat-card appearance="outlined">
-          <mat-card-header
-            ><mat-card-title
-              >Deine kommenden Termine</mat-card-title
-            ></mat-card-header
-          >
-          <mat-card-content><p>keine</p></mat-card-content>
-          <mat-card-actions align="end">
-            <button mat-button>weitere</button>
-          </mat-card-actions>
-        </mat-card>
-        <mat-card appearance="outlined">
-          <mat-card-header
-            ><mat-card-title>Termin-Details</mat-card-title></mat-card-header
-          >
-          <mat-card-content><p>keine</p></mat-card-content>
-          <mat-card-actions align="end">
-            <button mat-button>bearbeiten</button>
-          </mat-card-actions>
-        </mat-card>
-      </div> -->
-
-      <!-- <div class="guiding-text">
+      <div class="guiding-text">
         <span>Deine Planung</span><mat-divider [vertical]="true"></mat-divider>
 
         @if (activeMode() === 0) {<button mat-flat-button color="primary">
@@ -41,10 +18,7 @@
           Zeiten bearbeiten</button
         >}
       </div>
-      @if (activeMode() === 0) {
-      <div class="dates-info-container">
-        <app-dates-info></app-dates-info>
-      </div> }-->
+
       @if (activeMode() === 1) {
       <div class="month-card-container">
         @for (month of monthsToDisplay; track $index) {
