@@ -4,17 +4,9 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { FormstepperComponent } from './formstepper/formstepper.component';
-import {
-  getFunctions,
-  httpsCallable,
-  connectFunctionsEmulator,
-  httpsCallableFromURL,
-} from 'firebase/functions';
-
-import { getApp } from 'firebase/app';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
@@ -28,6 +20,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './maincontent.component.scss',
 })
 export class MaincontentComponent implements OnInit {
+  router = inject(Router);
   token: string | null = null;
   uidSub: Subscription | null = null;
   private uid: any;
@@ -40,18 +33,17 @@ export class MaincontentComponent implements OnInit {
     if (this.token) this.getData(this.token);
   }
 
-  getData(token: string) {
+  getData(idLink: string) {
     let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/getIdFromToken';
-    let params = { token: token };
+    let params = { idLink: idLink };
     this.uidSub = this.http
       .get(url, { params: params, responseType: 'json' })
       .subscribe((response) => {
         let returnValue: any = response;
         if (returnValue.uid) {
           this.uid = returnValue.uid;
-          console.log(this.uid);
         } else {
-          console.error('Userdata not found');
+          this.router.navigateByUrl('invalidUserlink');
         }
       });
   }
