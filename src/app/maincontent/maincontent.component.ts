@@ -20,9 +20,9 @@ import { Subscription } from 'rxjs';
   styleUrl: './maincontent.component.scss',
 })
 export class MaincontentComponent implements OnInit {
-  router = inject(Router);
-  token: string | null = null;
-  uidSub: Subscription | null = null;
+  private router = inject(Router);
+  private token: string | null = null;
+  private uidSub: Subscription | null = null;
   private uid: any;
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
@@ -30,10 +30,10 @@ export class MaincontentComponent implements OnInit {
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     this.token = routeParams.get('token');
-    if (this.token) this.getData(this.token);
+    if (this.token) this.getDurations(this.token);
   }
 
-  getData(idLink: string) {
+  private getDurations(idLink: string) {
     let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/getIdFromToken';
     let params = { idLink: idLink };
     this.uidSub = this.http
