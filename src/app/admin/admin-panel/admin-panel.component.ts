@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  booleanAttribute,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { AfterViewInit, Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -13,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { MonthDisplayComponent } from './month-display/month-display.component';
 import { DateDataService } from '../../services/date-data.service';
 import { MatIconModule } from '@angular/material/icon';
-import { DatesInfoComponent } from '../dates-info/dates-info.component';
+// import { DatesInfoComponent } from '../dates-info/dates-info.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
 import { NgIf } from '@angular/common';
@@ -31,7 +25,7 @@ type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
   selector: 'app-admin-panel',
   standalone: true,
   imports: [
-    DatesInfoComponent,
+    //  DatesInfoComponent,
     MatCardModule,
     MatButtonModule,
     MonthDisplayComponent,

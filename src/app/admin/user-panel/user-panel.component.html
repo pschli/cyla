@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="content">
+    <div class="inner">
+      <h1>Willkommen {{ user }}</h1>
+      <div>
+        <mat-card appearance="outlined">
+          <mat-card-header
+            ><mat-card-title
+              >Deine kommenden Termine</mat-card-title
+            ></mat-card-header
+          >
+          <mat-card-content><p>keine</p></mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-button>weitere</button>
+          </mat-card-actions>
+        </mat-card>
+        <mat-card appearance="outlined">
+          <mat-card-header
+            ><mat-card-title>Termin-Details</mat-card-title></mat-card-header
+          >
+          <mat-card-content><p>keine</p></mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-button>bearbeiten</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <div class="guiding-text">
+        <span>Deine geplanten Verfügbarkeiten</span>
+      </div>
+      <div class="dates-info-container">
+        <app-dates-info></app-dates-info>
+      </div>
+      <button mat-fab extended><mat-icon>edit_calendar</mat-icon>Planen</button>
+    </div>
+  </div>
+</div>

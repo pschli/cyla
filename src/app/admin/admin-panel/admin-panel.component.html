@@ -1,8 +1,7 @@
 <div class="container">
   <div class="content">
     <div class="inner">
-      <h1>Willkommen {{ user }}</h1>
-      <div>
+      <!-- <div>
         <mat-card appearance="outlined">
           <mat-card-header
             ><mat-card-title
@@ -23,9 +22,9 @@
             <button mat-button>bearbeiten</button>
           </mat-card-actions>
         </mat-card>
-      </div>
+      </div> -->
 
-      <div class="guiding-text">
+      <!-- <div class="guiding-text">
         <span>Deine Planung</span><mat-divider [vertical]="true"></mat-divider>
 
         @if (activeMode() === 0) {<button mat-flat-button color="primary">
@@ -45,8 +44,8 @@
       @if (activeMode() === 0) {
       <div class="dates-info-container">
         <app-dates-info></app-dates-info>
-      </div>
-      } @if (activeMode() === 1) {
+      </div> }-->
+      @if (activeMode() === 1) {
       <div class="month-card-container">
         @for (month of monthsToDisplay; track $index) {
         <div>

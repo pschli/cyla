@@ -1,0 +1,67 @@
+@use "@angular/material" as mat;
+
+:root {
+  --mat-dialog-container-max-width: 100%;
+}
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+
+.container {
+  min-height: calc(100vh - 64px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  max-width: 1440px;
+  margin-left: 80px;
+  margin-right: 80px;
+  margin-top: 80px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.inner {
+  flex: 1;
+  @include mat.card-overrides(
+    (
+      outline-width: 0,
+    )
+  );
+  > div {
+    margin-top: 36px;
+    width: 100%;
+    display: flex;
+
+    gap: 24px;
+    > mat-card:first-child {
+      flex: 4;
+    }
+    > mat-card:last-child {
+      flex: 3;
+    }
+  }
+  > button {
+    position: sticky;
+    z-index: 1;
+    bottom: 40px;
+    margin-top: 24px;
+    float: right;
+  }
+  .guiding-text {
+    margin: 0;
+    margin-top: 36px;
+    > span {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+
+  .dates-info-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+  }
+}
