@@ -30,22 +30,15 @@
       outline-width: 0,
     )
   );
-  > div {
-    margin-top: 36px;
-    width: 100%;
-    display: flex;
+  @include mat.tabs-overrides(
+    (
+      active-indicator-height: 4px,
+    )
+  );
+  mat-card {
+    margin: 36px 0px;
+  }
 
-    gap: 24px;
-    > mat-card:first-child {
-      flex: 4;
-    }
-    > mat-card:last-child {
-      flex: 3;
-    }
-  }
-  > button {
-    margin-top: 24px;
-  }
   .guiding-text {
     display: flex;
     align-items: center;
@@ -71,6 +64,7 @@
   .month-card-container {
     display: flex;
     flex-wrap: wrap;
+    gap: 24px;
     > div:not(:last-child) {
       > button {
         display: none;

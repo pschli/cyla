@@ -1,25 +1,76 @@
 <div class="container">
   <div class="content">
     <div class="inner">
-      <div class="guiding-text">
-        <span>Deine Planung</span><mat-divider [vertical]="true"></mat-divider>
-
-        @if (activeMode() === 0) {<button mat-flat-button color="primary">
-          Info</button
-        >} @else {<button mat-stroked-button (click)="setActiveMode(0)">
-          Info</button
-        >} @if (activeMode() === 1) {<button mat-flat-button color="primary">
-          Tage auswählen</button
-        >} @else {<button mat-stroked-button (click)="setActiveMode(1)">
-          Tage auswählen</button
-        >} @if (activeMode() === 2) {<button mat-flat-button color="primary">
-          Zeiten bearbeiten</button
-        >} @else {<button mat-stroked-button (click)="setActiveMode(2)">
-          Zeiten bearbeiten</button
-        >}
-      </div>
-
-      @if (activeMode() === 1) {
+      <h2>Deine Planung</h2>
+      <mat-tab-group
+        [selectedIndex]="activeMode()"
+        (selectedTabChange)="tabChanged($event)"
+      >
+        <mat-tab label="Termindauer festlegen">
+          <div>
+            <mat-card appearance="outlined">
+              <mat-card-header
+                ><mat-card-title>Termindauer</mat-card-title></mat-card-header
+              >
+              <mat-card-content
+                ><p>
+                  Lege die Dauer deiner einzelnen Termine fest.
+                </p></mat-card-content
+              >
+              <mat-card-actions align="end">
+                <button mat-button (click)="setActiveMode(activeMode() + 1)">
+                  weiter
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </mat-tab>
+        <mat-tab label="Tage auswählen">
+          <div>
+            <mat-card appearance="outlined">
+              <mat-card-header
+                ><mat-card-title
+                  >Verfügbare Tage</mat-card-title
+                ></mat-card-header
+              >
+              <mat-card-content
+                ><p>
+                  Wähle Tage aus, an denen du Termine anbieten willst.
+                </p></mat-card-content
+              >
+              <mat-card-actions align="end">
+                <button mat-button (click)="setActiveMode(activeMode() - 1)">
+                  zurück
+                </button>
+                <button mat-button (click)="setActiveMode(activeMode() + 1)">
+                  weiter
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </mat-tab>
+        <mat-tab label="Zeiten bearbeiten">
+          <div>
+            <mat-card appearance="outlined">
+              <mat-card-header
+                ><mat-card-title>Zeitfenster</mat-card-title></mat-card-header
+              >
+              <mat-card-content
+                ><p>
+                  Wähle Zeiten aus, die an den jeweiligen Tagen für Termine zur
+                  Verfügung stehen sollen.
+                </p></mat-card-content
+              >
+              <mat-card-actions align="end">
+                <button mat-button (click)="setActiveMode(activeMode() - 1)">
+                  zurück
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+      @if (activeMode() === 0) { Select Duration! } @if (activeMode() === 1) {
       <div class="month-card-container">
         @for (month of monthsToDisplay; track $index) {
         <div>

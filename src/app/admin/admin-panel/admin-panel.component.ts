@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { MonthDisplayComponent } from './month-display/month-display.component';
 import { DateDataService } from '../../services/date-data.service';
 import { MatIconModule } from '@angular/material/icon';
-// import { DatesInfoComponent } from '../dates-info/dates-info.component';
+
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
 import { NgIf } from '@angular/common';
@@ -18,6 +18,7 @@ import { EditTimeslotsComponent } from './dialog/edit-timeslots/edit-timeslots.c
 import { RefreshCalendarStateService } from '../../services/refresh-calendar-state.service';
 import { TimeslotSavedHandlerService } from '../../services/timeslot-saved-handler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
 type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
 
@@ -25,7 +26,6 @@ type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
   selector: 'app-admin-panel',
   standalone: true,
   imports: [
-    //  DatesInfoComponent,
     MatCardModule,
     MatButtonModule,
     MonthDisplayComponent,
@@ -33,6 +33,7 @@ type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
     ChooseTimeslotsComponent,
     NgIf,
     MatDividerModule,
+    MatTabsModule,
   ],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.scss',
@@ -54,7 +55,7 @@ export class AdminPanelComponent implements AfterViewInit {
   });
   user: string = '';
   monthsToDisplay: Date[] = [];
-  activeMode = signal(1);
+  activeMode = signal(0);
   monthLoaded = false;
   dayToggledOn = {
     mo: false,
@@ -219,5 +220,9 @@ export class AdminPanelComponent implements AfterViewInit {
       this.dateFormatter.getStringFromDate(first) ===
       this.dateFormatter.getStringFromDate(second)
     );
+  }
+
+  tabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.setActiveMode(tabChangeEvent.index);
   }
 }
