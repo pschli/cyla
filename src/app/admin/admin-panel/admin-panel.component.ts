@@ -7,7 +7,6 @@ import { map } from 'rxjs/operators';
 import { MonthDisplayComponent } from './month-display/month-display.component';
 import { DateDataService } from '../../services/date-data.service';
 import { MatIconModule } from '@angular/material/icon';
-
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
 import { NgIf } from '@angular/common';
@@ -19,6 +18,7 @@ import { RefreshCalendarStateService } from '../../services/refresh-calendar-sta
 import { TimeslotSavedHandlerService } from '../../services/timeslot-saved-handler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
+import { DurationSettingComponent } from './duration-setting/duration-setting.component';
 
 type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
 
@@ -34,6 +34,7 @@ type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
     NgIf,
     MatDividerModule,
     MatTabsModule,
+    DurationSettingComponent,
   ],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.scss',

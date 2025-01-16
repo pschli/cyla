@@ -1,0 +1,33 @@
+.duration-setting-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+form {
+  margin-top: 24px;
+  > div.interval {
+    display: inline block;
+    > p {
+      font-size: 16px;
+    }
+    > span:not(:nth-child(2)) {
+      margin-left: 4px;
+      font-weight: 600;
+    }
+
+    > div.timeselector {
+      margin-top: 4px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      > mat-form-field {
+        width: 112px;
+      }
+      > button {
+        margin-left: 16px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+<div class="duration-setting-container">
+  <div>
+    @let durations = durations$ | async; @if (durations?.length) {
+    <div>Gewählte:</div>
+    } @for (duration of durations; track $index) {
+    {{ duration }}
+    }
+    <form [formGroup]="selectDuration">
+      <div class="interval">
+        <p>Wähle aus</p>
+        <span class="byline">Termindauer:</span>
+        @if (selectDuration.controls.intervalHours.valid &&
+        selectDuration.controls.intervalMinutes.valid) {<span
+          *ngIf="
+            getValueToDisplay(
+              selectDuration.controls.intervalHours.value?.timevalue
+            ) > 0 &&
+            getValueToDisplay(
+              selectDuration.controls.intervalHours.value?.timevalue
+            ) < 2
+          "
+          >{{
+            selectDuration.controls.intervalHours.value?.timevalue
+          }}
+          Stunde </span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              selectDuration.controls.intervalHours.value?.timevalue
+            ) > 0 &&
+            getValueToDisplay(
+              selectDuration.controls.intervalHours.value?.timevalue
+            ) < 2 &&
+            getValueToDisplay(
+              selectDuration.controls.intervalMinutes.value?.timevalue
+            ) > 0
+          "
+          >und </span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              selectDuration.controls.intervalHours.value?.timevalue
+            ) > 1
+          "
+          >{{
+            selectDuration.controls.intervalHours.value?.timevalue
+          }}
+          Stunden </span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              selectDuration.controls.intervalHours.value?.timevalue
+            ) > 1 &&
+            getValueToDisplay(
+              selectDuration.controls.intervalMinutes.value?.timevalue
+            ) > 0
+          "
+          >und </span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              selectDuration.controls.intervalMinutes.value?.timevalue
+            ) > 0 &&
+            getValueToDisplay(
+              selectDuration.controls.intervalMinutes.value?.timevalue
+            ) < 2
+          "
+        >
+          {{ selectDuration.controls.intervalMinutes.value?.timevalue }}
+          Minute</span
+        ><span
+          *ngIf="
+            getValueToDisplay(
+              selectDuration.controls.intervalMinutes.value?.timevalue
+            ) > 1
+          "
+        >
+          {{ selectDuration.controls.intervalMinutes.value?.timevalue }}
+          Minuten</span
+        >}
+        <div class="timeselector">
+          <mat-form-field>
+            <mat-label>Std.</mat-label>
+            <mat-select [formControl]="intervalHours" required>
+              <mat-option>--</mat-option>
+              @for (hour of hours; track hour) {
+              <mat-option [value]="hour">{{ hour.timevalue }}</mat-option>
+              }
+            </mat-select>
+            @if (intervalHours.hasError('required')) {
+            <mat-error>Bitte Termindauer auswählen</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Min.</mat-label>
+            <mat-select [formControl]="intervalMinutes" required>
+              <mat-option>--</mat-option>
+              @for (minute of minutes; track minute) {
+              <mat-option [value]="minute">{{ minute.timevalue }}</mat-option>
+              }
+            </mat-select>
+            @if (intervalMinutes.hasError('required')) {
+            <mat-error>Bitte Termindauer auswählen</mat-error>
+            } @if (intervalMinutes.hasError('sum is zero')) {
+            <mat-error>Termindauer darf nicht null sein</mat-error>
+            } </mat-form-field
+          ><button
+            mat-button
+            [disabled]="
+              !selectDuration.controls.intervalHours.valid ||
+              !selectDuration.controls.intervalMinutes.valid
+            "
+            (click)="addDuration()"
+          >
+            hinzufügen
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -19,7 +19,7 @@
               >
               <mat-card-actions align="end">
                 <button mat-button (click)="setActiveMode(activeMode() + 1)">
-                  weiter
+                  weiter <mat-icon iconPositionEnd>chevron_right</mat-icon>
                 </button>
               </mat-card-actions>
             </mat-card>
@@ -40,10 +40,10 @@
               >
               <mat-card-actions align="end">
                 <button mat-button (click)="setActiveMode(activeMode() - 1)">
-                  zurück
+                  zurück <mat-icon>chevron_left</mat-icon>
                 </button>
                 <button mat-button (click)="setActiveMode(activeMode() + 1)">
-                  weiter
+                  weiter <mat-icon iconPositionEnd>chevron_right</mat-icon>
                 </button>
               </mat-card-actions>
             </mat-card>
@@ -63,14 +63,15 @@
               >
               <mat-card-actions align="end">
                 <button mat-button (click)="setActiveMode(activeMode() - 1)">
-                  zurück
+                  zurück <mat-icon>chevron_left</mat-icon>
                 </button>
               </mat-card-actions>
             </mat-card>
           </div>
         </mat-tab>
       </mat-tab-group>
-      @if (activeMode() === 0) { Select Duration! } @if (activeMode() === 1) {
+      @if (activeMode() === 0) { <app-duration-setting></app-duration-setting> }
+      @if (activeMode() === 1) {
       <div class="month-card-container">
         @for (month of monthsToDisplay; track $index) {
         <div>
