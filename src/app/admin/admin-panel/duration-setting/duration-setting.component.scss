@@ -1,10 +1,43 @@
 .duration-setting-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  margin: 0 12px;
+  > div {
+    display: flex;
+    gap: 48px;
+    > div.show-durations {
+      > div {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-width: 340px;
+        > div {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          > .hover {
+            display: none;
+          }
+          &:hover {
+            cursor: pointer;
+            background-color: var(--mat-option-hover-state-layer-color);
+            > .hover {
+              display: block;
+            }
+          }
+          > div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            padding: 4px;
+          }
+        }
+      }
+    }
+  }
 }
 form {
-  margin-top: 24px;
   > div.interval {
     display: inline block;
     > p {
@@ -33,4 +66,7 @@ form {
       }
     }
   }
+}
+h3 {
+  margin: 4px 0;
 }

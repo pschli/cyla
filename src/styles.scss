@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
 @import "../node_modules/@angular/material/prebuilt-themes/azure-blue.css";
 
 @font-face {
@@ -90,6 +91,11 @@
 
 :root {
   --light-bg: var(--mat-toolbar-container-background-color);
+  @include mat.card-overrides(
+    (
+      title-text-font: "Source Sans 3",
+    )
+  );
 }
 
 .material-icons {
@@ -121,6 +127,20 @@ body {
 h1 {
   font-weight: 600;
   font-size: 48px;
+  font-family: "Source Sans 3", "Helvetica Neue", sans-serif;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 2.5rem;
+  font-family: "Source Sans 3", "Helvetica Neue", sans-serif;
+}
+
+h3 {
+  font-size: 1.375rem;
+  font-weight: 400;
+  margin: 0;
+  font-family: "Source Sans 3", "Helvetica Neue", sans-serif;
 }
 
 a {

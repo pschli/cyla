@@ -14,6 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
 import { DurationsService } from '../../../services/durations.service';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 interface Time {
   timevalue: string;
@@ -33,6 +35,8 @@ interface Time {
     MatOption,
     MatError,
     MatButtonModule,
+    MatIconModule,
+    MatListModule,
   ],
   templateUrl: './duration-setting.component.html',
   styleUrl: './duration-setting.component.scss',

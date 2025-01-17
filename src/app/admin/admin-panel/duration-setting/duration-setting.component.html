@@ -1,16 +1,26 @@
 <div class="duration-setting-container">
   <div>
-    @let durations = durations$ | async; @if (durations?.length) {
-    <div>Gewählte:</div>
-    }
-    <div>
-      @for (duration of durations; track $index) {
-      {{ duration.name }}{{ duration.duration }}
+    <div class="show-durations">
+      @let durations = durations$ | async; @if (durations?.length) {
+      <h3>Gewählt</h3>
       }
+
+      <div>
+        @for (duration of durations; track $index) {
+        <div>
+          <div>
+            <div>{{ duration.duration }}</div>
+            <div>{{ duration.name }}</div>
+          </div>
+          <mat-icon class="hover">delete</mat-icon>
+        </div>
+
+        }
+      </div>
     </div>
     <form [formGroup]="selectDuration">
       <div class="interval">
-        <p>Wähle aus</p>
+        <h3>Neue festlegen</h3>
         <span class="byline">Termindauer:</span>
         @if (selectDuration.controls.intervalHours.valid &&
         selectDuration.controls.intervalMinutes.valid) {<span
