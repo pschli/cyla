@@ -7,7 +7,10 @@
 
       <div>
         @for (duration of durations; track $index) {
-        <div>
+        <div
+          (click)="deleteEntry(duration.duration)"
+          matTooltip="Mausklick zum Löschen"
+        >
           <div>
             <div>{{ duration.duration }}</div>
             <div>{{ duration.name }}</div>

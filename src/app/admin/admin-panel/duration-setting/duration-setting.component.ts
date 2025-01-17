@@ -14,7 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
 import { DurationsService } from '../../../services/durations.service';
 import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 
 interface Time {
@@ -36,7 +36,7 @@ interface Time {
     MatError,
     MatButtonModule,
     MatIconModule,
-    MatListModule,
+    MatTooltipModule,
   ],
   templateUrl: './duration-setting.component.html',
   styleUrl: './duration-setting.component.scss',
@@ -93,6 +93,10 @@ export class DurationSettingComponent {
     if (duration) {
       this.durationsService.addValue(duration, durationPayload);
     }
+  }
+
+  deleteEntry(entry: string) {
+    this.durationsService.removeValue(entry);
   }
 
   getDurationString() {
