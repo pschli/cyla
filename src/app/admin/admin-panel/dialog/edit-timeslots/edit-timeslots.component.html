@@ -32,130 +32,72 @@
       <div class="interval">
         <p>Wähle die Dauer der einzelnen Termine.</p>
         <span class="byline">Termindauer:</span>
-        @if (editTimeslotForm.controls.intervalHours.valid &&
-        editTimeslotForm.controls.intervalMinutes.valid) {<span
+        @if (editTimeslotForm.controls.duration.valid) {
+        <span
           *ngIf="
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalHours.value?.timevalue
-            ) > 0 &&
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalHours.value?.timevalue
-            ) < 2
+            getValueToDisplay(durationDigits[0]) > 0 &&
+            getValueToDisplay(durationDigits[0]) < 2
           "
-          >{{
-            editTimeslotForm.controls.intervalHours.value?.timevalue
-          }}
-          Stunde </span
+          >{{ durationDigits[0] }} Stunde </span
         ><span
           *ngIf="
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalHours.value?.timevalue
-            ) > 0 &&
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalHours.value?.timevalue
-            ) < 2 &&
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalMinutes.value?.timevalue
-            ) > 0
+            getValueToDisplay(durationDigits[0]) > 0 &&
+            getValueToDisplay(durationDigits[0]) < 2 &&
+            getValueToDisplay(durationDigits[1]) > 0
+          "
+          >und </span
+        ><span *ngIf="getValueToDisplay(durationDigits[0]) > 1"
+          >{{ durationDigits[0] }} Stunden </span
+        ><span
+          *ngIf="
+            getValueToDisplay(durationDigits[0]) > 1 &&
+            getValueToDisplay(durationDigits[1]) > 0
           "
           >und </span
         ><span
           *ngIf="
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalHours.value?.timevalue
-            ) > 1
-          "
-          >{{
-            editTimeslotForm.controls.intervalHours.value?.timevalue
-          }}
-          Stunden </span
-        ><span
-          *ngIf="
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalHours.value?.timevalue
-            ) > 1 &&
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalMinutes.value?.timevalue
-            ) > 0
-          "
-          >und </span
-        ><span
-          *ngIf="
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalMinutes.value?.timevalue
-            ) > 0 &&
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalMinutes.value?.timevalue
-            ) < 2
+            getValueToDisplay(durationDigits[1]) > 0 &&
+            getValueToDisplay(durationDigits[1]) < 2
           "
         >
-          {{ editTimeslotForm.controls.intervalMinutes.value?.timevalue }}
+          {{ durationDigits[1] }}
           Minute</span
-        ><span
-          *ngIf="
-            getValueToDisplay(
-              editTimeslotForm.controls.intervalMinutes.value?.timevalue
-            ) > 1
-          "
-        >
-          {{ editTimeslotForm.controls.intervalMinutes.value?.timevalue }}
+        ><span *ngIf="getValueToDisplay(durationDigits[1]) > 1">
+          {{ durationDigits[1] }}
           Minuten</span
         >}
         <div class="timeselector">
+          @let durations = durations$ | async;
           <mat-form-field>
-            <mat-label>Std.</mat-label>
-            <mat-select [formControl]="intervalHours" required>
+            <mat-label>Termindauer</mat-label>
+            <mat-select [formControl]="duration" required>
               <mat-option>--</mat-option>
-              @for (hour of hours; track hour) {
-              <mat-option [value]="hour">{{ hour.timevalue }}</mat-option>
+              @for (duration of durations; track duration.duration) {
+              <mat-option [value]="duration"
+                >{{ duration.duration }} ({{ duration.name }})</mat-option
+              >
               }
             </mat-select>
-            @if (intervalHours.hasError('required')) {
-            <mat-error>Bitte Termindauer auswählen</mat-error>
-            }
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Min.</mat-label>
-            <mat-select [formControl]="intervalMinutes" required>
-              <mat-option>--</mat-option>
-              @for (minute of minutes; track minute) {
-              <mat-option [value]="minute">{{ minute.timevalue }}</mat-option>
-              }
-            </mat-select>
-            @if (intervalMinutes.hasError('required')) {
-            <mat-error>Bitte Termindauer auswählen</mat-error>
-            } @if (intervalMinutes.hasError('sum is zero')) {
-            <mat-error>Termindauer darf nicht null sein</mat-error>
+            @if (endHours.hasError('required')) {
+            <mat-error>Bitte Endzeit auswählen</mat-error>
             }
           </mat-form-field>
         </div>
       </div>
       <div class="period">
         <p
-          [@addText]="
-            editTimeslotForm.controls.intervalHours.valid &&
-            editTimeslotForm.controls.intervalMinutes.valid
-          "
-          *ngIf="
-            editTimeslotForm.controls.intervalHours.valid &&
-            editTimeslotForm.controls.intervalMinutes.valid
-          "
+          [@addText]="editTimeslotForm.controls.duration.valid"
+          *ngIf="editTimeslotForm.controls.duration.valid"
         >
           Wähle das Zeitfenster, in dem du Termine anbieten möchtest. Du kannst
           am selben Tag mehrere Abschnitte wählen.
         </p>
         <div
           class="horizontal"
-          [@addSelection]="
-            editTimeslotForm.controls.intervalHours.valid &&
-            editTimeslotForm.controls.intervalMinutes.valid
-          "
+          [@addSelection]="editTimeslotForm.controls.duration.valid"
           (@addSelection.start)="animationEnded = false"
           (@addSelection.done)="animationEnded = true"
-          *ngIf="
-            editTimeslotForm.controls.intervalHours.valid &&
-            editTimeslotForm.controls.intervalMinutes.valid
-          "
+          *ngIf="editTimeslotForm.controls.duration.valid"
         >
           <div class="beginn">
             <span>Anfangszeit:</span>

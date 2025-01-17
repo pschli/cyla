@@ -7,7 +7,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -35,6 +35,7 @@ import { merge } from 'rxjs';
 import { DateDataService } from '../../../../services/date-data.service';
 import { TimeslotSavedHandlerService } from '../../../../services/timeslot-saved-handler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DurationsService } from '../../../../services/durations.service';
 
 interface Time {
   timevalue: string;
@@ -62,6 +63,7 @@ interface TimeslotData {
   selector: 'app-edit-timeslots',
   standalone: true,
   imports: [
+    AsyncPipe,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
@@ -123,10 +125,14 @@ interface TimeslotData {
 })
 export class EditTimeslotsComponent {
   dateservice = inject(DateDataService);
+  durationService = inject(DurationsService);
+  durations$ = this.durationService.getValues();
   tsh = inject(TimeslotSavedHandlerService);
   private _snackBar = inject(MatSnackBar);
-  intervalHours = new FormControl<Time | null>(null, Validators.required);
-  intervalMinutes = new FormControl<Time | null>(null, Validators.required);
+  duration = new FormControl<{ duration: string; name: string } | null>(
+    null,
+    Validators.required
+  );
   startHours = new FormControl<Time | null>(null, Validators.required);
   startMinutes = new FormControl<Time | null>(null, Validators.required);
   endHours = new FormControl<Time | null>(
@@ -137,14 +143,14 @@ export class EditTimeslotsComponent {
   intervalFormControl = new FormControl<Time | null>(null, Validators.required);
   hours: Time[] = [];
   minutes: Time[] = [];
+  durationDigits: Array<string> = [];
   endTimes: Time[] = [];
   selectedTimes: Time[] = [];
   deactivatedTimes: string[] = [];
   appointmentPeriods: AppointmentPeriod[] = [];
 
   editTimeslotForm = new FormGroup({
-    intervalHours: this.intervalHours,
-    intervalMinutes: this.intervalMinutes,
+    duration: this.duration,
     startHours: this.startHours,
     startMinutes: this.startMinutes,
     endHours: this.endHours,
@@ -169,17 +175,11 @@ export class EditTimeslotsComponent {
       }
       this.minutes.push({ timevalue: minuteString });
     }
-    merge(this.editTimeslotForm.controls.intervalHours.valueChanges)
+    merge(this.editTimeslotForm.controls.duration.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => {
-        this.checkDuration();
         this.updateEndTimeOptions();
-      });
-    merge(this.editTimeslotForm.controls.intervalMinutes.valueChanges)
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
-        this.checkDuration();
-        this.updateEndTimeOptions();
+        this.setDurationDigits();
       });
     merge(
       this.editTimeslotForm.controls.startHours.valueChanges,
@@ -192,8 +192,7 @@ export class EditTimeslotsComponent {
     merge(
       this.editTimeslotForm.controls.startHours.valueChanges,
       this.editTimeslotForm.controls.startMinutes.valueChanges,
-      this.editTimeslotForm.controls.intervalMinutes.valueChanges,
-      this.editTimeslotForm.controls.intervalHours.valueChanges,
+      this.editTimeslotForm.controls.duration.valueChanges,
       this.editTimeslotForm.controls.endHours.valueChanges
     )
       .pipe(takeUntilDestroyed())
@@ -215,8 +214,7 @@ export class EditTimeslotsComponent {
     if (
       this.editTimeslotForm.controls.startHours.valid &&
       this.editTimeslotForm.controls.startMinutes.valid &&
-      this.editTimeslotForm.controls.intervalHours.valid &&
-      this.editTimeslotForm.controls.intervalMinutes.valid
+      this.editTimeslotForm.controls.duration.valid
     ) {
       const timevalues: string[] = this.getTimeValues();
       if (timevalues.length > 0) {
@@ -245,11 +243,14 @@ export class EditTimeslotsComponent {
   }
 
   commitValues() {
-    const [hour, minutes, durationH, durationMin] = this.getTimeValues();
+    const [hour, minutes] = this.getTimeValues();
+    let durationsValue = '';
+    if (this.editTimeslotForm.controls.duration.value)
+      durationsValue = this.editTimeslotForm.controls.duration.value.duration;
     const appointmentPeriod: AppointmentPeriod = {
       start: hour + ':' + minutes,
       end: this.getEndTime(),
-      duration: durationH + ':' + durationMin,
+      duration: durationsValue,
       times: this.filterSelectedTimeslots(),
     };
     const endTime: string = this.recalculateEndTime(appointmentPeriod);
@@ -296,9 +297,13 @@ export class EditTimeslotsComponent {
 
   calculateEndTimes(timevalues: string[]) {
     let endTimes: number[] = [];
-    let [hour, minute, durationH, durationMin] = timevalues;
+    let [hour, minute] = timevalues;
+    let durationValue = '';
+    if (this.editTimeslotForm.controls.duration.value) {
+      durationValue = this.editTimeslotForm.controls.duration.value.duration;
+    }
     let startNum = parseInt(minute) + parseInt(hour) * 60;
-    let durationNum = parseInt(durationMin) + parseInt(durationH) * 60;
+    let durationNum: number = this.getTimeNumber(durationValue);
     let nextNum = startNum + durationNum;
     while (nextNum < 24 * 60) {
       endTimes.push(nextNum);
@@ -368,20 +373,15 @@ export class EditTimeslotsComponent {
   getTimeValues() {
     let hour: string;
     let minutes: string;
-    let durationH: string;
-    let durationMin: string;
     if (
       this.editTimeslotForm.controls.startHours.value !== null &&
       this.editTimeslotForm.controls.startMinutes.value !== null &&
-      this.editTimeslotForm.controls.intervalHours.value !== null &&
-      this.editTimeslotForm.controls.intervalMinutes.value !== null
+      this.editTimeslotForm.controls.duration.value !== null
     ) {
       hour = this.editTimeslotForm.controls.startHours.value.timevalue;
       minutes = this.editTimeslotForm.controls.startMinutes.value.timevalue;
-      durationH = this.editTimeslotForm.controls.intervalHours.value.timevalue;
-      durationMin =
-        this.editTimeslotForm.controls.intervalMinutes.value.timevalue;
-      return [hour, minutes, durationH, durationMin];
+
+      return [hour, minutes];
     }
     return [];
   }
@@ -392,21 +392,6 @@ export class EditTimeslotsComponent {
     } else return '24:00';
   }
 
-  checkDuration() {
-    let hourValue = this.getNumberValue(
-      this.editTimeslotForm.controls.intervalHours.value?.timevalue
-    );
-    let minuteValue = this.getNumberValue(
-      this.editTimeslotForm.controls.intervalMinutes.value?.timevalue
-    );
-    if (hourValue === null || minuteValue === null) return;
-    if (hourValue + minuteValue === 0) {
-      this.editTimeslotForm.controls.intervalMinutes.setErrors({
-        'sum is zero': true,
-      });
-    }
-  }
-
   getNumberValue(value: string | undefined): number | null {
     if (value) return parseInt(value);
     else return null;
@@ -414,11 +399,16 @@ export class EditTimeslotsComponent {
 
   getTimeNumber(value: string): number {
     let numberValue: number = 0;
-    let timeArray = value.split(':');
+    let timeArray = this.getHoursAndMinutes(value);
     if (timeArray[0] && timeArray[1]) {
       numberValue = parseInt(timeArray[0]) * 60 + parseInt(timeArray[1]);
     }
     return numberValue;
+  }
+
+  getHoursAndMinutes(value: string): Array<string> {
+    let timeArray = value.split(':');
+    return timeArray;
   }
 
   isEarlierThanSelectedEnd(value: string): boolean {
@@ -433,6 +423,16 @@ export class EditTimeslotsComponent {
       if (valueNumber < end) return true;
       else return false;
     } else return true;
+  }
+
+  setDurationDigits() {
+    if (
+      this.editTimeslotForm.controls.duration.valid &&
+      this.editTimeslotForm.controls.duration.value
+    ) {
+      let value = this.editTimeslotForm.controls.duration.value.duration;
+      this.durationDigits = this.getHoursAndMinutes(value);
+    }
   }
 
   getValueToDisplay(value: string | undefined): number {

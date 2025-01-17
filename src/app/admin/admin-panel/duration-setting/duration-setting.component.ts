@@ -92,6 +92,7 @@ export class DurationSettingComponent {
     };
     if (duration) {
       this.durationsService.addValue(duration, durationPayload);
+      this.selectDuration.reset();
     }
   }
 
