@@ -8,6 +8,11 @@ import {
   setDoc,
 } from '@angular/fire/firestore';
 
+interface DurationPayload {
+  duration: string;
+  name: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -58,6 +63,35 @@ export class FirestoreService {
       this.currentUid,
       'datesCol',
       dateString
+    );
+    try {
+      await deleteDoc(dateRef);
+    } catch (e) {
+      console.error("Couldn't delete date.", e);
+    }
+  }
+
+  async saveDuration(duration: string, payload: DurationPayload) {
+    if (!this.currentUid) return;
+    try {
+      await setDoc(
+        doc(this.firestore, 'data', this.currentUid, 'durationCol', duration),
+        payload,
+        { merge: true }
+      );
+      return 'OK';
+    } catch (e) {
+      return `Error saving Duration: ${e}`;
+    }
+  }
+
+  async removeDuration(duration: string) {
+    const dateRef: DocumentReference = doc(
+      this.firestore,
+      'data',
+      this.currentUid,
+      'durationCol',
+      duration
     );
     try {
       await deleteDoc(dateRef);

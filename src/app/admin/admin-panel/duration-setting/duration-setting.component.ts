@@ -13,6 +13,7 @@ import { MatError, MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
 import { DurationsService } from '../../../services/durations.service';
+import { MatInputModule } from '@angular/material/input';
 
 interface Time {
   timevalue: string;
@@ -27,6 +28,7 @@ interface Time {
     ReactiveFormsModule,
     MatSelectModule,
     MatFormField,
+    MatInputModule,
     MatLabel,
     MatOption,
     MatError,
@@ -39,9 +41,11 @@ export class DurationSettingComponent {
   durationsService = inject(DurationsService);
   intervalHours = new FormControl<Time | null>(null, Validators.required);
   intervalMinutes = new FormControl<Time | null>(null, Validators.required);
+  intervalName = new FormControl<string | null>(null);
   selectDuration = new FormGroup({
     intervalHours: this.intervalHours,
     intervalMinutes: this.intervalMinutes,
+    intervalName: this.intervalName,
   });
   hours: Time[] = [];
   minutes: Time[] = [];
@@ -77,8 +81,13 @@ export class DurationSettingComponent {
 
   addDuration() {
     const duration = this.getDurationString();
+    const durationName = this.getDurationName();
+    const durationPayload = {
+      duration: duration,
+      name: durationName,
+    };
     if (duration) {
-      this.durationsService.addValue(duration);
+      this.durationsService.addValue(duration, durationPayload);
     }
   }
 
@@ -94,6 +103,12 @@ export class DurationSettingComponent {
       return hour + ':' + minutes;
     }
     return '';
+  }
+
+  getDurationName() {
+    if (this.selectDuration.controls.intervalName.value !== null) {
+      return this.selectDuration.controls.intervalName.value;
+    } else return '';
   }
 
   checkDuration() {

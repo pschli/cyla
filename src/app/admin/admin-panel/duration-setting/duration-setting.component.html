@@ -2,9 +2,12 @@
   <div>
     @let durations = durations$ | async; @if (durations?.length) {
     <div>Gewählte:</div>
-    } @for (duration of durations; track $index) {
-    {{ duration }}
     }
+    <div>
+      @for (duration of durations; track $index) {
+      {{ duration.name }}{{ duration.duration }}
+      }
+    </div>
     <form [formGroup]="selectDuration">
       <div class="interval">
         <p>Wähle aus</p>
@@ -104,6 +107,13 @@
             } @if (intervalMinutes.hasError('sum is zero')) {
             <mat-error>Termindauer darf nicht null sein</mat-error>
             } </mat-form-field
+          ><mat-form-field class="duration-name">
+            <mat-label>Bezeichnung</mat-label>
+            <input
+              [formControl]="intervalName"
+              matInput
+              placeholder="Ex. Sprechstunde"
+            /> </mat-form-field
           ><button
             mat-button
             [disabled]="

@@ -1,31 +1,37 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, from, take } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { FirestoreService } from './firestore.service';
+import { collection, collectionData } from '@angular/fire/firestore';
+
+interface DurationPayload {
+  duration: string;
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class DurationsService {
-  private durations = new BehaviorSubject<string[]>([]);
-  private durations$: Observable<string[]> = this.durations.asObservable();
+  fs = inject(FirestoreService);
+  private durations$: Observable<DurationPayload[]>;
 
-  constructor() {}
+  constructor() {
+    const DateCollection = collection(
+      this.fs.firestore,
+      `data/${this.fs.currentUid}/durationCol`
+    );
+    this.durations$ = collectionData(DateCollection) as Observable<any>;
+  }
 
-  getValues(): Observable<string[]> {
+  getValues(): Observable<DurationPayload[]> {
     return this.durations$;
   }
 
-  addValue(value: string) {
-    this.durations$.pipe(take(1)).subscribe((val) => {
-      const newArr = [...val, value];
-      this.durations.next(newArr);
-    });
+  addValue(value: string, payload: DurationPayload) {
+    this.fs.saveDuration(value, payload);
   }
 
-  // removeElementToObservableArray(idx) {
-  //   this.array$.pipe(take(1)).subscribe(val => {
-  //     const arr = this.subject.getValue()
-  //     arr.splice(idx, 1)
-  //     this.subject.next(arr)
-  //   })
-  // }
+  removeValue(value: string) {
+    this.fs.removeDuration(value);
+  }
 }
