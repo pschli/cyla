@@ -4,6 +4,20 @@
   animationDuration="400"
   #stepper
 >
+  <mat-step [completed]="durationFormCompleted">
+    <ng-template matStepLabel>Wähle eine Terminart</ng-template>
+    <div class="step-inner">
+      <app-choose-duration
+        (durationDataValid)="setDurationStepValidity($event)"
+      ></app-choose-duration>
+    </div>
+    <div>
+      <button mat-button matStepperNext [disabled]="!contactFormCompleted">
+        weiter
+      </button>
+    </div>
+  </mat-step>
+
   <mat-step [completed]="contactFormCompleted">
     <ng-template matStepLabel>Dein Daten</ng-template>
     <div class="step-inner">

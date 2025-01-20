@@ -21,6 +21,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
+import { ChooseDurationComponent } from '../choose-duration/choose-duration.component';
 
 @Component({
   selector: 'app-formstepper',
@@ -41,6 +42,7 @@ import { Router } from '@angular/router';
     ChooseTimeComponent,
     ChooseDateComponent,
     AddContactDataComponent,
+    ChooseDurationComponent,
   ],
   templateUrl: './formstepper.component.html',
   styleUrl: './formstepper.component.scss',
@@ -50,6 +52,7 @@ export class FormstepperComponent {
   dateFormatter = inject(DateFormatterService);
   dateSelected?: boolean;
   localDate: string = '';
+  durationFormCompleted = false;
   contactFormCompleted = false;
   dateFormCompleted = false;
 
@@ -61,6 +64,10 @@ export class FormstepperComponent {
 
   setContactStepValidity(event: boolean) {
     this.contactFormCompleted = event;
+  }
+
+  setDurationStepValidity(event: boolean) {
+    this.durationFormCompleted = event;
   }
 
   addTime(time: string) {
