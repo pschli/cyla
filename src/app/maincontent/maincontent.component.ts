@@ -30,17 +30,17 @@ export class MaincontentComponent implements OnInit {
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
     this.token = routeParams.get('token');
-    if (this.token) this.getDurations(this.token);
+    if (this.token) this.getId(this.token);
   }
 
-  private getDurations(idLink: string) {
-    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/getIdFromToken';
+  private getId(idLink: string) {
+    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/getidfromtoken';
     let params = { idLink: idLink };
     this.uidSub = this.http
       .get(url, { params: params, responseType: 'json' })
       .subscribe((response) => {
         let returnValue: any = response;
-        if (returnValue.uid) {
+        if (returnValue) {
           this.uid = returnValue.uid;
         } else {
           this.router.navigateByUrl('invalidUserlink');

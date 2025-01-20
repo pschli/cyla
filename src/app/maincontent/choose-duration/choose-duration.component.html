@@ -1,1 +1,4 @@
-<p>choose-duration works!</p>
+@let durations = durations$ | async; @for (duration of durations; track
+duration.name) { {{ duration.name }}: {{ duration.duration }}
+
+}
