@@ -1,4 +1,18 @@
-@let durations = durations$ | async; @for (duration of durations; track
-duration.name) { {{ duration.name }}: {{ duration.duration }}
+@let durations = durations$ | async;
 
-}
+<mat-form-field class="select-form">
+  <mat-label>Termindauer</mat-label>
+  <mat-select
+    class="select-form"
+    [formControl]="selection"
+    (selectionChange)="validateSelection()"
+  >
+    @for (duration of durations; track duration.name) {
+    <mat-option [value]="duration.duration"
+      >{{ duration.name }}: {{ duration.duration }} Stunden</mat-option
+    >
+    } </mat-select
+  >@if (selection.invalid) {
+  <mat-error>Bitte Termindauer auswählen</mat-error>
+  }
+</mat-form-field>

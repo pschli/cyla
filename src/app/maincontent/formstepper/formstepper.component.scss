@@ -17,6 +17,10 @@ h3 {
     height: 100%;
     flex: 1;
   }
+  app-choose-duration {
+    width: calc(100% - 24px);
+    margin-right: 24px;
+  }
 }
 
 .left {
