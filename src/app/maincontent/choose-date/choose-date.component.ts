@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   inject,
+  Input,
   Output,
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -29,6 +30,7 @@ import { DateFormatterService } from '../../services/date-formatter.service';
   styleUrl: './choose-date.component.scss',
 })
 export class ChooseDateComponent {
+  @Input() availableDays: Array<Date> = [];
   date = new FormGroup({
     dateSelected: new FormControl<Date | null>(null),
   });
@@ -36,19 +38,12 @@ export class ChooseDateComponent {
   scheduledMeeting = inject(AppointmentInfoService);
   dateFormatter = inject(DateFormatterService);
 
-  selectableDates: Date[] = [
-    new Date(2024, 10, 3), // 3. November 2024
-    new Date(2024, 10, 5), // 5. November 2024
-    new Date(2024, 10, 10), // 10. November 2024
-    new Date(2024, 10, 15), // 15. November 2024
-  ];
-
   myFilter = (d: Date | null): boolean => {
     if (!d) {
       return false;
     }
     const dateStr = d.toDateString();
-    return this.selectableDates.some((date) => date.toDateString() === dateStr);
+    return this.availableDays.some((date) => date.toDateString() === dateStr);
   };
 
   @Output() newDatepickerEvent = new EventEmitter<string>();

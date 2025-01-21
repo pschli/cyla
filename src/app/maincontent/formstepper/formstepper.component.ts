@@ -20,13 +20,18 @@ import { AddContactDataComponent } from '../add-contact-data/add-contact-data.co
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChooseDurationComponent } from '../choose-duration/choose-duration.component';
+import { filter, Observable, Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AsyncPipe } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-formstepper',
   standalone: true,
   imports: [
+    AsyncPipe,
     MatButtonModule,
     MatStepperModule,
     FormsModule,
@@ -51,16 +56,44 @@ export class FormstepperComponent {
   scheduledMeeting = inject(AppointmentInfoService);
   dateFormatter = inject(DateFormatterService);
   dateSelected?: boolean;
+  private token: string | null = null;
   localDate: string = '';
   durationFormCompleted = false;
   contactFormCompleted = false;
   dateFormCompleted = false;
+  timeslots$: Observable<any> = new Observable();
+  availableDates: Date[] = [];
+  availableTimes: string[] = [];
+  timeslotsDataset: Array<{ date: string; times: Array<string> }> = [];
+  availableDatesSub!: Subscription;
+  durationSub: Subscription = this.scheduledMeeting
+    .getDurationValue()
+    .subscribe((value) => {
+      if (value !== '') {
+        this.loadTimeSlots(value);
+      }
+    });
 
   legalCheck = new FormGroup({
     checked: new FormControl(false, [Validators.required]),
   });
 
-  constructor(private ref: ChangeDetectorRef, private router: Router) {}
+  constructor(
+    private ref: ChangeDetectorRef,
+    private router: Router,
+    private route: ActivatedRoute,
+    private http: HttpClient
+  ) {}
+
+  ngOnInit(): void {
+    const routeParams = this.route.snapshot.paramMap;
+    this.token = routeParams.get('token');
+  }
+
+  ngOnDestroy(): void {
+    this.durationSub.unsubscribe();
+    this.availableDatesSub.unsubscribe();
+  }
 
   setContactStepValidity(event: boolean) {
     this.contactFormCompleted = event;
@@ -68,6 +101,29 @@ export class FormstepperComponent {
 
   setDurationStepValidity(event: boolean) {
     this.durationFormCompleted = event;
+  }
+
+  loadTimeSlots(value: string) {
+    if (this.token) {
+      if (this.availableDatesSub) this.availableDatesSub.unsubscribe();
+      let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/getdatafromtoken';
+      let params = { idLink: this.token, duration: value };
+      this.timeslots$ = this.http.get(url, {
+        params: params,
+        responseType: 'json',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      this.availableDatesSub = this.timeslots$.subscribe((slots) => {
+        this.availableDates = [];
+        this.timeslotsDataset = slots.data;
+        slots.data.forEach((item: any) => {
+          this.availableDates.push(new Date(item.date));
+          console.log(this.availableDates);
+        });
+      });
+    }
   }
 
   addTime(time: string) {
@@ -86,6 +142,11 @@ export class FormstepperComponent {
 
   getTimeslots(chosenDate: string) {
     this.dateSelected = true;
+    const matchingSet = this.timeslotsDataset.filter(
+      (element) => element.date === chosenDate
+    );
+    this.availableTimes = matchingSet[0].times;
+    console.log(this.availableTimes);
     this.scheduledMeeting.data.time = '';
   }
 

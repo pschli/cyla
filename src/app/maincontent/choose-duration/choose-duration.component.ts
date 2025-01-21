@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import {
   FormControl,
   FormsModule,
@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AppointmentInfoService } from '../../services/appointment-info.service';
 
 @Component({
   selector: 'app-choose-duration',
@@ -32,6 +33,8 @@ export class ChooseDurationComponent {
 
   private token: string | null = null;
   durations$!: Observable<any>;
+
+  scheduledMeeting = inject(AppointmentInfoService);
 
   selection = new FormControl<string | null>(null, Validators.required);
 
@@ -58,8 +61,7 @@ export class ChooseDurationComponent {
 
   validateSelection() {
     if (this.selection.valid && this.selection.value) {
-      console.log(this.selection.value);
-      // send Value to behavior Subject service -> load possible timeslots
+      this.scheduledMeeting.updateDurationValue(this.selection.value);
       this.durationDataValid.emit(true);
     }
   }

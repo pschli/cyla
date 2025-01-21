@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { AppointmentInfoService } from '../../services/appointment-info.service';
@@ -11,12 +11,15 @@ import { AppointmentInfoService } from '../../services/appointment-info.service'
   styleUrl: './choose-time.component.scss',
 })
 export class ChooseTimeComponent {
-  chosenTime: string = '';
-  timeslots: string[] = ['15.00', '15.30', '16.00', '16.30'];
-
   scheduledMeeting = inject(AppointmentInfoService);
 
+  @Input() availableTimes: string[] = [];
+
+  chosenTime: string = '';
+
   @Output() timeChosen = new EventEmitter<string>();
+
+  constructor() {}
 
   sendTime(value: string) {
     this.timeChosen.emit(value);

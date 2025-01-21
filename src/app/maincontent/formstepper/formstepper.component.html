@@ -19,7 +19,7 @@
   </mat-step>
 
   <mat-step [completed]="contactFormCompleted">
-    <ng-template matStepLabel>Dein Daten</ng-template>
+    <ng-template matStepLabel>Deine Daten</ng-template>
     <div class="step-inner">
       <app-add-contact-data
         (contactDataValid)="setContactStepValidity($event)"
@@ -36,11 +36,13 @@
     ><ng-template matStepLabel>Wähle Datum und Zeit</ng-template>
     <div class="step-inner">
       <app-choose-date
+        [availableDays]="availableDates"
         (newDatepickerEvent)="getTimeslots($event)"
         (newDateValidatorEvent)="checkDateValidity($event)"
       ></app-choose-date>
       @if (dateSelected){
       <app-choose-time
+        [availableTimes]="availableTimes"
         (timeChosen)="addTime($event)"
         class="choosetime"
       ></app-choose-time>

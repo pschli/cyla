@@ -4,8 +4,7 @@
   class="time-radio-group"
   [(ngModel)]="chosenTime"
   (change)="sendTime(chosenTime)"
->
-  @for (slot of timeslots; track slot) {
+  >@for (slot of availableTimes; track slot) {
   <mat-radio-button class="time-radio-button" [value]="slot">{{
     slot
   }}</mat-radio-button>
