@@ -22,16 +22,13 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChooseDurationComponent } from '../choose-duration/choose-duration.component';
-import { filter, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { AsyncPipe } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-formstepper',
   standalone: true,
   imports: [
-    AsyncPipe,
     MatButtonModule,
     MatStepperModule,
     FormsModule,
@@ -120,7 +117,6 @@ export class FormstepperComponent {
         this.timeslotsDataset = slots.data;
         slots.data.forEach((item: any) => {
           this.availableDates.push(new Date(item.date));
-          console.log(this.availableDates);
         });
       });
     }
@@ -146,19 +142,31 @@ export class FormstepperComponent {
       (element) => element.date === chosenDate
     );
     this.availableTimes = matchingSet[0].times;
-    console.log(this.availableTimes);
     this.scheduledMeeting.data.time = '';
   }
 
-  submitData() {
-    console.log(this.scheduledMeeting.data);
-    this.router.navigate(['/', 'success']).then(
-      (nav) => {
-        console.log(nav); // true if navigation is successful
-      },
-      (err) => {
-        console.log(err); // when there's an error
-      }
-    );
+  async submitData() {
+    let confirmation = await this.sendDataToBackend(this.scheduledMeeting.data);
+    if (confirmation) {
+      this.router.navigate(['/', 'success']).then(
+        (nav) => {
+          console.log(nav); // true if navigation is successful
+        },
+        (err) => {
+          console.log(err); // when there's an error
+        }
+      );
+    } else {
+      console.log('Unable to conform appointment');
+    }
+  }
+
+  async sendDataToBackend(data: {
+    date: string;
+    time: string;
+    name: string;
+    email: string;
+  }): Promise<boolean> {
+    return true;
   }
 }

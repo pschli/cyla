@@ -42,7 +42,7 @@ export class MaincontentComponent implements OnInit {
         let returnValue: any = response;
         if (returnValue) {
           this.uid = returnValue.uid;
-          console.log(this.uid);
+          if (!this.uid) this.router.navigateByUrl('invalidUserlink');
         } else {
           this.router.navigateByUrl('invalidUserlink');
         }
