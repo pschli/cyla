@@ -63,7 +63,7 @@ export class FormstepperComponent {
   availableTimes: string[] = [];
   timeslotsDataset: Array<{ date: string; times: Array<string> }> = [];
   availableDatesSub!: Subscription;
-  durationSub: Subscription = this.scheduledMeeting
+  private durationSub: Subscription = this.scheduledMeeting
     .getDurationValue()
     .subscribe((value) => {
       if (value !== '') {
@@ -157,7 +157,7 @@ export class FormstepperComponent {
         }
       );
     } else {
-      console.log('Unable to conform appointment');
+      console.log('Unable to confirm appointment');
     }
   }
 
@@ -167,6 +167,27 @@ export class FormstepperComponent {
     name: string;
     email: string;
   }): Promise<boolean> {
+    if (this.token) {
+      let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/savedata';
+      let params = {
+        idLink: this.token,
+        date: data.date,
+        time: data.time,
+        name: data.name,
+        email: data.email,
+      };
+      this.http
+        .get(url, {
+          params: params,
+          responseType: 'json',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .subscribe((result) => {
+          console.log(result);
+        });
+    }
     return true;
   }
 }

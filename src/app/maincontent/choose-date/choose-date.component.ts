@@ -14,6 +14,7 @@ import { DateAdapter } from '@angular/material/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AppointmentInfoService } from '../../services/appointment-info.service';
 import { DateFormatterService } from '../../services/date-formatter.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-choose-date',
@@ -37,6 +38,13 @@ export class ChooseDateComponent {
 
   scheduledMeeting = inject(AppointmentInfoService);
   dateFormatter = inject(DateFormatterService);
+  private durationSub: Subscription = this.scheduledMeeting
+    .getDurationValue()
+    .subscribe((value) => {
+      if (value !== '') {
+        this.resetDateSelection();
+      }
+    });
 
   myFilter = (d: Date | null): boolean => {
     if (!d) {
@@ -56,6 +64,10 @@ export class ChooseDateComponent {
     this.dateAdapter.getFirstDayOfWeek = () => {
       return 1;
     };
+  }
+
+  ngOnDestroy(): void {
+    this.durationSub.unsubscribe();
   }
 
   sendDate(dateString: string) {
@@ -91,5 +103,10 @@ export class ChooseDateComponent {
 
   handleInvalid() {
     this.newDateValidatorEvent.emit(false);
+  }
+
+  resetDateSelection() {
+    this.emptyField();
+    this.date.reset();
   }
 }
