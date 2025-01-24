@@ -89,7 +89,7 @@ export class FormstepperComponent {
 
   ngOnDestroy(): void {
     this.durationSub.unsubscribe();
-    this.availableDatesSub.unsubscribe();
+    if (this.availableDatesSub) this.availableDatesSub.unsubscribe();
   }
 
   setContactStepValidity(event: boolean) {
@@ -176,18 +176,23 @@ export class FormstepperComponent {
         name: data.name,
         email: data.email,
       };
-      this.http
-        .get(url, {
-          params: params,
-          responseType: 'json',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .subscribe((result) => {
-          console.log(result);
-        });
-    }
-    return true;
+      try {
+        this.http
+          .get(url, {
+            params: params,
+            responseType: 'json',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+          .subscribe((result) => {
+            console.log(result);
+          });
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    } else return false;
   }
 }
