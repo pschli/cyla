@@ -1,0 +1,22 @@
+h2 {
+  font-weight: 500;
+}
+
+.container {
+  min-height: calc(100vh - 96px);
+  width: 100%;
+}
+
+.content {
+  max-width: 1920px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+.inner {
+  margin-left: 80px;
+  margin-right: 80px;
+  margin-top: 80px;
+  width: 100%;
+}
