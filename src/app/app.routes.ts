@@ -7,10 +7,14 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { authGuard } from './services/auth.guard';
 import { InvalidUserlinkComponent } from './error-pages/invalid-userlink/invalid-userlink.component';
 import { UserPanelComponent } from './admin/user-panel/user-panel.component';
+import { ConfirmComponent } from './maincontent/confirm/confirm.component';
+import { CancelComponent } from './maincontent/cancel/cancel.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'schedule/:token', component: MaincontentComponent },
+  { path: 'confirm/:token', component: ConfirmComponent },
+  { path: 'cancel/:token', component: CancelComponent },
   { path: 'success', component: SuccessComponent },
   { path: 'learnmore', component: LearnmoreComponent },
   { path: 'invalidUserlink', component: InvalidUserlinkComponent },
