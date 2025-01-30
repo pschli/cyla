@@ -1,8 +1,15 @@
 <div class="container">
   <div class="content">
     <div class="inner">
-      <h2>Deine Terminbuchung wurde abgesagt</h2>
-      <p>Dein Termin: Daten</p>
+      <div>
+        @if (confirmState === "loading") {
+        <h2>Loading ...</h2>
+        } @else if (confirmState === "success") {
+        <h2>Deine Terminbuchung wurde abgesagt</h2>
+        } @else if (confirmState === "error") {
+        <h2>Es ist ein Fehler aufgetreten</h2>
+        }
+      </div>
     </div>
   </div>
 </div>

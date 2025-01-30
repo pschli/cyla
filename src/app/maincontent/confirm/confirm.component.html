@@ -1,8 +1,23 @@
 <div class="container">
   <div class="content">
     <div class="inner">
-      <h2>Deine Terminbuchung ist bestätigt</h2>
-      <p>Dein Termin: Daten</p>
+      <div>
+        @let response = confirmResponse$ | async; @if (response === null ) {
+        <h2>Loading ...</h2>
+        } @else {
+        <p>{{ response.response }}</p>
+        @switch (response.response) { @case ('confirmed') {
+        <h2>Deine Terminbuchung ist bestätigt</h2>
+        } @case ('already confirmed') {
+        <h2>Deine Terminbuchung wurde bereits bestätigt</h2>
+        } @case ('database error') {
+        <h2>Datenbank Fehler</h2>
+        } @case ('no timeslots available') {
+        <h2>Kein Termin mit diesen Daten verfügbar</h2>
+        } @case ('too late') {
+        <h2>Deine Reservierung ist bereits abgelaufen</h2>
+        } } }
+      </div>
     </div>
   </div>
 </div>

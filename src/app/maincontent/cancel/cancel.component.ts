@@ -14,7 +14,7 @@ export class CancelComponent implements OnInit {
   private router = inject(Router);
   private token: string | null = null;
   private cancelSub: Subscription | null = null;
-  private cancelValid: any;
+  confirmState: 'loading' | 'success' | 'error' = 'loading';
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
