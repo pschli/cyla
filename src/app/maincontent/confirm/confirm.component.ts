@@ -1,13 +1,14 @@
 import { AsyncPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-confirm',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, MatButtonModule],
   templateUrl: './confirm.component.html',
   styleUrl: './confirm.component.scss',
 })
@@ -15,8 +16,6 @@ export class ConfirmComponent implements OnInit {
   private router = inject(Router);
   private token: string | null = null;
   confirmResponse$: Observable<any> | null = null;
-  confirmState: 'loading' | 'success' | 'error' = 'loading';
-  message = '';
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
@@ -33,24 +32,5 @@ export class ConfirmComponent implements OnInit {
       params: params,
       responseType: 'json',
     });
-    // .subscribe((response: any) => {
-    //   switch (response.response) {
-    //     case 'success':
-    //       this.confirmState = 'success';
-    //       break;
-    //     case 'already confirmed':
-    //       this.confirmState = 'error';
-    //       break;
-    //     case 'database error':
-    //       this.confirmState = 'error';
-    //       break;
-    //     case 'no timeslots available':
-    //       this.confirmState = 'error';
-    //       break;
-    //     case 'too late':
-    //       this.confirmState = 'error';
-    //       break;
-    //   }
-    // });
   }
 }

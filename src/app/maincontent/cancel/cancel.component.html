@@ -2,12 +2,27 @@
   <div class="content">
     <div class="inner">
       <div>
-        @if (confirmState === "loading") {
-        <h2>Loading ...</h2>
-        } @else if (confirmState === "success") {
-        <h2>Deine Terminbuchung wurde abgesagt</h2>
-        } @else if (confirmState === "error") {
-        <h2>Es ist ein Fehler aufgetreten</h2>
+        @let response = cancelResponse$ | async; @if (response === null ) {
+        <div class="df">
+          <h2>Loading</h2>
+          <div class="loader"></div>
+        </div>
+        } @else { @switch (response.response) { @case ("canceled") {
+        <h2>Terminbuchung erfolgreich storniert</h2>
+        } @case ('already confirmed') {
+        <h2>Deine Terminbuchung wurde bereits bestätigt</h2>
+        } @case ('database error') {
+        <h2>Datenbank Fehler</h2>
+        } @case ("no matching timeslots") {
+        <h2>Kein Termin mit diesen Daten verfügbar</h2>
+        } @case ('too late') {
+        <h2>Es ist zu spät, den Termin zu stornieren</h2>
+        <p>
+          Bitte kontaktiere deinen Kontakt persönlich, um den Termin zu
+          abzusagen.
+        </p>
+        } }
+        <button mat-flat-button color="primary">Zur Homepage</button>
         }
       </div>
     </div>
