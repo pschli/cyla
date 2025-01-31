@@ -12,6 +12,7 @@ import { map, Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { AsyncPipe } from '@angular/common';
+import { UpcomingListElementComponent } from './upcoming-list-element/upcoming-list-element.component';
 
 @Component({
   selector: 'app-user-panel',
@@ -24,6 +25,7 @@ import { AsyncPipe } from '@angular/common';
     MatIconModule,
     MatDividerModule,
     RouterLink,
+    UpcomingListElementComponent,
   ],
   templateUrl: './user-panel.component.html',
   styleUrl: './user-panel.component.scss',

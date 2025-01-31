@@ -63,6 +63,21 @@ export class DateFormatterService {
     return localDate;
   }
 
+  getShortDate(dateString: string) {
+    let localDate: string = '';
+    const options: Intl.DateTimeFormatOptions | undefined = {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    };
+    if (dateString) {
+      let date = new Date(dateString);
+      localDate = date.toLocaleDateString('de-DE', options);
+    }
+    return localDate;
+  }
+
   findSeparators(inputValue: string) {
     let separators = inputValue.match(/[^0-9]/g);
     if (separators && separators.length === 2) {

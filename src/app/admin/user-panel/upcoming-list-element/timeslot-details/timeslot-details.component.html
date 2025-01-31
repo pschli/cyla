@@ -1,0 +1,11 @@
+@let userDetails = contacts$ | async; @if (userDetails) {
+<div>
+  <span class="desc">Name: </span
+  ><span class="content">{{ userDetails.name }}</span>
+</div>
+<div>
+  <span class="desc">E-Mail: </span
+  ><span class="content">{{ userDetails.email }}</span>
+</div>
+
+}

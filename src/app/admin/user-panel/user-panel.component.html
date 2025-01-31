@@ -13,7 +13,9 @@
           ><mat-card-content>
             @for (appointment of appointments; track $index) { @if ($index <
             (pageIndex + 1) * 3 && $index >= pageIndex * 3) {
-            <div>{{ appointment.date }}</div>
+            <app-upcoming-list-element
+              [item]="appointment"
+            ></app-upcoming-list-element>
             } }</mat-card-content
           >
           <mat-card-actions align="end"
