@@ -1,6 +1,6 @@
 h4 {
   font-size: 24px;
-  font-weight: 200;
+  font-weight: 300;
   margin-bottom: 8px;
   margin-top: 12px;
 }
@@ -22,6 +22,5 @@ span.time {
 
 .single:hover {
   cursor: pointer;
-  //   background-color: rgba(30, 30, 30, 0.2);
   background: var(--mat-expansion-header-hover-state-layer-color);
 }
