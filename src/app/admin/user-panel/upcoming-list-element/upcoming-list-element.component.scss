@@ -8,12 +8,20 @@ h4 {
 div {
   display: flex;
   align-items: top;
-
-  margin-top: 12px;
+  margin-top: 4px;
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 4px 16px;
 }
 
 span.time {
   font-size: 16px;
   font-weight: 600;
   width: 100px;
+}
+
+.single:hover {
+  cursor: pointer;
+  //   background-color: rgba(30, 30, 30, 0.2);
+  background: var(--mat-expansion-header-hover-state-layer-color);
 }

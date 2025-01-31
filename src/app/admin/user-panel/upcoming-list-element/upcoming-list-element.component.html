@@ -2,7 +2,7 @@
 
 @for (time of item.times; track $index) { @if (time.taken && time.appointment) {
 @if (time.appointment.token) {
-<div>
+<div class="single">
   <span class="time">{{ time.time }} Uhr</span>
   <app-timeslot-details [token]="time.appointment.token"></app-timeslot-details>
 </div>
