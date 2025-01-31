@@ -24,6 +24,7 @@ mat-expansion-panel,
 
 .reserved {
   background: hsl(from var(--mat-snack-bar-button-color) h s l / 30%);
+  color: black;
 }
 
 .blocked {
@@ -33,5 +34,5 @@ mat-expansion-panel,
 
 .taken {
   background: var(--mat-snack-bar-button-color);
-  color: white;
+  color: black;
 }

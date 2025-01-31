@@ -11,11 +11,13 @@ import { DateFormatterService } from '../../services/date-formatter.service';
 import { map, Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-user-panel',
   standalone: true,
   imports: [
+    AsyncPipe,
     DatesInfoComponent,
     MatCardModule,
     MatButtonModule,
@@ -38,6 +40,7 @@ export class UserPanelComponent {
   monthLoaded = false;
   unsubUser?: Subscription;
   unsubAuth?: Subscription;
+  pageIndex = 0;
 
   constructor(public dialog: MatDialog) {
     this.userDates.dataLoaded.pipe(takeUntilDestroyed()).subscribe({
@@ -89,5 +92,16 @@ export class UserPanelComponent {
       this.monthsToDisplay.push(new Date(currentYear, currentMonth + i));
     }
     return true;
+  }
+
+  setPage(page: 'increment' | 'decrement') {
+    switch (page) {
+      case 'increment':
+        this.pageIndex++;
+        break;
+      case 'decrement':
+        this.pageIndex--;
+        break;
+    }
   }
 }

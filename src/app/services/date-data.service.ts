@@ -25,6 +25,7 @@ export class DateDataService implements OnDestroy {
   appointmentData$: Observable<UserDates[]>;
   orderedDates$: Observable<UserDates[]>;
   orderedAndValid$: Observable<UserDates[]>;
+  activeAppointments$: Observable<UserDates[]>;
 
   selected: Date[] = []; // dates selected in month display
   markedToEdit: Date[] = []; // dates selected in choose timeslots
@@ -50,6 +51,13 @@ export class DateDataService implements OnDestroy {
     this.orderedAndValid$ = this.orderedDates$.pipe(
       map((data) =>
         data.filter((date) => new Date(date.date) > new Date(Date.now()))
+      )
+    );
+    this.activeAppointments$ = this.orderedAndValid$.pipe(
+      map((data) =>
+        data.filter((date) =>
+          date.times.some((element) => element.taken === true)
+        )
       )
     );
     this.selectedSub = this.appointmentData$.subscribe((data) => {

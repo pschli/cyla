@@ -2,13 +2,13 @@ import { AsyncPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cancel',
   standalone: true,
-  imports: [AsyncPipe, MatButtonModule],
+  imports: [AsyncPipe, MatButtonModule, RouterLink],
   templateUrl: './cancel.component.html',
   styleUrl: './cancel.component.scss',
 })
