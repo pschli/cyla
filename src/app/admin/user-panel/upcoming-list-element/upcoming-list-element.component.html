@@ -1,9 +1,10 @@
 <h4>{{ formatDate(item.date) }}</h4>
 
 @for (time of item.times; track $index) { @if (time.taken && time.appointment) {
-@if (time.appointment.token) {
+@if (time.appointment.token && time.appointment.name && time.appointment.email)
+{
 <div class="single">
   <span class="time">{{ time.time }} Uhr</span>
-  <app-timeslot-details [token]="time.appointment.token"></app-timeslot-details>
+  <app-timeslot-details [appointment]="time.appointment"></app-timeslot-details>
 </div>
 } } }

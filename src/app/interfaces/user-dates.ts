@@ -8,6 +8,8 @@ export interface UserDates {
     taken: boolean;
     appointment?: {
       token: string | null;
+      name?: string;
+      email?: string;
     };
   }[];
 }
