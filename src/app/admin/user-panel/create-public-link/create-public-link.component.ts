@@ -108,6 +108,7 @@ export class CreatePublicLinkComponent implements OnInit {
         break;
       case 'data saved':
         console.log('data saved');
+        this.userDates.getPublicLink();
         break;
       case 'link exists':
         console.log('link exists');

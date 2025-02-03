@@ -87,7 +87,7 @@ export class DateDataService implements OnDestroy {
     const UserDocRef = doc(this.fs.firestore, 'users', this.fs.currentUid);
     let publicLinkSnap = await getDoc(UserDocRef);
     if (publicLinkSnap) {
-      this.publicLink = publicLinkSnap.data()?.['publiclink'];
+      this.publicLink = publicLinkSnap.data()?.['publicLink'];
     }
   }
 
