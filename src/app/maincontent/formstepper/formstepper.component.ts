@@ -148,16 +148,11 @@ export class FormstepperComponent {
   async submitData() {
     let confirmation = await this.sendDataToBackend(this.scheduledMeeting.data);
     if (confirmation) {
-      this.router.navigate(['/', 'success']).then(
-        (nav) => {
-          console.log(nav); // true if navigation is successful
-        },
-        (err) => {
-          console.log(err); // when there's an error
-        }
-      );
+      this.router.navigate(['/', 'success']).then((err) => {
+        console.error(err); // when there's an error
+      });
     } else {
-      console.log('Unable to confirm appointment');
+      console.error('Unable to confirm appointment');
     }
   }
 
@@ -177,17 +172,13 @@ export class FormstepperComponent {
         email: data.email,
       };
       try {
-        this.http
-          .get(url, {
-            params: params,
-            responseType: 'json',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-          .subscribe((result) => {
-            console.log(result);
-          });
+        this.http.get(url, {
+          params: params,
+          responseType: 'json',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         return true;
       } catch (err) {
         console.error(err);

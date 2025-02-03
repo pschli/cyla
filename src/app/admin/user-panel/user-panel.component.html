@@ -42,12 +42,19 @@
           </mat-card-actions>
         </mat-card>
       </div>
+      @let planned = userDates.orderedAndValid$ | async; @if (planned &&
+      planned.length > 0) {
       <div class="guiding-text">
         <span>Deine geplanten Verfügbarkeiten</span>
       </div>
       <div class="dates-info-container">
         <app-dates-info></app-dates-info>
       </div>
+      } @else {
+      <div class="guiding-text">
+        <span>Keine Verfügbarkeiten geplant</span>
+      </div>
+      }
       <button mat-fab extended [routerLink]="['plan']">
         <mat-icon>edit_calendar</mat-icon>Planen
       </button>

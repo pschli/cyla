@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { map } from 'rxjs/operators';
@@ -26,6 +26,7 @@ type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
   selector: 'app-admin-panel',
   standalone: true,
   imports: [
+    RouterLink,
     MatCardModule,
     MatButtonModule,
     MonthDisplayComponent,
