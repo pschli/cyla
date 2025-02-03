@@ -3,9 +3,13 @@ p {
 }
 
 .linktext {
-  font-size: 24px;
+  font-size: 20px;
   margin-bottom: 20px;
   margin-right: 4px;
+}
+
+.mat-headline {
+  font-size: 20px;
 }
 
 .linkrow {
@@ -17,4 +21,8 @@ p {
     margin-bottom: 20px;
     margin-left: 32px;
   }
+}
+
+mdc-text-field {
+  font-size: 20px;
 }

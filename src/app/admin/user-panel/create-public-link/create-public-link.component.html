@@ -6,8 +6,9 @@
     ><p>
       Unter diesem Link finden andere dein Terminangebot. Du kannst den Link
       verschicken, auf deine Website stellen oder auch in einen QR-Code drucken.
-      Erstelle ihn gern nach deinen Vorlieben. Wir schauen dann, ob er noch
-      verfügbar ist. Oder lass dir einfach einen zufälligen Link generieren.
+      Erstelle ihn gern nach deinen Vorlieben (Buchstaben, Zahlen, Binde- und
+      Unterstriche sind möglich). Wir schauen dann, ob er noch verfügbar ist.
+      Oder lass dir einfach einen zufälligen Link generieren.
     </p>
     <div class="linkrow">
       <span class="linktext">https://cyla.de/</span>
@@ -19,8 +20,9 @@
             matInput
             [formControl]="linkFormControl"
             placeholder="appointmentwithjoe"
+            [errorStateMatcher]="matcher"
           />
-          @if (linkFormControl.hasError('link') &&
+          @if (linkFormControl.hasError('pattern') &&
           !linkFormControl.hasError('required')) {
           <mat-error>Bitte gebe eine gültige Bezeichnung ein</mat-error>
           } @if (linkFormControl.hasError('required')) {
