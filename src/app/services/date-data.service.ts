@@ -1,9 +1,14 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { UserDates } from '../interfaces/user-dates';
-import { BehaviorSubject, filter, map, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
 import { DateFormatterService } from './date-formatter.service';
 import { FirestoreService } from './firestore.service';
-import { collection, collectionData } from '@angular/fire/firestore';
+import {
+  collection,
+  collectionData,
+  doc,
+  getDoc,
+} from '@angular/fire/firestore';
 
 interface TimeslotData {
   time: string;
@@ -30,6 +35,8 @@ export class DateDataService implements OnDestroy {
   selected: Date[] = []; // dates selected in month display
   markedToEdit: Date[] = []; // dates selected in choose timeslots
 
+  publicLink: string = '';
+
   dataLoaded = new BehaviorSubject<string | undefined>(undefined);
 
   selectedSub?: Subscription;
@@ -39,6 +46,7 @@ export class DateDataService implements OnDestroy {
       this.fs.firestore,
       `data/${this.fs.currentUid}/datesCol`
     );
+
     this.appointmentData$ = collectionData(DateCollection) as Observable<any>;
     this.orderedDates$ = this.appointmentData$.pipe(
       map((data) => {
@@ -68,10 +76,19 @@ export class DateDataService implements OnDestroy {
       this.updateDates();
       this.dataLoaded.next('loaded');
     });
+    this.getPublicLink();
   }
 
   ngOnDestroy(): void {
     this.selectedSub?.unsubscribe();
+  }
+
+  async getPublicLink() {
+    const UserDocRef = doc(this.fs.firestore, 'users', this.fs.currentUid);
+    let publicLinkSnap = await getDoc(UserDocRef);
+    if (publicLinkSnap) {
+      this.publicLink = publicLinkSnap.data()?.['publiclink'];
+    }
   }
 
   getComparableDates(

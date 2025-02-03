@@ -2,6 +2,7 @@
   <div class="content">
     <div class="inner">
       <h1>Willkommen {{ user }}</h1>
+      <p>Public Link: {{ userDates.publicLink }}</p>
       <div>
         @let appointments = userDates.activeAppointments$ | async;
         <mat-card appearance="outlined"

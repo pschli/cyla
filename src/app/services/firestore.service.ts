@@ -6,6 +6,7 @@ import {
   DocumentReference,
   Firestore,
   setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
 
 interface DurationPayload {
@@ -36,9 +37,21 @@ export class FirestoreService {
         email: email,
         firstname: firstname,
         lastname: lastname,
+        publiclink: '',
       });
     } catch (e) {
       console.error('Error saving user data:', e);
+    }
+  }
+
+  async createPublicLink(uid: string, publicLink: string) {
+    if (!uid || !this.currentUid || uid !== this.currentUid) return;
+    try {
+      await updateDoc(doc(this.firestore, 'users', uid), {
+        publiclink: publicLink,
+      });
+    } catch (e) {
+      console.error('Error saving public link:', e);
     }
   }
 
@@ -57,6 +70,7 @@ export class FirestoreService {
   }
 
   async removeSelected(dateString: string) {
+    if (!this.currentUid) return;
     const dateRef: DocumentReference = doc(
       this.firestore,
       'data',
@@ -86,6 +100,7 @@ export class FirestoreService {
   }
 
   async removeDuration(duration: string) {
+    if (!this.currentUid) return;
     const dateRef: DocumentReference = doc(
       this.firestore,
       'data',
