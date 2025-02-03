@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroupDirective,
@@ -12,6 +12,12 @@ import { MatCardModule } from '@angular/material/card';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { DateDataService } from '../../../services/date-data.service';
+import { lastValueFrom, Observable, Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { FirestoreService } from '../../../services/firestore.service';
+
+type LinkResponse = 'error' | 'saved' | 'exists';
 
 export class LinkErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -41,7 +47,11 @@ export class LinkErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './create-public-link.component.html',
   styleUrl: './create-public-link.component.scss',
 })
-export class CreatePublicLinkComponent {
+export class CreatePublicLinkComponent implements OnInit {
+  userDates = inject(DateDataService);
+  fs = inject(FirestoreService);
+  linkResponse$: Observable<any> | null = null;
+  linkResponseSub?: Subscription;
   regex = /^[a-zA-Z0-9_-]*$/;
   linkFormControl = new FormControl('', [
     Validators.pattern(this.regex),
@@ -50,13 +60,59 @@ export class CreatePublicLinkComponent {
 
   matcher = new LinkErrorStateMatcher();
 
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.linkResponseSub = this.linkResponse$?.subscribe((responses) => {
+      console.log(responses);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.linkResponseSub?.unsubscribe();
+  }
+
   generateLink() {
     const link = this.generateUID();
     this.linkFormControl.setValue(link);
   }
 
-  sendLink() {
+  async sendLink() {
+    console.log(this.linkFormControl.value);
     const link = this.linkFormControl.value;
+    if (link) {
+      let linkState = await this.sendPublicLink(link);
+      this.handleResponse(linkState);
+    }
+  }
+
+  async sendPublicLink(link: string) {
+    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/linkidtotoken';
+    let params = { idLink: link, uid: this.fs.currentUid };
+    console.log('sending:', link, url, params);
+    try {
+      const response: any = await lastValueFrom(
+        this.http.get(url, { params, responseType: 'json' })
+      );
+      return response.response.toString();
+    } catch (err) {
+      console.error('Error:', err);
+      return 'error';
+    }
+  }
+
+  handleResponse(linkState: string) {
+    switch (linkState) {
+      case 'error':
+        console.log('error');
+        break;
+      case 'data saved':
+        console.log('data saved');
+        break;
+      case 'link exists':
+        console.log('link exists');
+        break;
+    }
   }
 
   generateUID(): string {
