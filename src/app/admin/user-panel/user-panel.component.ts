@@ -13,11 +13,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { AsyncPipe } from '@angular/common';
 import { UpcomingListElementComponent } from './upcoming-list-element/upcoming-list-element.component';
+import { CreatePublicLinkComponent } from './create-public-link/create-public-link.component';
 
 @Component({
   selector: 'app-user-panel',
   standalone: true,
   imports: [
+    CreatePublicLinkComponent,
     AsyncPipe,
     DatesInfoComponent,
     MatCardModule,

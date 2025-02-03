@@ -1,0 +1,43 @@
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title> Erstelle deinen öffentlichen Link</mat-card-title>
+  </mat-card-header>
+  <mat-card-content
+    ><p>
+      Unter diesem Link finden andere dein Terminangebot. Du kannst den Link
+      verschicken, auf deine Website stellen oder auch in einen QR-Code drucken.
+      Erstelle ihn gern nach deinen Vorlieben. Wir schauen dann, ob er noch
+      verfügbar ist. Oder lass dir einfach einen zufälligen Link generieren.
+    </p>
+    <div class="linkrow">
+      <span class="linktext">https://cyla.de/</span>
+      <form>
+        <mat-form-field>
+          <mat-label>Link</mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="linkFormControl"
+            placeholder="appointmentwithjoe"
+          />
+          @if (linkFormControl.hasError('link') &&
+          !linkFormControl.hasError('required')) {
+          <mat-error>Bitte gebe eine gültige Bezeichnung ein</mat-error>
+          } @if (linkFormControl.hasError('required')) {
+          <mat-error>Link wird <strong>benötigt</strong></mat-error>
+          }
+        </mat-form-field>
+      </form>
+      <div class="buttons">
+        <button
+          mat-flat-button
+          (click)="sendLink()"
+          [disabled]="linkFormControl.invalid"
+        >
+          übernehmen
+        </button>
+        <button mat-button (click)="generateLink()">zufällig</button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

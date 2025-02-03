@@ -1,0 +1,20 @@
+p {
+  line-height: 137%;
+}
+
+.linktext {
+  font-size: 24px;
+  margin-bottom: 20px;
+  margin-right: 4px;
+}
+
+.linkrow {
+  display: flex;
+  align-items: center;
+  > .buttons {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    margin-left: 32px;
+  }
+}
