@@ -11,7 +11,7 @@ import { DateFormatterService } from '../../services/date-formatter.service';
 import { map, Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { UpcomingListElementComponent } from './upcoming-list-element/upcoming-list-element.component';
 import { CreatePublicLinkComponent } from './create-public-link/create-public-link.component';
 
@@ -20,6 +20,7 @@ import { CreatePublicLinkComponent } from './create-public-link/create-public-li
   standalone: true,
   imports: [
     CreatePublicLinkComponent,
+    NgIf,
     AsyncPipe,
     DatesInfoComponent,
     MatCardModule,

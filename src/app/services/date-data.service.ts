@@ -1,6 +1,13 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { UserDates } from '../interfaces/user-dates';
-import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  from,
+  map,
+  Observable,
+  Subscription,
+  tap,
+} from 'rxjs';
 import { DateFormatterService } from './date-formatter.service';
 import { FirestoreService } from './firestore.service';
 import {
@@ -24,7 +31,7 @@ interface TimeslotData {
 @Injectable({
   providedIn: 'root',
 })
-export class DateDataService implements OnDestroy {
+export class DateDataService implements OnDestroy, OnInit {
   dateFormatter = inject(DateFormatterService);
   fs = inject(FirestoreService);
   appointmentData$: Observable<UserDates[]>;
@@ -35,7 +42,8 @@ export class DateDataService implements OnDestroy {
   selected: Date[] = []; // dates selected in month display
   markedToEdit: Date[] = []; // dates selected in choose timeslots
 
-  publicLink: string = '';
+  publicLink$ = new BehaviorSubject<string | null>(null);
+  linkLoaded$ = new BehaviorSubject<boolean>(false);
 
   dataLoaded = new BehaviorSubject<string | undefined>(undefined);
 
@@ -79,16 +87,26 @@ export class DateDataService implements OnDestroy {
     this.getPublicLink();
   }
 
+  ngOnInit(): void {}
+
   ngOnDestroy(): void {
     this.selectedSub?.unsubscribe();
   }
 
-  async getPublicLink() {
+  getPublicLink() {
+    this.linkLoaded$.next(false);
     const UserDocRef = doc(this.fs.firestore, 'users', this.fs.currentUid);
-    let publicLinkSnap = await getDoc(UserDocRef);
-    if (publicLinkSnap) {
-      this.publicLink = publicLinkSnap.data()?.['publicLink'];
-    }
+
+    from(getDoc(UserDocRef))
+      .pipe(
+        map((docSnap) =>
+          docSnap.exists() ? docSnap.data()?.['publiclink'] : null
+        ),
+        tap(() => this.linkLoaded$.next(true))
+      )
+      .subscribe((publicLink) => {
+        this.publicLink$.next(publicLink);
+      });
   }
 
   getComparableDates(

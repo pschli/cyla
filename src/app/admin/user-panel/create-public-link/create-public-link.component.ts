@@ -82,6 +82,7 @@ export class CreatePublicLinkComponent implements OnInit {
     const link = this.linkFormControl.value;
     if (link) {
       let linkState = await this.sendPublicLink(link);
+      console.log(linkState);
       this.handleResponse(linkState);
     }
   }
@@ -89,7 +90,6 @@ export class CreatePublicLinkComponent implements OnInit {
   async sendPublicLink(link: string) {
     let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/linkidtotoken';
     let params = { idLink: link, uid: this.fs.currentUid };
-    console.log('sending:', link, url, params);
     try {
       const response: any = await lastValueFrom(
         this.http.get(url, { params, responseType: 'json' })
