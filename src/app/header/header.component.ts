@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LoginComponent } from '../dialog/login/login.component';
 import { MatButtonModule } from '@angular/material/button';
-import { LogoutService } from '../services/logout.service';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +20,7 @@ import { LogoutService } from '../services/logout.service';
 })
 export class HeaderComponent {
   authService = inject(AuthService);
-  logoutService = inject(LogoutService);
+
   router = inject(Router);
   private _snackBar = inject(MatSnackBar);
 
@@ -31,7 +30,6 @@ export class HeaderComponent {
   constructor(private dialogRef: MatDialog, public dialog: MatDialog) {}
 
   async logout() {
-    this.logoutService.requestUpdate();
     this.authService.logout();
     // this._snackBar.open('Erfolgreich ausgeloggt', 'OK', {
     //   horizontalPosition: 'center',

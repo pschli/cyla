@@ -11,7 +11,6 @@ import { from, Observable } from 'rxjs';
 import { UserInterface } from '../interfaces/user.interface';
 import { FirestoreService } from './firestore.service';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { LogoutService } from './logout.service';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -21,7 +20,6 @@ export class AuthService {
   router = inject(Router);
   firebaseAuth = inject(Auth);
   fs = inject(FirestoreService);
-  logoutService = inject(LogoutService);
   user$ = user(this.firebaseAuth);
   currentUserSig = signal<UserInterface | null | undefined>(undefined);
   auth = getAuth();

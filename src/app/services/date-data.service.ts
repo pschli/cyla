@@ -16,7 +16,6 @@ import {
   doc,
   getDoc,
 } from '@angular/fire/firestore';
-import { LogoutService } from './logout.service';
 
 interface TimeslotData {
   time: string;
@@ -35,7 +34,6 @@ interface TimeslotData {
 export class DateDataService implements OnDestroy, OnInit {
   dateFormatter = inject(DateFormatterService);
   fs = inject(FirestoreService);
-  logoutService = inject(LogoutService);
   appointmentData$: Observable<UserDates[]> = new Observable();
   orderedDates$: Observable<UserDates[]> = new Observable();
   orderedAndValid$: Observable<UserDates[]> = new Observable();
@@ -48,10 +46,6 @@ export class DateDataService implements OnDestroy, OnInit {
   linkLoaded$ = new BehaviorSubject<boolean>(false);
 
   dataLoaded = new BehaviorSubject<string | undefined>(undefined);
-
-  logoutTrigger = this.logoutService.getTrigger().subscribe((trigger) => {
-    if (trigger === 1) this.resetAllOnLogout();
-  });
 
   selectedSub?: Subscription;
 
@@ -99,7 +93,6 @@ export class DateDataService implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.selectedSub?.unsubscribe();
-    this.logoutTrigger.unsubscribe();
   }
 
   getPublicLink() {
@@ -191,13 +184,5 @@ export class DateDataService implements OnDestroy, OnInit {
     });
     if (errors > 0) return true;
     else return false;
-  }
-
-  resetAllOnLogout() {
-    console.log('reset');
-    this.appointmentData$ = new Observable();
-    this.orderedDates$ = new Observable();
-    this.orderedAndValid$ = new Observable();
-    this.activeAppointments$ = new Observable();
   }
 }
