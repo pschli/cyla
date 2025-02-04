@@ -11,13 +11,17 @@ import { from, Observable } from 'rxjs';
 import { UserInterface } from '../interfaces/user.interface';
 import { FirestoreService } from './firestore.service';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { LogoutService } from './logout.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  router = inject(Router);
   firebaseAuth = inject(Auth);
   fs = inject(FirestoreService);
+  logoutService = inject(LogoutService);
   user$ = user(this.firebaseAuth);
   currentUserSig = signal<UserInterface | null | undefined>(undefined);
   auth = getAuth();
@@ -57,14 +61,16 @@ export class AuthService {
       password
     ).then((response) => {
       this.fs.currentUid = response.user.uid;
-      console.log(response.user.uid);
     });
     return from(promise);
   }
 
   logout(): Observable<void> {
     this.fs.currentUid = '';
-    const promise = signOut(this.firebaseAuth);
+    const promise = signOut(this.firebaseAuth).then(() => {
+      this.router.navigateByUrl('');
+      window.location.reload();
+    });
     return from(promise);
   }
 }

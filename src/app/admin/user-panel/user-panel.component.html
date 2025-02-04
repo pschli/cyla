@@ -8,7 +8,7 @@
           <div>
             @let appointments = userDates.activeAppointments$ | async;
             <mat-card appearance="outlined"
-              >@if (appointments) {
+              >@if (appointments) { @if (appointments.length > 0) {
               <mat-card-header>
                 <mat-card-title
                   >Deine kommenden Termine</mat-card-title
@@ -34,7 +34,7 @@
                   >Keine kommenden Termine</mat-card-title
                 ></mat-card-header
               >
-              }
+              } }
             </mat-card>
             <mat-card appearance="outlined">
               <mat-card-header

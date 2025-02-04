@@ -16,6 +16,7 @@ import {
   doc,
   getDoc,
 } from '@angular/fire/firestore';
+import { LogoutService } from './logout.service';
 
 interface TimeslotData {
   time: string;
@@ -34,10 +35,11 @@ interface TimeslotData {
 export class DateDataService implements OnDestroy, OnInit {
   dateFormatter = inject(DateFormatterService);
   fs = inject(FirestoreService);
-  appointmentData$: Observable<UserDates[]>;
-  orderedDates$: Observable<UserDates[]>;
-  orderedAndValid$: Observable<UserDates[]>;
-  activeAppointments$: Observable<UserDates[]>;
+  logoutService = inject(LogoutService);
+  appointmentData$: Observable<UserDates[]> = new Observable();
+  orderedDates$: Observable<UserDates[]> = new Observable();
+  orderedAndValid$: Observable<UserDates[]> = new Observable();
+  activeAppointments$: Observable<UserDates[]> = new Observable();
 
   selected: Date[] = []; // dates selected in month display
   markedToEdit: Date[] = []; // dates selected in choose timeslots
@@ -47,50 +49,57 @@ export class DateDataService implements OnDestroy, OnInit {
 
   dataLoaded = new BehaviorSubject<string | undefined>(undefined);
 
+  logoutTrigger = this.logoutService.getTrigger().subscribe((trigger) => {
+    if (trigger === 1) this.resetAllOnLogout();
+  });
+
   selectedSub?: Subscription;
 
   constructor() {
-    const DateCollection = collection(
-      this.fs.firestore,
-      `data/${this.fs.currentUid}/datesCol`
-    );
+    if (this.fs.currentUid) {
+      const DateCollection = collection(
+        this.fs.firestore,
+        `data/${this.fs.currentUid}/datesCol`
+      );
 
-    this.appointmentData$ = collectionData(DateCollection) as Observable<any>;
-    this.orderedDates$ = this.appointmentData$.pipe(
-      map((data) => {
-        data.sort((a, b) => {
-          return new Date(a.date) < new Date(b.date) ? -1 : 1;
-        });
-        return data;
-      })
-    );
-    this.orderedAndValid$ = this.orderedDates$.pipe(
-      map((data) =>
-        data.filter((date) => new Date(date.date) > new Date(Date.now()))
-      )
-    );
-    this.activeAppointments$ = this.orderedAndValid$.pipe(
-      map((data) =>
-        data.filter((date) =>
-          date.times.some((element) => element.taken === true)
+      this.appointmentData$ = collectionData(DateCollection) as Observable<any>;
+      this.orderedDates$ = this.appointmentData$.pipe(
+        map((data) => {
+          data.sort((a, b) => {
+            return new Date(a.date) < new Date(b.date) ? -1 : 1;
+          });
+          return data;
+        })
+      );
+      this.orderedAndValid$ = this.orderedDates$.pipe(
+        map((data) =>
+          data.filter((date) => new Date(date.date) > new Date(Date.now()))
         )
-      )
-    );
-    this.selectedSub = this.appointmentData$.subscribe((data) => {
-      this.selected = [];
-      data.forEach((element) => {
-        this.selected.push(new Date(element.date));
+      );
+      this.activeAppointments$ = this.orderedAndValid$.pipe(
+        map((data) =>
+          data.filter((date) =>
+            date.times.some((element) => element.taken === true)
+          )
+        )
+      );
+      this.selectedSub = this.appointmentData$.subscribe((data) => {
+        this.selected = [];
+        data.forEach((element) => {
+          this.selected.push(new Date(element.date));
+        });
+        this.updateDates();
+        this.dataLoaded.next('loaded');
       });
-      this.updateDates();
-      this.dataLoaded.next('loaded');
-    });
-    this.getPublicLink();
+      this.getPublicLink();
+    }
   }
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.selectedSub?.unsubscribe();
+    this.logoutTrigger.unsubscribe();
   }
 
   getPublicLink() {
@@ -182,5 +191,13 @@ export class DateDataService implements OnDestroy, OnInit {
     });
     if (errors > 0) return true;
     else return false;
+  }
+
+  resetAllOnLogout() {
+    console.log('reset');
+    this.appointmentData$ = new Observable();
+    this.orderedDates$ = new Observable();
+    this.orderedAndValid$ = new Observable();
+    this.activeAppointments$ = new Observable();
   }
 }
