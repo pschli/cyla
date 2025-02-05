@@ -8,7 +8,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, inject, ViewEncapsulation } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -20,6 +20,7 @@ import {
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
+  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogContent,
   MatDialogRef,
@@ -124,7 +125,7 @@ interface TimeslotData {
   styleUrl: './edit-timeslots.component.scss',
 })
 export class EditTimeslotsComponent {
-  dateservice = inject(DateDataService);
+  dateservice: any;
   durationService = inject(DurationsService);
   durations$ = this.durationService.getValues();
   tsh = inject(TimeslotSavedHandlerService);
@@ -159,7 +160,11 @@ export class EditTimeslotsComponent {
   animationEnded: boolean = false;
   cancelHoverIndex: number = -1;
 
-  constructor(public dialogRef: MatDialogRef<EditTimeslotsComponent>) {
+  constructor(
+    public dialogRef: MatDialogRef<EditTimeslotsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.dateservice = data.dateservice;
     for (let hour = 0; hour < 24; hour++) {
       let hourString = '';
       hourString = hour.toString();
