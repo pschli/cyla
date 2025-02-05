@@ -37,6 +37,7 @@ type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
     MatTabsModule,
     DurationSettingComponent,
   ],
+
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.scss',
 })

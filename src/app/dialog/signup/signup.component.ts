@@ -199,7 +199,7 @@ export class SignupComponent {
       )
       .subscribe({
         next: () => {
-          this.router.navigateByUrl('admin');
+          this.router.navigateByUrl('admin/overview');
           this.formData.reset();
           this.dialogRef.close();
         },

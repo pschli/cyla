@@ -29,7 +29,7 @@ interface TimeslotData {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: null,
 })
 export class DateDataService implements OnDestroy, OnInit {
   dateFormatter = inject(DateFormatterService);

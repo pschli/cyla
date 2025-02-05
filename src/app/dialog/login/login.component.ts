@@ -105,7 +105,7 @@ export class LoginComponent {
     if (rawData.email && rawData.password)
       this.authService.login(rawData.email, rawData.password).subscribe({
         next: () => {
-          this.router.navigateByUrl('admin');
+          this.router.navigateByUrl('admin/overview');
           this.formData.reset();
           this.dialogRef.close();
         },

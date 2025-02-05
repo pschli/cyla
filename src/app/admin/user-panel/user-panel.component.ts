@@ -30,6 +30,7 @@ import { CreatePublicLinkComponent } from './create-public-link/create-public-li
     RouterLink,
     UpcomingListElementComponent,
   ],
+
   templateUrl: './user-panel.component.html',
   styleUrl: './user-panel.component.scss',
 })

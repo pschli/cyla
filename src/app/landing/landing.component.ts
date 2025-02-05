@@ -27,7 +27,7 @@ export class LandingComponent implements OnInit {
           email: user.email!,
           username: user.displayName!,
         });
-        this.router.navigateByUrl('admin');
+        this.router.navigateByUrl('admin/overview');
       } else {
         this.authService.currentUserSig.set(null);
       }

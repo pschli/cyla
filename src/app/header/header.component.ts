@@ -31,11 +31,11 @@ export class HeaderComponent {
 
   async logout() {
     this.authService.logout();
-    // this._snackBar.open('Erfolgreich ausgeloggt', 'OK', {
-    //   horizontalPosition: 'center',
-    //   verticalPosition: 'top',
-    //   duration: 5000,
-    // });
+    this._snackBar.open('Erfolgreich ausgeloggt', 'OK', {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 5000,
+    });
   }
 
   login() {

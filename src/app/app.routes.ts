@@ -9,6 +9,7 @@ import { InvalidUserlinkComponent } from './error-pages/invalid-userlink/invalid
 import { UserPanelComponent } from './admin/user-panel/user-panel.component';
 import { ConfirmComponent } from './maincontent/confirm/confirm.component';
 import { CancelComponent } from './maincontent/cancel/cancel.component';
+import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -18,11 +19,23 @@ export const routes: Routes = [
   { path: 'success', component: SuccessComponent },
   { path: 'learnmore', component: LearnmoreComponent },
   { path: 'invalidUserlink', component: InvalidUserlinkComponent },
-  { path: 'admin', component: UserPanelComponent, canActivate: [authGuard] },
   {
-    path: 'admin/plan',
-    component: AdminPanelComponent,
+    path: 'admin',
+    component: AdminComponent,
     canActivate: [authGuard],
+    children: [
+      {
+        path: 'plan',
+        component: AdminPanelComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'overview',
+        component: UserPanelComponent,
+        canActivate: [authGuard],
+      },
+    ],
   },
+
   { path: '**', component: LandingComponent },
 ];
