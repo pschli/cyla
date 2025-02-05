@@ -2,7 +2,9 @@ import { inject, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { UserDates } from '../interfaces/user-dates';
 import {
   BehaviorSubject,
+  firstValueFrom,
   from,
+  lastValueFrom,
   map,
   Observable,
   Subscription,
@@ -48,6 +50,7 @@ export class DateDataService implements OnDestroy, OnInit {
   dataLoaded = new BehaviorSubject<string | undefined>(undefined);
 
   selectedSub?: Subscription;
+  linkSub?: Subscription;
 
   constructor() {
     if (this.fs.currentUid) {
@@ -93,22 +96,29 @@ export class DateDataService implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.selectedSub?.unsubscribe();
+    if (this.linkSub) {
+      this.linkSub?.unsubscribe();
+    }
   }
 
-  getPublicLink() {
+  async getPublicLink() {
+    if (this.linkSub) {
+      this.linkSub?.unsubscribe();
+    }
     this.linkLoaded$.next(false);
     const UserDocRef = doc(this.fs.firestore, 'users', this.fs.currentUid);
 
-    from(getDoc(UserDocRef))
-      .pipe(
-        map((docSnap) =>
-          docSnap.exists() ? docSnap.data()?.['publiclink'] : null
-        ),
-        tap(() => this.linkLoaded$.next(true))
-      )
-      .subscribe((publicLink) => {
+    const publicLink$ = from(getDoc(UserDocRef)).pipe(
+      map((docSnap) =>
+        docSnap.exists() ? docSnap.data()?.['publiclink'] : null
+      ),
+      tap((publicLink) => {
         this.publicLink$.next(publicLink);
-      });
+        this.linkLoaded$.next(true);
+      })
+    );
+
+    this.linkSub = publicLink$.subscribe();
   }
 
   getComparableDates(

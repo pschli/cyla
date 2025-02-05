@@ -33,7 +33,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { merge } from 'rxjs';
-import { DateDataService } from '../../../../services/date-data.service';
 import { TimeslotSavedHandlerService } from '../../../../services/timeslot-saved-handler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DurationsService } from '../../../../services/durations.service';

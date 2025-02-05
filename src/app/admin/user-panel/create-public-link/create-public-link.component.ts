@@ -16,6 +16,7 @@ import { DateDataService } from '../../../services/date-data.service';
 import { lastValueFrom, Observable, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { FirestoreService } from '../../../services/firestore.service';
+import { Router } from '@angular/router';
 
 type LinkResponse = 'error' | 'saved' | 'exists';
 
@@ -49,6 +50,7 @@ export class LinkErrorStateMatcher implements ErrorStateMatcher {
 })
 export class CreatePublicLinkComponent implements OnInit {
   userDates = inject(DateDataService);
+  router = inject(Router);
   fs = inject(FirestoreService);
   linkResponse$: Observable<any> | null = null;
   linkResponseSub?: Subscription;
@@ -82,8 +84,7 @@ export class CreatePublicLinkComponent implements OnInit {
     const link = this.linkFormControl.value;
     if (link) {
       let linkState = await this.sendPublicLink(link);
-      console.log(linkState);
-      this.handleResponse(linkState);
+      this.handleResponse(linkState, link);
     }
   }
 
@@ -101,14 +102,15 @@ export class CreatePublicLinkComponent implements OnInit {
     }
   }
 
-  handleResponse(linkState: string) {
+  handleResponse(linkState: string, link: string) {
     switch (linkState) {
       case 'error':
         console.log('error');
         break;
       case 'data saved':
         console.log('data saved');
-        this.userDates.getPublicLink();
+        this.userDates.publicLink$.next(link);
+        this.router.navigateByUrl('admin/overview');
         break;
       case 'link exists':
         console.log('link exists');
