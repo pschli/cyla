@@ -28,6 +28,8 @@
           <mat-error>Bitte gebe eine gültige Bezeichnung ein</mat-error>
           } @if (linkFormControl.hasError('required')) {
           <mat-error>Link wird <strong>benötigt</strong></mat-error>
+          } @if (linkFormControl.hasError('exists already')) {
+          <mat-error>Link bereits vergeben</mat-error>
           }
         </mat-form-field>
       </form>
