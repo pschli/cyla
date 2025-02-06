@@ -4,7 +4,7 @@
       <h1>Willkommen {{ user }}</h1>
       <ng-container *ngIf="userDates.linkLoaded$ | async">
         <ng-container *ngIf="userDates.publicLink$ | async as publicLink">
-          <p>Public Link: {{ publicLink }}</p>
+          <app-public-link [link]="publicLink"></app-public-link>
           <div>
             @let appointments = userDates.activeAppointments$ | async;
             <mat-card appearance="outlined"

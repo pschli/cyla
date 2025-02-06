@@ -1,0 +1,15 @@
+<mat-card appearance="outlined" class="link-container">
+  <mat-card-content
+    ><div>
+      <span class="bytext">Dein Link:</span
+      ><span class="link">https://cyla.de/schedule/{{ link }}</span
+      ><button
+        mat-icon-button
+        aria-label="copy link to clipboard"
+        (click)="copyLinkToClipboard()"
+      >
+        <mat-icon color="iconondark">content_copy</mat-icon>
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

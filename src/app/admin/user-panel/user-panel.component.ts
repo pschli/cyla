@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { UpcomingListElementComponent } from './upcoming-list-element/upcoming-list-element.component';
 import { CreatePublicLinkComponent } from './create-public-link/create-public-link.component';
+import { PublicLinkComponent } from './public-link/public-link.component';
 
 @Component({
   selector: 'app-user-panel',
@@ -29,6 +30,7 @@ import { CreatePublicLinkComponent } from './create-public-link/create-public-li
     MatDividerModule,
     RouterLink,
     UpcomingListElementComponent,
+    PublicLinkComponent,
   ],
 
   templateUrl: './user-panel.component.html',
