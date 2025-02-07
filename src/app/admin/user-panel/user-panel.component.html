@@ -1,9 +1,12 @@
 <div class="container">
   <div class="content">
     <div class="inner">
-      <h1>Willkommen {{ user }}</h1>
+      @let user = authService.user$ | async;
       <ng-container *ngIf="userDates.linkLoaded$ | async">
         <ng-container *ngIf="userDates.publicLink$ | async as publicLink">
+          @if (user) {
+          <h1>Hallo {{ user.displayName }}</h1>
+          }
           <app-public-link [link]="publicLink"></app-public-link>
           <div>
             @let appointments = userDates.activeAppointments$ | async;
@@ -66,6 +69,9 @@
           </button></ng-container
         >
         <ng-container *ngIf="!(userDates.publicLink$ | async)">
+          @if (user) {
+          <h1>Willkommen {{ user.displayName }}</h1>
+          }
           <app-create-public-link></app-create-public-link>
         </ng-container>
       </ng-container>

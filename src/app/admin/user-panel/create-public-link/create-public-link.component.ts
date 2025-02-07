@@ -14,7 +14,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DateDataService } from '../../../services/date-data.service';
-import { lastValueFrom, merge, Observable, Subscription } from 'rxjs';
+import { lastValueFrom, merge } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { FirestoreService } from '../../../services/firestore.service';
 import { Router } from '@angular/router';
@@ -102,7 +102,6 @@ export class CreatePublicLinkComponent {
         this.showDBErrorMessage();
         break;
       case 'data saved':
-        console.log('data saved');
         this.userDates.publicLink$.next(link);
         this.router.navigateByUrl('admin/overview');
         break;
