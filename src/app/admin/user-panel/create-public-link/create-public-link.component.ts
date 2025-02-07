@@ -19,6 +19,11 @@ import { HttpClient } from '@angular/common/http';
 import { FirestoreService } from '../../../services/firestore.service';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 export class LinkErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -49,6 +54,7 @@ export class LinkErrorStateMatcher implements ErrorStateMatcher {
   styleUrl: './create-public-link.component.scss',
 })
 export class CreatePublicLinkComponent {
+  private _snackBar = inject(MatSnackBar);
   userDates = inject(DateDataService);
   router = inject(Router);
   fs = inject(FirestoreService);
@@ -58,6 +64,9 @@ export class CreatePublicLinkComponent {
     Validators.required,
   ]);
   triedLinks: Array<string> = [];
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   matcher = new LinkErrorStateMatcher();
 
@@ -133,7 +142,17 @@ export class CreatePublicLinkComponent {
     this.removeFormControlError(this.linkFormControl, 'too early');
   }
 
-  showDBErrorMessage() {}
+  showDBErrorMessage() {
+    this._snackBar.open(
+      'Fehler beim Erstellen des Links. Bitte versuche es erneut.',
+      'OK',
+      {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      }
+    );
+  }
 
   generateUID(): string {
     const array = new Uint32Array(2);
