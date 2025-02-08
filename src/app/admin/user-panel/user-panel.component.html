@@ -6,67 +6,74 @@
         <ng-container *ngIf="userDates.publicLink$ | async as publicLink">
           @if (user) {
           <h1>Hallo {{ user.displayName }}</h1>
-          }
-          <app-public-link [link]="publicLink"></app-public-link>
-          <div>
-            @let appointments = userDates.activeAppointments$ | async;
-            <mat-card appearance="outlined"
-              >@if (appointments) { @if (appointments.length > 0) {
-              <mat-card-header>
-                <mat-card-title
-                  >Deine kommenden Termine</mat-card-title
-                ></mat-card-header
-              ><mat-card-content>
-                @for (appointment of appointments; track $index) { @if ($index <
-                (pageIndex + 1) * 3 && $index >= pageIndex * 3) {
-                <app-upcoming-list-element
-                  [item]="appointment"
-                ></app-upcoming-list-element>
-                } }</mat-card-content
-              >
-              <mat-card-actions align="end"
-                >@if (pageIndex > 0) {
-                <button mat-button (click)="setPage('decrement')">vorige</button
-                >} @if (appointments.length > (pageIndex + 1) * 3) {
-                <button mat-button (click)="setPage('increment')">
-                  weitere</button
-                >} </mat-card-actions
-              >} @else {
-              <mat-card-header>
-                <mat-card-title
-                  >Keine kommenden Termine</mat-card-title
-                ></mat-card-header
-              >
-              } }
-            </mat-card>
-            <mat-card appearance="outlined">
-              <mat-card-header
-                ><mat-card-title
-                  >Termin-Details</mat-card-title
-                ></mat-card-header
-              >
-              <mat-card-content><p>keine</p></mat-card-content>
-              <mat-card-actions align="end">
-                <button mat-button>bearbeiten</button>
-              </mat-card-actions>
-            </mat-card>
-          </div>
-          @let planned = userDates.orderedAndValid$ | async; @if (planned &&
-          planned.length > 0) {
-          <div class="guiding-text">
-            <span>Deine geplanten Verfügbarkeiten</span>
-          </div>
-          <div class="dates-info-container">
-            <app-dates-info></app-dates-info>
-          </div>
-          } @else {
-          <div class="guiding-text">
-            <span>Keine Verfügbarkeiten geplant</span>
-          </div>
-          }
-          <button mat-fab extended [routerLink]="['../plan']">
-            <mat-icon>edit_calendar</mat-icon>Planen
-          </button></ng-container
+          }<app-public-link [link]="publicLink"></app-public-link>
+          <div class="user-info">
+            <div class="user-info-column">
+              @let appointments = userDates.activeAppointments$ | async;
+              <mat-card appearance="outlined"
+                >@if (appointments) { @if (appointments.length > 0) {
+                <mat-card-header>
+                  <mat-card-title
+                    >Deine kommenden Termine</mat-card-title
+                  ></mat-card-header
+                ><mat-card-content>
+                  @for (appointment of appointments; track $index) { @if ($index
+                  < (pageIndex + 1) * 3 && $index >= pageIndex * 3) {
+                  <app-upcoming-list-element
+                    [item]="appointment"
+                  ></app-upcoming-list-element>
+                  } }</mat-card-content
+                >
+                <mat-card-actions align="end"
+                  >@if (pageIndex > 0) {
+                  <button mat-button (click)="setPage('decrement')">
+                    vorige</button
+                  >} @if (appointments.length > (pageIndex + 1) * 3) {
+                  <button mat-button (click)="setPage('increment')">
+                    weitere</button
+                  >} </mat-card-actions
+                >} @else {
+                <mat-card-header>
+                  <mat-card-title
+                    >Keine kommenden Termine</mat-card-title
+                  ></mat-card-header
+                ><mat-card-content> </mat-card-content>
+                } }
+              </mat-card>
+              @if (appointments && appointments.length > 0) {
+              <mat-card appearance="outlined">
+                <mat-card-header
+                  ><mat-card-title
+                    >Termin-Details</mat-card-title
+                  ></mat-card-header
+                >
+                <mat-card-content><p>keine</p></mat-card-content>
+                <mat-card-actions align="end">
+                  <button mat-button>bearbeiten</button>
+                </mat-card-actions> </mat-card
+              >}
+            </div>
+            <div class="user-info-column">
+              @let planned = userDates.orderedAndValid$ | async; @if (planned &&
+              planned.length > 0) {
+              <div class="guiding-text">
+                <span>Deine geplanten Verfügbarkeiten</span>
+              </div>
+              <div class="dates-info-container">
+                <app-dates-info></app-dates-info>
+              </div>
+              } @else {
+              <div class="guiding-text">
+                <span>Keine Verfügbarkeiten geplant</span>
+              </div>
+              }
+              <div class="FAB-Container">
+                <button mat-fab extended [routerLink]="['../plan']">
+                  <mat-icon>edit_calendar</mat-icon>Planen
+                </button>
+              </div>
+            </div>
+          </div></ng-container
         >
         <ng-container *ngIf="!(userDates.publicLink$ | async)">
           @if (user) {

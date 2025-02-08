@@ -50,9 +50,18 @@
     margin-top: 24px;
     float: right;
   }
+  .user-info {
+    width: 100%;
+    display: flex;
+  }
+  .user-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
   .guiding-text {
     margin: 0;
-    margin-top: 36px;
     > span {
       font-size: 18px;
       font-weight: 600;
@@ -63,5 +72,11 @@
     display: flex;
     flex-direction: column;
     margin-top: 16px;
+  }
+}
+
+.FAB-Container {
+  > button {
+    float: right;
   }
 }
