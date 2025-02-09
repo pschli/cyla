@@ -67,14 +67,13 @@
                 <span>Keine Verfügbarkeiten geplant</span>
               </div>
               }
-              <div class="FAB-Container">
-                <button mat-fab extended [routerLink]="['../plan']">
-                  <mat-icon>edit_calendar</mat-icon>Planen
-                </button>
-              </div>
             </div>
-          </div></ng-container
-        >
+          </div>
+
+          <button mat-fab extended [routerLink]="['../plan']">
+            <mat-icon>edit_calendar</mat-icon>Planen
+          </button>
+        </ng-container>
         <ng-container *ngIf="!(userDates.publicLink$ | async)">
           @if (user) {
           <h1>Willkommen {{ user.displayName }}</h1>

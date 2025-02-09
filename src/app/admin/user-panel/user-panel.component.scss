@@ -36,12 +36,6 @@
     display: flex;
 
     gap: 24px;
-    > mat-card:first-child {
-      flex: 4;
-    }
-    > mat-card:last-child {
-      flex: 3;
-    }
   }
   > button {
     position: sticky;
@@ -78,5 +72,6 @@
 .FAB-Container {
   > button {
     float: right;
+    position: sticky;
   }
 }

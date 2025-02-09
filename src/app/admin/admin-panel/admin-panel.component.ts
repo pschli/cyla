@@ -209,6 +209,7 @@ export class AdminPanelComponent implements AfterViewInit {
       duration: 4000,
     });
     this.userDates.markedToEdit = [];
+    this.toggleAll('off');
     this.refreshCalendarService.requestUpdate();
   }
 
