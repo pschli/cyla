@@ -91,7 +91,8 @@ export class DateDataService implements OnDestroy, OnInit {
       this.takenSub = this.activeAppointments$.subscribe((data) => {
         this.taken = [];
         data.forEach((element) => {
-          this.selected.push(new Date(element.date));
+          this.taken.push(new Date(element.date));
+          console.log(element.date);
         });
         this.updateDates();
         this.dataLoaded.next('loaded');

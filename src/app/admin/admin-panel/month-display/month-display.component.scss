@@ -33,3 +33,9 @@
   background: hsl(from var(--mat-snack-bar-button-color) h s l / 50%);
   border-radius: 100%;
 }
+
+.warning-date .mat-calendar-body-cell-content {
+  background: rgba(255, 68, 0, 0.7);
+  // background: hsl(from var(--mat-snack-bar-button-color) h s l / 50%);
+  border-radius: 100%;
+}

@@ -41,14 +41,34 @@ export class MonthDisplayComponent {
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
 
   dateClass = (date: Date): MatCalendarCellCssClasses => {
-    let comparableDates: number[] = this.userDates.getComparableDates(
-      this.userDates.selected,
+    let comparableDates: number[] = this.getComparableDates('taken');
+    let matchesTaken = this.checkMatchForDateGroup(comparableDates, date);
+    if (matchesTaken) return 'warning-date';
+    comparableDates = this.getComparableDates('selected');
+    let matchesSelected = this.checkMatchForDateGroup(comparableDates, date);
+    if (matchesSelected) return 'highlight-date';
+    else return '';
+  };
+
+  getComparableDates(selection: 'selected' | 'taken'): number[] {
+    if (selection === 'selected')
+      return this.userDates.getComparableDates(
+        this.userDates.selected,
+        this.activeMonth,
+        this.activeYear
+      );
+    else console.log(this.userDates.taken);
+    return this.userDates.getComparableDates(
+      this.userDates.taken,
       this.activeMonth,
       this.activeYear
     );
-    if (comparableDates.includes(date.getDate())) return 'highlight-date';
-    else return '';
-  };
+  }
+
+  checkMatchForDateGroup(comparableDates: number[], date: Date): boolean {
+    if (comparableDates.includes(date.getDate())) return true;
+    return false;
+  }
 
   public selectedChange(event: Date | null): void {
     let comparableDates: number[] = this.userDates.getComparableDates(
