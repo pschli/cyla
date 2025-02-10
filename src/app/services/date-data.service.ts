@@ -2,9 +2,7 @@ import { inject, Injectable, OnDestroy, OnInit } from '@angular/core';
 import { UserDates } from '../interfaces/user-dates';
 import {
   BehaviorSubject,
-  firstValueFrom,
   from,
-  lastValueFrom,
   map,
   Observable,
   Subscription,
@@ -42,6 +40,7 @@ export class DateDataService implements OnDestroy, OnInit {
   activeAppointments$: Observable<UserDates[]> = new Observable();
 
   selected: Date[] = []; // dates selected in month display
+  taken: Date[] = []; // dates taken for appointmentsin month display
   markedToEdit: Date[] = []; // dates selected in choose timeslots
 
   publicLink$ = new BehaviorSubject<string | null>(null);
@@ -50,6 +49,7 @@ export class DateDataService implements OnDestroy, OnInit {
   dataLoaded = new BehaviorSubject<string | undefined>(undefined);
 
   selectedSub?: Subscription;
+  takenSub?: Subscription;
   linkSub?: Subscription;
 
   constructor() {
@@ -88,6 +88,14 @@ export class DateDataService implements OnDestroy, OnInit {
         this.updateDates();
         this.dataLoaded.next('loaded');
       });
+      this.takenSub = this.activeAppointments$.subscribe((data) => {
+        this.taken = [];
+        data.forEach((element) => {
+          this.selected.push(new Date(element.date));
+        });
+        this.updateDates();
+        this.dataLoaded.next('loaded');
+      });
       this.getPublicLink();
     }
   }
@@ -96,6 +104,7 @@ export class DateDataService implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.selectedSub?.unsubscribe();
+    this.takenSub?.unsubscribe();
     if (this.linkSub) {
       this.linkSub?.unsubscribe();
     }
