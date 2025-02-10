@@ -92,7 +92,6 @@ export class DateDataService implements OnDestroy, OnInit {
         this.taken = [];
         data.forEach((element) => {
           this.taken.push(new Date(element.date));
-          console.log(element.date);
         });
         this.updateDates();
         this.dataLoaded.next('loaded');

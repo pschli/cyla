@@ -57,12 +57,12 @@ export class MonthDisplayComponent {
         this.activeMonth,
         this.activeYear
       );
-    else console.log(this.userDates.taken);
-    return this.userDates.getComparableDates(
-      this.userDates.taken,
-      this.activeMonth,
-      this.activeYear
-    );
+    else
+      return this.userDates.getComparableDates(
+        this.userDates.taken,
+        this.activeMonth,
+        this.activeYear
+      );
   }
 
   checkMatchForDateGroup(comparableDates: number[], date: Date): boolean {
