@@ -37,9 +37,11 @@ export class DateDataService implements OnDestroy, OnInit {
   appointmentData$: Observable<UserDates[]> = new Observable();
   orderedDates$: Observable<UserDates[]> = new Observable();
   orderedAndValid$: Observable<UserDates[]> = new Observable();
+  planningCompleted$: Observable<UserDates[]> = new Observable();
   activeAppointments$: Observable<UserDates[]> = new Observable();
 
   selected: Date[] = []; // dates selected in month display
+  planned: Date[] = []; // dates with complete planning
   taken: Date[] = []; // dates taken for appointmentsin month display
   markedToEdit: Date[] = []; // dates selected in choose timeslots
 
@@ -50,6 +52,7 @@ export class DateDataService implements OnDestroy, OnInit {
 
   selectedSub?: Subscription;
   takenSub?: Subscription;
+  plannedSub?: Subscription;
   linkSub?: Subscription;
 
   constructor() {
@@ -72,6 +75,9 @@ export class DateDataService implements OnDestroy, OnInit {
         map((data) =>
           data.filter((date) => new Date(date.date) > new Date(Date.now()))
         )
+      );
+      this.planningCompleted$ = this.orderedAndValid$.pipe(
+        map((data) => data.filter((date) => date.times.length > 0))
       );
       this.activeAppointments$ = this.orderedAndValid$.pipe(
         map((data) =>
@@ -96,6 +102,14 @@ export class DateDataService implements OnDestroy, OnInit {
         this.updateDates();
         this.dataLoaded.next('loaded');
       });
+      this.plannedSub = this.planningCompleted$.subscribe((data) => {
+        this.planned = [];
+        data.forEach((element) => {
+          this.planned.push(new Date(element.date));
+        });
+        this.updateDates();
+        this.dataLoaded.next('loaded');
+      });
       this.getPublicLink();
     }
   }
@@ -105,6 +119,7 @@ export class DateDataService implements OnDestroy, OnInit {
   ngOnDestroy(): void {
     this.selectedSub?.unsubscribe();
     this.takenSub?.unsubscribe();
+    this.plannedSub?.unsubscribe();
     if (this.linkSub) {
       this.linkSub?.unsubscribe();
     }

@@ -55,11 +55,15 @@ export class ChooseTimeslotsComponent implements OnDestroy {
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
 
   dateClass = (date: Date): MatCalendarCellCssClasses => {
-    let comparableDates: number[] = this.userDates.getComparableDates(
-      this.userDates.markedToEdit,
-      this.activeMonth,
-      this.activeYear
-    );
+    let comparableDates: number[] = this.getComparableDates('marked');
+    let plannedDates: number[] = this.getComparableDates('planned');
+    let takenDates: number[] = this.getComparableDates('taken');
+    if (takenDates.includes(date.getDate())) {
+      return 'taken-date';
+    }
+    if (plannedDates.includes(date.getDate())) {
+      return 'planned-date';
+    }
     if (comparableDates.includes(date.getDate())) {
       return 'marked-date';
     } else {
@@ -78,28 +82,33 @@ export class ChooseTimeslotsComponent implements OnDestroy {
   };
 
   selectedChange(event: Date | null): void {
-    let comparableDates: number[] = this.userDates.getComparableDates(
-      this.userDates.selected,
-      this.activeMonth,
-      this.activeYear
-    );
-    let markedDates: number[] = this.userDates.getComparableDates(
-      this.userDates.markedToEdit,
-      this.activeMonth,
-      this.activeYear
-    );
+    if (!event) return;
+    let comparableDates: number[] = this.getComparableDates('selected');
+    let markedDates: number[] = this.getComparableDates('marked');
+    let plannedDates: number[] = this.getComparableDates('planned');
+    let takenDates: number[] = this.getComparableDates('taken');
     if (
-      event &&
-      comparableDates.includes(event.getDate()) &&
-      !markedDates.includes(event.getDate())
+      !plannedDates.includes(event.getDate()) &&
+      !takenDates.includes(event.getDate())
     ) {
-      this.userDates.markedToEdit.push(event);
+      if (
+        comparableDates.includes(event.getDate()) &&
+        !markedDates.includes(event.getDate())
+      ) {
+        this.userDates.markedToEdit.push(event);
+      } else if (
+        comparableDates.includes(event.getDate()) &&
+        markedDates.includes(event.getDate())
+      ) {
+        this.unmarkDate(event);
+      }
     } else if (
-      event &&
-      comparableDates.includes(event.getDate()) &&
-      markedDates.includes(event.getDate())
+      plannedDates.includes(event.getDate()) &&
+      !takenDates.includes(event.getDate())
     ) {
-      this.unmarkDate(event);
+      console.log('handle planned');
+    } else if (takenDates.includes(event.getDate())) {
+      console.log('handle taken');
     }
     this.calendar?.updateTodaysDate();
   }
@@ -111,6 +120,40 @@ export class ChooseTimeslotsComponent implements OnDestroy {
         this.dateFormatter.getStringFromDate(date)
     );
     this.userDates.markedToEdit.splice(index, 1);
+  }
+
+  getComparableDates(
+    selection: 'selected' | 'taken' | 'marked' | 'planned'
+  ): number[] {
+    if (selection === 'selected')
+      return this.userDates.getComparableDates(
+        this.userDates.selected,
+        this.activeMonth,
+        this.activeYear
+      );
+    else if (selection === 'taken')
+      return this.userDates.getComparableDates(
+        this.userDates.taken,
+        this.activeMonth,
+        this.activeYear
+      );
+    else if (selection === 'planned')
+      return this.userDates.getComparableDates(
+        this.userDates.planned,
+        this.activeMonth,
+        this.activeYear
+      );
+    else
+      return this.userDates.getComparableDates(
+        this.userDates.markedToEdit,
+        this.activeMonth,
+        this.activeYear
+      );
+  }
+
+  checkMatchForDateGroup(comparableDates: number[], date: Date): boolean {
+    if (comparableDates.includes(date.getDate())) return true;
+    return false;
   }
 
   refreshCalendar() {

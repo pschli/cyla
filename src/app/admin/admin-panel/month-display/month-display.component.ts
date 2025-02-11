@@ -54,7 +54,7 @@ export class MonthDisplayComponent {
     if (!event) return;
     let comparableTaken: number[] = this.getComparableDates('taken');
     let matchesTaken = this.checkMatchForDateGroup(comparableTaken, event);
-    if (matchesTaken) this.takenChangeDialog();
+    if (matchesTaken) this.takenChangeDialog(event);
     else this.selectedChange(event);
   }
 
@@ -69,8 +69,8 @@ export class MonthDisplayComponent {
     this.calendar?.updateTodaysDate();
   }
 
-  takenChangeDialog() {
-    console.log('taken change dialog open');
+  takenChangeDialog(date: Date) {
+    console.log('taken change dialog open:', date);
   }
 
   getComparableDates(selection: 'selected' | 'taken'): number[] {
