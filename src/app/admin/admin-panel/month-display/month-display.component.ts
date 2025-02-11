@@ -50,6 +50,29 @@ export class MonthDisplayComponent {
     else return '';
   };
 
+  public selectForChange(event: Date | null): void {
+    if (!event) return;
+    let comparableTaken: number[] = this.getComparableDates('taken');
+    let matchesTaken = this.checkMatchForDateGroup(comparableTaken, event);
+    if (matchesTaken) this.takenChangeDialog();
+    else this.selectedChange(event);
+  }
+
+  selectedChange(date: Date) {
+    let comparableSelected: number[] = this.getComparableDates('selected');
+    let matchesSelected = this.checkMatchForDateGroup(comparableSelected, date);
+    if (!matchesSelected) {
+      this.userDates.addToSelected(date);
+    } else if (matchesSelected) {
+      this.userDates.removeFromSelected(date);
+    }
+    this.calendar?.updateTodaysDate();
+  }
+
+  takenChangeDialog() {
+    console.log('taken change dialog open');
+  }
+
   getComparableDates(selection: 'selected' | 'taken'): number[] {
     if (selection === 'selected')
       return this.userDates.getComparableDates(
@@ -68,19 +91,5 @@ export class MonthDisplayComponent {
   checkMatchForDateGroup(comparableDates: number[], date: Date): boolean {
     if (comparableDates.includes(date.getDate())) return true;
     return false;
-  }
-
-  public selectedChange(event: Date | null): void {
-    let comparableDates: number[] = this.userDates.getComparableDates(
-      this.userDates.selected,
-      this.activeMonth,
-      this.activeYear
-    );
-    if (event && !comparableDates.includes(event.getDate())) {
-      this.userDates.addToSelected(event);
-    } else if (event && comparableDates.includes(event.getDate())) {
-      this.userDates.removeFromSelected(event);
-    }
-    this.calendar?.updateTodaysDate();
   }
 }
