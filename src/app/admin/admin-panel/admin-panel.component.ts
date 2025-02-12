@@ -21,6 +21,7 @@ import { DurationSettingComponent } from './duration-setting/duration-setting.co
 import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { EditPlannedWarningComponent } from './dialog/edit-planned-warning/edit-planned-warning.component';
 
 type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
 
@@ -258,7 +259,7 @@ export class AdminPanelComponent implements AfterViewInit {
   showWarning() {
     if (!this.allowEdit || this.warningShown) return;
     this.warningShown = true;
-    console.log('warning');
+    const dialogRef = this.dialog.open(EditPlannedWarningComponent, {});
   }
 
   updateCalendars() {
