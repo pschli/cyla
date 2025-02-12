@@ -103,7 +103,10 @@
       display: flex;
       flex-direction: column;
       animation: controls 160ms ease-in-out forwards;
-
+      > .first-row {
+        display: flex;
+        gap: 16px;
+      }
       > div.weekday-row {
         margin-top: 24px;
         > div {

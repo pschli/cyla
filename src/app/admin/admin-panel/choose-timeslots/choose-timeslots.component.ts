@@ -2,6 +2,7 @@ import {
   Component,
   inject,
   Input,
+  ModelSignal,
   OnDestroy,
   ViewChild,
   ViewEncapsulation,
@@ -27,6 +28,7 @@ import { RefreshCalendarStateService } from '../../../services/refresh-calendar-
   encapsulation: ViewEncapsulation.None,
 })
 export class ChooseTimeslotsComponent implements OnDestroy {
+  @Input() allowEdit?: boolean;
   readonly customHeader = CalendarCustomHeader;
   userDates = inject(DateDataService);
   dateFormatter = inject(DateFormatterService);
@@ -62,6 +64,7 @@ export class ChooseTimeslotsComponent implements OnDestroy {
       return 'taken-date';
     }
     if (plannedDates.includes(date.getDate())) {
+      if (this.allowEdit) return 'planned-allowed';
       return 'planned-date';
     }
     if (comparableDates.includes(date.getDate())) {

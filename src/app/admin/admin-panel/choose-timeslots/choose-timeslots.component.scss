@@ -36,8 +36,13 @@
 .planned-date .mat-calendar-body-cell-content {
   background-color: hsl(
     from var(--mat-form-field-error-text-color, var(--mat-app-error)) h s l /
-      50%
+      30%
   );
+  border-radius: 100%;
+}
+
+.planned-allowed .mat-calendar-body-cell-content {
+  background-color: hsl(from darkgrey h s l / 30%);
   border-radius: 100%;
 }
 

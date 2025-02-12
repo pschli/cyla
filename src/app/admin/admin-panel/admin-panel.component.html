@@ -94,15 +94,24 @@
         <div class="timeslot-card-container">
           @for (month of monthsToDisplay; track $index) {
           <div>
-            <app-choose-timeslots [inputMonth]="month"></app-choose-timeslots>
+            <app-choose-timeslots
+              [inputMonth]="month"
+              [allowEdit]="allowEdit()"
+            ></app-choose-timeslots>
           </div>
           }
         </div>
         <div class="controls-container">
-          <div>
+          <div class="first-row">
             <button mat-stroked-button (click)="toggleAll('on')">
               Alle auswählen
             </button>
+            <mat-checkbox
+              [(ngModel)]="allowEdit"
+              (change)="showWarning()"
+              (ngModelChange)="updateCalendars()"
+              >Erlaube Auswahl bereits geplanter Tage</mat-checkbox
+            >
           </div>
           <div class="weekday-row">
             <span>Nach Wochentag auswählen</span>

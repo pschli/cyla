@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DatesInfoComponent } from '../dates-info/dates-info.component';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthService } from '../../services/auth.service';
@@ -15,6 +15,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { UpcomingListElementComponent } from './upcoming-list-element/upcoming-list-element.component';
 import { CreatePublicLinkComponent } from './create-public-link/create-public-link.component';
 import { PublicLinkComponent } from './public-link/public-link.component';
+import { MatButton, MatFabButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-user-panel',
@@ -25,7 +26,8 @@ import { PublicLinkComponent } from './public-link/public-link.component';
     AsyncPipe,
     DatesInfoComponent,
     MatCardModule,
-    MatButtonModule,
+    MatButton,
+    MatFabButton,
     MatIconModule,
     MatDividerModule,
     RouterLink,

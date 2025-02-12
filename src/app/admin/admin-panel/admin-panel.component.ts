@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, inject, model, signal } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
 import { map } from 'rxjs/operators';
 import { MonthDisplayComponent } from './month-display/month-display.component';
 import { DateDataService } from '../../services/date-data.service';
@@ -19,6 +18,9 @@ import { TimeslotSavedHandlerService } from '../../services/timeslot-saved-handl
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { DurationSettingComponent } from './duration-setting/duration-setting.component';
+import { MatButton, MatFabButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 
 type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
 
@@ -27,8 +29,11 @@ type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
   standalone: true,
   imports: [
     RouterLink,
+    FormsModule,
     MatCardModule,
-    MatButtonModule,
+    MatButton,
+    MatCheckbox,
+    MatFabButton,
     MonthDisplayComponent,
     MatIconModule,
     ChooseTimeslotsComponent,
@@ -87,6 +92,9 @@ export class AdminPanelComponent implements AfterViewInit {
     ['sa', 'Sam'],
     ['so', 'Son'],
   ];
+
+  allowEdit = model(false);
+  warningShown = false;
 
   constructor(public dialog: MatDialog) {
     this.userDates.dataLoaded.pipe(takeUntilDestroyed()).subscribe({
@@ -229,5 +237,17 @@ export class AdminPanelComponent implements AfterViewInit {
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.setActiveMode(tabChangeEvent.index);
+  }
+
+  showWarning() {
+    if (!this.allowEdit || this.warningShown) return;
+    this.warningShown = true;
+    console.log('warning');
+  }
+
+  updateCalendars() {
+    setTimeout(() => {
+      this.refreshCalendarService.requestUpdate();
+    }, 100);
   }
 }
