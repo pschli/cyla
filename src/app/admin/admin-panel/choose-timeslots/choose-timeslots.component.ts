@@ -57,17 +57,20 @@ export class ChooseTimeslotsComponent implements OnDestroy {
   @ViewChild(MatCalendar) calendar?: MatCalendar<Date>;
 
   dateClass = (date: Date): MatCalendarCellCssClasses => {
-    let comparableDates: number[] = this.getComparableDates('marked');
+    let markedDates: number[] = this.getComparableDates('marked');
     let plannedDates: number[] = this.getComparableDates('planned');
     let takenDates: number[] = this.getComparableDates('taken');
     if (takenDates.includes(date.getDate())) {
       return 'taken-date';
     }
-    if (plannedDates.includes(date.getDate())) {
+    if (
+      plannedDates.includes(date.getDate()) &&
+      !markedDates.includes(date.getDate())
+    ) {
       if (this.allowEdit) return 'planned-allowed';
       return 'planned-date';
     }
-    if (comparableDates.includes(date.getDate())) {
+    if (markedDates.includes(date.getDate())) {
       return 'marked-date';
     } else {
       return '';
@@ -109,9 +112,18 @@ export class ChooseTimeslotsComponent implements OnDestroy {
       plannedDates.includes(event.getDate()) &&
       !takenDates.includes(event.getDate())
     ) {
-      console.log('handle planned');
+      this.handlePlanned(event, markedDates);
     } else if (takenDates.includes(event.getDate())) {
       console.log('handle taken');
+    }
+    this.calendar?.updateTodaysDate();
+  }
+
+  handlePlanned(date: Date, markedDates: number[]) {
+    if (this.allowEdit) {
+      if (!markedDates.includes(date.getDate())) {
+        this.userDates.markedToEdit.push(date);
+      } else this.unmarkDate(date);
     }
     this.calendar?.updateTodaysDate();
   }

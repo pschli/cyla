@@ -191,7 +191,11 @@ export class AdminPanelComponent implements AfterViewInit {
 
   markDatesByWeekday(day: Weekday) {
     this.userDates.selected.forEach((date) => {
-      if (date.getDay() === this.dayNumber[day] && this.dateIsNotMarked(date)) {
+      if (
+        date.getDay() === this.dayNumber[day] &&
+        this.dateIsNotMarked(date) &&
+        this.dateCanBeMarked(date)
+      ) {
         this.userDates.markedToEdit.push(date);
       }
     });
@@ -224,6 +228,18 @@ export class AdminPanelComponent implements AfterViewInit {
   dateIsNotMarked(date: Date) {
     let result = this.userDates.markedToEdit.some((markedDate) => {
       this.compareDateByString(markedDate, date);
+    });
+    return !result;
+  }
+
+  dateCanBeMarked(date: Date) {
+    let taken = this.userDates.taken.some((takenDate) => {
+      return this.compareDateByString(takenDate, date);
+    });
+    if (taken) return false;
+    if (this.allowEdit()) return true;
+    let result = this.userDates.planned.some((plannedDate) => {
+      return this.compareDateByString(plannedDate, date);
     });
     return !result;
   }
