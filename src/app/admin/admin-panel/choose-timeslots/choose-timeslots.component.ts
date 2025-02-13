@@ -2,7 +2,6 @@ import {
   Component,
   inject,
   Input,
-  ModelSignal,
   OnDestroy,
   ViewChild,
   ViewEncapsulation,
@@ -17,6 +16,8 @@ import {
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { DateFormatterService } from '../../../services/date-formatter.service';
 import { RefreshCalendarStateService } from '../../../services/refresh-calendar-state.service';
+import { MatDialog } from '@angular/material/dialog';
+import { TakenWarningComponent } from '../dialog/taken-warning/taken-warning.component';
 
 @Component({
   selector: 'app-choose-timeslots',
@@ -43,6 +44,8 @@ export class ChooseTimeslotsComponent implements OnDestroy {
     .subscribe((trigger) => {
       this.refreshCalendar();
     });
+
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
     if (this.inputMonth) this.startingMonth = this.inputMonth;
@@ -114,7 +117,7 @@ export class ChooseTimeslotsComponent implements OnDestroy {
     ) {
       this.handlePlanned(event, markedDates);
     } else if (takenDates.includes(event.getDate())) {
-      console.log('handle taken');
+      this.handleTaken(event);
     }
     this.calendar?.updateTodaysDate();
   }
@@ -126,6 +129,13 @@ export class ChooseTimeslotsComponent implements OnDestroy {
       } else this.unmarkDate(date);
     }
     this.calendar?.updateTodaysDate();
+  }
+
+  handleTaken(date: Date) {
+    const dialogRef = this.dialog.open(TakenWarningComponent, {
+      panelClass: 'custom-dialog-panel',
+      data: { userDates: this.userDates, date: date },
+    });
   }
 
   unmarkDate(date: Date) {

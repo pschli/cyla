@@ -1,0 +1,18 @@
+<div>
+  <h2>Termindetails</h2>
+
+  <div class="single-date-container">
+    <span class="date">{{ formatDate(timeslot!.date) }}</span>
+    <div>
+      <span>{{ timeslot?.time }} Uhr</span>
+      <div>
+        <span>{{ timeslot?.name }}</span> <span>{{ timeslot?.email }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-row">
+    <button mat-flat-button (click)="closeDialog()">abbrechen</button
+    ><button mat-flat-button color="warn">stornieren</button>
+  </div>
+</div>

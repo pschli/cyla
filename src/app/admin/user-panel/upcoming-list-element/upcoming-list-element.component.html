@@ -3,7 +3,7 @@
 @for (time of item.times; track $index) { @if (time.taken && time.appointment) {
 @if (time.appointment.token && time.appointment.name && time.appointment.email)
 {
-<div class="single">
+<div class="single" (click)="openAppointmentDetails(item.date, time)">
   <span class="time">{{ time.time }} Uhr</span>
   <app-timeslot-details [appointment]="time.appointment"></app-timeslot-details>
 </div>

@@ -1,0 +1,17 @@
+div {
+  margin: 24px;
+  h2 {
+    margin: 0;
+  }
+  .single-date-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .button-row {
+    display: flex;
+    margin-top: 16px;
+    gap: 8px;
+    float: right;
+  }
+}
