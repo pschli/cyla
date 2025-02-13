@@ -201,6 +201,10 @@ export class DateDataService implements OnDestroy, OnInit {
     this.fs.removeSelected(dateString);
   }
 
+  removeAppointment() {
+    console.log('removing Appointment');
+  }
+
   updateTimeslots(timesArray: Array<TimeslotData>, durations: Array<string>) {
     let errors = 0;
     this.markedToEdit.forEach((date) => {

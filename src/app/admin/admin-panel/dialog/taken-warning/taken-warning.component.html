@@ -4,7 +4,10 @@
   @let appointments = userDates.activeAppointments$ | async; @for (appointment
   of appointments; track $index) { @if (appointment.date === dateTakenString) {
   <div class="single-date-container">
-    <app-upcoming-list-element [item]="appointment"></app-upcoming-list-element>
+    <app-upcoming-list-element
+      [item]="appointment"
+      [userDates]="userDates"
+    ></app-upcoming-list-element>
   </div>
   } }
   <div class="button-row">

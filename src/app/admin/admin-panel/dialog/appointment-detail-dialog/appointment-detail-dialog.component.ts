@@ -69,7 +69,7 @@ export class AppointmentDetailDialogComponent {
   }
 
   cancelAppointment() {
-    console.log('cancel appointment');
+    this.userDates.removeAppointment();
   }
 
   formatDate(day: string): string {

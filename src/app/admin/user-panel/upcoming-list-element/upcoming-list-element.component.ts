@@ -30,7 +30,7 @@ interface TimeData {
 })
 export class UpcomingListElementComponent {
   @Input() item!: UserDates;
-  userDates = inject(DateDataService);
+  @Input() userDates!: DateDataService;
   dateFormatter = inject(DateFormatterService);
 
   constructor(public dialog: MatDialog) {}

@@ -5,7 +5,6 @@ import { DateDataService } from '../../../../services/date-data.service';
 import { UpcomingListElementComponent } from '../../../user-panel/upcoming-list-element/upcoming-list-element.component';
 import { DateFormatterService } from '../../../../services/date-formatter.service';
 import { MatButton } from '@angular/material/button';
-import { UserDates } from '../../../../interfaces/user-dates';
 
 @Component({
   selector: 'app-taken-warning',
