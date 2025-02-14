@@ -14,6 +14,17 @@ interface DurationPayload {
   name: string;
 }
 
+interface TimeslotData {
+  time: string;
+  duration: string;
+  reserved: boolean;
+  blocked: boolean;
+  taken: boolean;
+  appointment?: {
+    token: string | null;
+  };
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -80,6 +91,23 @@ export class FirestoreService {
     );
     try {
       await deleteDoc(dateRef);
+    } catch (e) {
+      console.error("Couldn't delete date.", e);
+    }
+  }
+
+  async cancelAppointment(dateString: string, times: TimeslotData[]) {
+    if (!this.currentUid) return;
+    const dateRef: DocumentReference = doc(
+      this.firestore,
+      'data',
+      this.currentUid,
+      'datesCol',
+      dateString
+    );
+    try {
+      await updateDoc(dateRef, { times: times });
+      console.log('cancelled');
     } catch (e) {
       console.error("Couldn't delete date.", e);
     }

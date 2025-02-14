@@ -69,7 +69,8 @@ export class AppointmentDetailDialogComponent {
   }
 
   cancelAppointment() {
-    this.userDates.removeAppointment();
+    if (this.timeslot?.date && this.timeslot.time)
+      this.userDates.removeAppointment(this.timeslot.date, this.timeslot.time);
   }
 
   formatDate(day: string): string {
