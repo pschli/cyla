@@ -103,6 +103,8 @@ Leider müssen wir deinen Termin am ${this.formatDate(this.date)} um ${
       this.time.time
     } Uhr absagen. Vereinbare gerne einen neuen Termin. 
 Mit freundlichen Grüßen
+${this.userDates.userBaseData.firstname} ${this.userDates.userBaseData.lastname}
+${this.userDates.userBaseData.email}
 `);
   }
 

@@ -14,6 +14,7 @@ import {
   collection,
   collectionData,
   doc,
+  docData,
   getDoc,
 } from '@angular/fire/firestore';
 
@@ -28,6 +29,13 @@ interface TimeslotData {
   };
 }
 
+interface UserBaseData {
+  email: string;
+  firstname: string;
+  lastname: string;
+  publiclink?: string;
+}
+
 @Injectable({
   providedIn: null,
 })
@@ -39,6 +47,9 @@ export class DateDataService implements OnDestroy, OnInit {
   orderedAndValid$: Observable<UserDates[]> = new Observable();
   planningCompleted$: Observable<UserDates[]> = new Observable();
   activeAppointments$: Observable<UserDates[]> = new Observable();
+  userBaseData$: Observable<UserBaseData> = new Observable();
+
+  userBaseData: UserBaseData = { email: '', firstname: '', lastname: '' };
 
   active: UserDates[] = [];
 
@@ -57,6 +68,7 @@ export class DateDataService implements OnDestroy, OnInit {
   plannedSub?: Subscription;
   linkSub?: Subscription;
   activeSub?: Subscription;
+  userBaseDataSub?: Subscription;
 
   constructor() {
     if (this.fs.currentUid) {
@@ -65,7 +77,16 @@ export class DateDataService implements OnDestroy, OnInit {
         `data/${this.fs.currentUid}/datesCol`
       );
 
+      const UsersCollection = doc(
+        this.fs.firestore,
+        `users/${this.fs.currentUid}`
+      );
+
       this.appointmentData$ = collectionData(DateCollection) as Observable<any>;
+      this.userBaseData$ = docData(UsersCollection) as Observable<any>;
+      this.userBaseDataSub = this.userBaseData$.subscribe((data) => {
+        this.userBaseData = data;
+      });
       this.orderedDates$ = this.appointmentData$.pipe(
         map((data) => {
           data.sort((a, b) => {
@@ -141,7 +162,6 @@ export class DateDataService implements OnDestroy, OnInit {
     }
     this.linkLoaded$.next(false);
     const UserDocRef = doc(this.fs.firestore, 'users', this.fs.currentUid);
-
     const publicLink$ = from(getDoc(UserDocRef)).pipe(
       map((docSnap) =>
         docSnap.exists() ? docSnap.data()?.['publiclink'] : null
@@ -151,7 +171,6 @@ export class DateDataService implements OnDestroy, OnInit {
         this.linkLoaded$.next(true);
       })
     );
-
     this.linkSub = publicLink$.subscribe();
   }
 
