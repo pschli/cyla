@@ -14,6 +14,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 interface TimeData {
   time: string;
@@ -36,6 +41,10 @@ interface dataType {
   time: TimeData;
 }
 
+interface ServerResponse {
+  response: string;
+}
+
 @Component({
   selector: 'app-appointment-detail-dialog',
   standalone: true,
@@ -52,6 +61,7 @@ interface dataType {
 })
 export class AppointmentDetailDialogComponent {
   dateFormatter = inject(DateFormatterService);
+  private _snackBar = inject(MatSnackBar);
   userDates: DateDataService;
   date: string;
   time: TimeData;
@@ -74,6 +84,9 @@ export class AppointmentDetailDialogComponent {
   message = new FormControl({ value: '', disabled: this.omitMessage() }, [
     Validators.required,
   ]);
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   constructor(
     private http: HttpClient,
@@ -113,13 +126,16 @@ Mit freundlichen Grüßen
         this.timeslot.time
       );
       if (result === 'cancelled') {
-        let response = await this.handleTokenAndMessage(this.omitMessage());
+        let response: ServerResponse = await this.handleTokenAndMessage(
+          this.omitMessage()
+        );
+        this.showCancelResult(response.response);
       }
     }
     this.closeDialog();
   }
 
-  async handleTokenAndMessage(omit: boolean) {
+  private async handleTokenAndMessage(omit: boolean) {
     let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/cancelbyuser';
     if (
       this.timeslot?.token &&
@@ -141,8 +157,8 @@ Mit freundlichen Grüßen
       console.log(this.message.value);
       console.log(params);
       try {
-        const response = await firstValueFrom(
-          this.http.get(url, {
+        const response: ServerResponse = await firstValueFrom(
+          this.http.get<ServerResponse>(url, {
             params: params,
             responseType: 'json',
           })
@@ -150,10 +166,22 @@ Mit freundlichen Grüßen
         console.log(response);
         return response;
       } catch (err) {
-        return 'error';
+        return { response: 'error' };
       }
     }
-    return 'error';
+    return { response: 'error' };
+  }
+
+  private showCancelResult(result: string) {
+    console.log(result);
+    result === 'ok'
+      ? (result = 'Termin gelöscht')
+      : (result = 'Fehler beim Löschen');
+    this._snackBar.open(result, 'OK', {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 
   setDisable() {
