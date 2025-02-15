@@ -1,19 +1,55 @@
-<div>
+<div class="outer">
   <h2>Termindetails</h2>
 
   <div class="single-date-container">
     <span class="date">{{ formatDate(timeslot!.date) }}</span>
     <div>
-      <span>{{ timeslot?.time }} Uhr</span>
+      <div>
+        <span>{{ timeslot?.time }} Uhr</span>
+        <span>Dauer: {{ timeslot?.duration }}</span>
+      </div>
       <div>
         <span>{{ timeslot?.name }}</span> <span>{{ timeslot?.email }}</span>
       </div>
     </div>
   </div>
+  <div>
+    <mat-checkbox [(ngModel)]="allowCancel"
+      >Ich möchte diesen Termin absagen</mat-checkbox
+    >
+  </div>
+  @if (allowCancel()) {
+  <div class="message-form">
+    <form class="message-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Betreff</mat-label>
+        <input matInput [formControl]="topic" />
+      </mat-form-field>
 
+      <mat-form-field appearance="outline">
+        <mat-label>Nachricht</mat-label>
+        <textarea
+          matInput
+          [formControl]="message"
+          class="message-full"
+        ></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+  <div>
+    <mat-checkbox [(ngModel)]="omitMessage" (ngModelChange)="setDisable()"
+      >Keine Nachricht senden</mat-checkbox
+    >
+  </div>
+  }
   <div class="button-row">
     <button mat-flat-button (click)="closeDialog()">abbrechen</button
-    ><button mat-flat-button color="warn" (click)="cancelAppointment()">
+    ><button
+      mat-flat-button
+      color="warn"
+      [disabled]="!allowCancel()"
+      (click)="cancelAppointment()"
+    >
       stornieren
     </button>
   </div>

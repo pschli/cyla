@@ -211,15 +211,14 @@ export class DateDataService implements OnDestroy, OnInit {
     this.fs.removeSelected(dateString);
   }
 
-  removeAppointment(date: string, time: string) {
-    console.log('removing Appointment', date, time);
+  async removeAppointment(date: string, time: string) {
     let appointmentToChange: UserDates | undefined;
     this.active.forEach((appointment) => {
       if (appointment.date === date) {
         appointmentToChange = appointment;
       }
     });
-    if (!appointmentToChange) return;
+    if (!appointmentToChange) return 'error';
     let sourceTimes: TimeslotData[] = appointmentToChange.times;
     let targetTimes: TimeslotData[] = [];
     if (sourceTimes.length > 0) {
@@ -235,80 +234,14 @@ export class DateDataService implements OnDestroy, OnInit {
         targetTimes.push(newTimeElement);
       });
     }
-    console.log(targetTimes);
-    this.fs.cancelAppointment(date, targetTimes);
+    if (targetTimes.length === 0) return 'error';
+    let result = await this.fs.updateTimes(date, targetTimes);
+    return result;
   }
 
   deleteMailIdToken(idLink: string) {
     console.log('delete token:', idLink);
   }
-
-  // export const cancelAppointment = onRequest(
-  //   { cors: true },
-  //   async (request, response) => {
-  //     response.set("Access-Control-Allow-Origin", "http://localhost:4200");
-  //     response.set("Access-Control-Allow-Credentials", "true");
-  //     const idLink = request.query.idLink?.toString();
-  //     if (idLink) {
-  //       db.collection("ott")
-  //         .doc(idLink)
-  //         .get()
-  //         .then((value) => {
-  //           if (!value.data()) {
-  //             response.send({ response: "no matching timeslots" });
-  //             return;
-  //           }
-  //           let appointmentTimestamp = getAppointmentTime(
-  //             value.data()?.date,
-  //             value.data()?.time
-  //           );
-  //           console.log(appointmentTimestamp);
-  //           if (appointmentTimestamp > Date.now()) {
-  //             console.log(true);
-  //             let timesRef = db
-  //               .collection("data")
-  //               .doc(value.data()?.uid)
-  //               .collection("datesCol")
-  //               .doc(value.data()?.date);
-  //             timesRef
-  //               .get()
-  //               .then((result) => {
-  //                 let sourceTimes: TimesElement[] = result.data()!.times;
-  //                 let targetTimes: TimesElement[] = [];
-  //                 if (sourceTimes.length > 0) {
-  //                   sourceTimes.forEach((timeElement: TimesElement) => {
-  //                     let newTimeElement: TimesElement = timeElement;
-  //                     if (
-  //                       timeElement.time === value.data()?.time &&
-  //                       timeElement.appointment.token === idLink
-  //                     ) {
-  //                       newTimeElement.reserved = false;
-  //                       newTimeElement.taken = false;
-  //                       newTimeElement.appointment.token = null;
-  //                       response.send({ response: "canceled" });
-  //                       deleteMailIdToken(idLink);
-  //                     }
-  //                     targetTimes.push(newTimeElement);
-  //                   });
-  //                   timesRef.update({ times: targetTimes });
-  //                 } else {
-  //                   response.send({ response: "no matching timeslots" });
-  //                   return;
-  //                 }
-  //               })
-  //               .catch((reason) => {
-  //                 response.send(reason);
-  //               });
-  //           } else {
-  //             response.send({ response: "too late" });
-  //           }
-  //         })
-  //         .catch((reason) => {
-  //           response.send(reason);
-  //         });
-  //     }
-  //   }
-  // );
 
   updateTimeslots(timesArray: Array<TimeslotData>, durations: Array<string>) {
     let errors = 0;

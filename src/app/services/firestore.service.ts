@@ -96,7 +96,7 @@ export class FirestoreService {
     }
   }
 
-  async cancelAppointment(dateString: string, times: TimeslotData[]) {
+  async updateTimes(dateString: string, times: TimeslotData[]) {
     if (!this.currentUid) return;
     const dateRef: DocumentReference = doc(
       this.firestore,
@@ -107,9 +107,10 @@ export class FirestoreService {
     );
     try {
       await updateDoc(dateRef, { times: times });
-      console.log('cancelled');
+      return 'cancelled';
     } catch (e) {
       console.error("Couldn't delete date.", e);
+      return 'error';
     }
   }
 

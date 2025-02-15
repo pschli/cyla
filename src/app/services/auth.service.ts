@@ -67,7 +67,6 @@ export class AuthService {
     this.fs.currentUid = '';
     const promise = signOut(this.firebaseAuth).then(() => {
       this.router.navigateByUrl('');
-      // window.location.reload();
     });
     return from(promise);
   }

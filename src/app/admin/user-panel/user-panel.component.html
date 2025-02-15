@@ -41,7 +41,7 @@
                 ><mat-card-content> </mat-card-content>
                 } }
               </mat-card>
-              @if (appointments && appointments.length > 0) {
+              <!-- @if (appointments && appointments.length > 0) {
               <mat-card appearance="outlined">
                 <mat-card-header
                   ><mat-card-title
@@ -52,7 +52,7 @@
                 <mat-card-actions align="end">
                   <button mat-button>bearbeiten</button>
                 </mat-card-actions> </mat-card
-              >}
+              >} -->
             </div>
             <div class="user-info-column">
               @let planned = userDates.orderedAndValid$ | async; @if (planned &&
