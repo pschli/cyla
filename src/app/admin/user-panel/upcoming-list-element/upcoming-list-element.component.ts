@@ -31,6 +31,4 @@ export class UpcomingListElementComponent {
       data: { userDates: this.userDates, date: date, time: time },
     });
   }
-
-  handleTaken(date: Date) {}
 }

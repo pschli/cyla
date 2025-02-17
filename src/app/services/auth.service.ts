@@ -12,6 +12,7 @@ import { UserInterface } from '../interfaces/user.interface';
 import { FirestoreService } from './firestore.service';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { Router } from '@angular/router';
+import { GreetingService } from './greeting.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ export class AuthService {
   router = inject(Router);
   firebaseAuth = inject(Auth);
   fs = inject(FirestoreService);
+  greeting = inject(GreetingService);
   user$ = user(this.firebaseAuth);
   currentUserSig = signal<UserInterface | null | undefined>(undefined);
   auth = getAuth();
@@ -65,6 +67,7 @@ export class AuthService {
 
   logout(): Observable<void> {
     this.fs.currentUid = '';
+    this.greeting.requestReset();
     const promise = signOut(this.firebaseAuth).then(() => {
       this.router.navigateByUrl('');
     });

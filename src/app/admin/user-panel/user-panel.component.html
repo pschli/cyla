@@ -1,12 +1,17 @@
 <div class="container">
   <div class="content">
     <div class="inner">
-      @let user = authService.user$ | async;
+      @let user = authService.user$ | async; @let greet = greeting$ | async;
       <ng-container *ngIf="userDates.linkLoaded$ | async">
         <ng-container *ngIf="userDates.publicLink$ | async as publicLink">
-          @if (user) {
-          <h1>Hallo {{ user.displayName }}</h1>
-          }<app-public-link [link]="publicLink"></app-public-link>
+          <div class="headline-container">
+            @if (user) { @if (greet === 0) {
+            <h1 [@greeting]>Hallo {{ user.displayName }}</h1>
+            } @else if (greet && greet > 0){
+            <h1 [@overview]>Deine Übersicht</h1>
+            } }
+          </div>
+          <app-public-link [link]="publicLink"></app-public-link>
           <div class="user-info">
             <div class="user-info-column">
               @let appointments = userDates.activeAppointments$ | async;
