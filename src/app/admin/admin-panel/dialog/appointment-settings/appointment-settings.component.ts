@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DateDataService } from '../../../../services/date-data.service';
@@ -6,10 +5,18 @@ import { Timeslot } from '../../../../interfaces/timeslot';
 import { MatButton } from '@angular/material/button';
 import { DateFormatterService } from '../../../../services/date-formatter.service';
 import { NgIf } from '@angular/common';
+import { UserDates } from '../../../../interfaces/user-dates';
+import { FirestoreService } from '../../../../services/firestore.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 interface dataType {
   userDates: DateDataService;
   date: string;
+  day: UserDates;
   time: Timeslot;
 }
 
@@ -22,23 +29,78 @@ interface dataType {
 })
 export class AppointmentSettingsComponent {
   userDates: DateDataService;
+  fs = inject(FirestoreService);
   dateFormatter = inject(DateFormatterService);
+  private _snackBar = inject(MatSnackBar);
   date: string;
   time: Timeslot;
+  day: UserDates;
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   constructor(
-    private http: HttpClient,
     public dialogRef: MatDialogRef<AppointmentSettingsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: dataType
   ) {
     this.userDates = data.userDates;
+    this.day = data.day;
     this.date = data.date;
     this.time = data.time;
   }
 
-  toggleBlock(blocked: boolean) {
-    console.log('toggle to', !blocked);
-    this.closeDialog();
+  async toggleBlock(blocked: boolean) {
+    let result = await this.updateAppointment(
+      this.day,
+      this.date,
+      this.time.time,
+      !blocked
+    );
+    if (result === 'cancelled') this.showResult(!blocked);
+    else this.showResult(!blocked, 'error');
+  }
+
+  async updateAppointment(
+    day: UserDates,
+    date: string,
+    time: string,
+    block: boolean
+  ) {
+    if (day.date !== date) return 'error';
+    let sourceTimes: Timeslot[] = day.times;
+    let targetTimes: Timeslot[] = [];
+    if (sourceTimes.length > 0) {
+      sourceTimes.forEach((timeElement: Timeslot) => {
+        let newTimeElement: Timeslot = timeElement;
+        if (timeElement.time === time) {
+          newTimeElement.blocked = block;
+        }
+        targetTimes.push(newTimeElement);
+      });
+    }
+    if (targetTimes.length === 0) return 'error';
+    let result = await this.fs.updateTimes(date, targetTimes);
+    return result;
+  }
+
+  showResult(block: boolean, result: string = 'success') {
+    let message = '';
+    if (result === 'success') {
+      message = block ? 'Termin ist geblockt' : 'Termin ist freigegeben';
+    } else {
+      message = block
+        ? 'Fehler: Termin konnte nicht geblockt werden'
+        : 'Fehler: Termin konnte nicht freigegeben werden';
+    }
+    this.showSnackbar(message);
+  }
+
+  showSnackbar(message: string) {
+    this._snackBar.open(message, 'OK', {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 
   formatDate(day: string): string {

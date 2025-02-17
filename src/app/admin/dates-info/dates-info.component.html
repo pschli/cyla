@@ -18,12 +18,12 @@
           blocked: timeslot.blocked,
           taken: timeslot.taken
         }"
-        (click)="editTimeslot(date.date, timeslot)"
+        (click)="editTimeslot(date.date, date, timeslot)"
       >
         {{ timeslot.time }}
       </button>
       } @else {
-      <button mat-button (click)="editTimeslot(date.date, timeslot)">
+      <button mat-button (click)="editTimeslot(date.date, date, timeslot)">
         {{ timeslot.time }}</button
       >} }
     </div>

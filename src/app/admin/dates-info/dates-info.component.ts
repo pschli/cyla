@@ -8,6 +8,7 @@ import { Timeslot } from '../../interfaces/timeslot';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentDetailDialogComponent } from '../admin-panel/dialog/appointment-detail-dialog/appointment-detail-dialog.component';
 import { AppointmentSettingsComponent } from '../admin-panel/dialog/appointment-settings/appointment-settings.component';
+import { UserDates } from '../../interfaces/user-dates';
 
 @Component({
   selector: 'app-dates-info',
@@ -27,11 +28,11 @@ export class DatesInfoComponent {
     return this.dateFormatter.getLocalDate(day);
   }
 
-  editTimeslot(date: string, time: Timeslot) {
+  editTimeslot(date: string, day: UserDates, time: Timeslot) {
     if (time.taken) {
       this.openAppointmentDetails(date, time);
     } else {
-      this.changeAppointmentSettings(date, time);
+      this.changeAppointmentSettings(date, day, time);
     }
   }
 
@@ -42,10 +43,10 @@ export class DatesInfoComponent {
     });
   }
 
-  changeAppointmentSettings(date: string, time: Timeslot) {
+  changeAppointmentSettings(date: string, day: UserDates, time: Timeslot) {
     const dialogRef = this.dialog.open(AppointmentSettingsComponent, {
       panelClass: 'custom-dialog-panel',
-      data: { userDates: this.userDates, date: date, time: time },
+      data: { userDates: this.userDates, date: date, day: day, time: time },
     });
   }
 }
