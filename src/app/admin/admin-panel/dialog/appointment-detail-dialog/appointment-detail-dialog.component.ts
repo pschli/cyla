@@ -20,26 +20,12 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { RefreshCalendarStateService } from '../../../../services/refresh-calendar-state.service';
-
-interface TimeData {
-  time: string;
-  duration: string;
-  reserved: boolean;
-  blocked: boolean;
-  taken: boolean;
-  appointment?:
-    | {
-        token: string | null;
-        name?: string | undefined;
-        email?: string | undefined;
-      }
-    | undefined;
-}
+import { Timeslot } from '../../../../interfaces/timeslot';
 
 interface dataType {
   userDates: DateDataService;
   date: string;
-  time: TimeData;
+  time: Timeslot;
 }
 
 interface ServerResponse {
@@ -66,7 +52,7 @@ export class AppointmentDetailDialogComponent {
   refreshCalendarService = inject(RefreshCalendarStateService);
   userDates: DateDataService;
   date: string;
-  time: TimeData;
+  time: Timeslot;
   timeslot:
     | {
         date: string;

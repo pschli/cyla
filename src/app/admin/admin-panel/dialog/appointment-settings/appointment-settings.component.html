@@ -1,0 +1,31 @@
+<div class="outer">
+  <h2>Verfügbarkeit</h2>
+  <div class="single-date-container">
+    <span class="date">{{ formatDate(date) }}</span>
+    <div>
+      <div>
+        <span>{{ time.time }} Uhr</span>
+        <span>Dauer: {{ time.duration }}</span>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="button-row">
+      <button
+        mat-button
+        *ngIf="!time.blocked"
+        (click)="toggleBlock(time.blocked)"
+      >
+        blocken
+      </button>
+      <button
+        mat-button
+        *ngIf="time.blocked"
+        (click)="toggleBlock(time.blocked)"
+      >
+        freigeben
+      </button>
+      <button mat-flat-button (click)="closeDialog()">schließen</button>
+    </div>
+  </div>
+</div>

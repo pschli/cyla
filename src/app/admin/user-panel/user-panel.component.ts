@@ -139,6 +139,6 @@ export class UserPanelComponent {
   updateGreeting() {
     setTimeout(() => {
       this.greeting.requestUpdate();
-    }, 5000);
+    }, 15000);
   }
 }

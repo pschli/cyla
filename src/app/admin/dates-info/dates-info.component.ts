@@ -7,6 +7,7 @@ import { AsyncPipe, NgClass, NgFor } from '@angular/common';
 import { Timeslot } from '../../interfaces/timeslot';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentDetailDialogComponent } from '../admin-panel/dialog/appointment-detail-dialog/appointment-detail-dialog.component';
+import { AppointmentSettingsComponent } from '../admin-panel/dialog/appointment-settings/appointment-settings.component';
 
 @Component({
   selector: 'app-dates-info',
@@ -42,6 +43,9 @@ export class DatesInfoComponent {
   }
 
   changeAppointmentSettings(date: string, time: Timeslot) {
-    console.log('change settings', date, time.time);
+    const dialogRef = this.dialog.open(AppointmentSettingsComponent, {
+      panelClass: 'custom-dialog-panel',
+      data: { userDates: this.userDates, date: date, time: time },
+    });
   }
 }
