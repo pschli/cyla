@@ -244,8 +244,6 @@ export class DateDataService implements OnDestroy, OnInit {
       sourceTimes.forEach((timeElement: TimeslotData) => {
         let newTimeElement: TimeslotData = timeElement;
         if (timeElement.time === time) {
-          if (timeElement.appointment && timeElement.appointment.token)
-            this.deleteMailIdToken(timeElement.appointment.token);
           newTimeElement.reserved = false;
           newTimeElement.taken = false;
           newTimeElement.appointment = { token: null };
@@ -256,10 +254,6 @@ export class DateDataService implements OnDestroy, OnInit {
     if (targetTimes.length === 0) return 'error';
     let result = await this.fs.updateTimes(date, targetTimes);
     return result;
-  }
-
-  deleteMailIdToken(idLink: string) {
-    console.log('delete token:', idLink);
   }
 
   updateTimeslots(timesArray: Array<TimeslotData>, durations: Array<string>) {

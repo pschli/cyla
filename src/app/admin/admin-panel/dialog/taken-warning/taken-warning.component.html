@@ -1,17 +1,20 @@
 <div>
+  @let matching = matchingDates$ | async;
   <h2>Bestehende Termine</h2>
+
+  @for (match of matching; track $index) { @if (match.date === dateTakenString)
+  {
   <p>Du hast an diesem Tag bereits Termine:</p>
-  @let appointments = userDates.activeAppointments$ | async; @for (appointment
-  of appointments; track $index) { @if (appointment.date === dateTakenString) {
   <div class="single-date-container">
     <app-upcoming-list-element
-      [item]="appointment"
+      [item]="match"
       [userDates]="userDates"
     ></app-upcoming-list-element>
   </div>
-  } }
+  } } @if ((matching && matching.length === 0) || !matching ) {
+  <p>Keine Termine</p>
+  }
   <div class="button-row">
-    <button mat-flat-button (click)="closeDialog()">abbrechen</button
-    ><button mat-button (click)="continuePlanning()">fortfahren</button>
+    <button mat-flat-button (click)="closeDialog()">schließen</button>
   </div>
 </div>

@@ -5,21 +5,7 @@ import { TimeslotDetailsComponent } from './timeslot-details/timeslot-details.co
 import { DateDataService } from '../../../services/date-data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AppointmentDetailDialogComponent } from '../../admin-panel/dialog/appointment-detail-dialog/appointment-detail-dialog.component';
-
-interface TimeData {
-  time: string;
-  duration: string;
-  reserved: boolean;
-  blocked: boolean;
-  taken: boolean;
-  appointment?:
-    | {
-        token: string | null;
-        name?: string | undefined;
-        email?: string | undefined;
-      }
-    | undefined;
-}
+import { Timeslot } from '../../../interfaces/timeslot';
 
 @Component({
   selector: 'app-upcoming-list-element',
@@ -39,7 +25,7 @@ export class UpcomingListElementComponent {
     return this.dateFormatter.getShortDate(day);
   }
 
-  openAppointmentDetails(date: string, time: TimeData) {
+  openAppointmentDetails(date: string, time: Timeslot) {
     const dialogRef = this.dialog.open(AppointmentDetailDialogComponent, {
       panelClass: 'custom-dialog-panel',
       data: { userDates: this.userDates, date: date, time: time },

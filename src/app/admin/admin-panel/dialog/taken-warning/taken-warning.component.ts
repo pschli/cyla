@@ -5,6 +5,8 @@ import { DateDataService } from '../../../../services/date-data.service';
 import { UpcomingListElementComponent } from '../../../user-panel/upcoming-list-element/upcoming-list-element.component';
 import { DateFormatterService } from '../../../../services/date-formatter.service';
 import { MatButton } from '@angular/material/button';
+import { map, Observable } from 'rxjs';
+import { UserDates } from '../../../../interfaces/user-dates';
 
 @Component({
   selector: 'app-taken-warning',
@@ -18,6 +20,7 @@ export class TakenWarningComponent {
   userDates: DateDataService;
   dateTaken: Date;
   dateTakenString: string;
+  matchingDates$: Observable<UserDates[]> = new Observable();
 
   constructor(
     public dialogRef: MatDialogRef<TakenWarningComponent>,
@@ -26,6 +29,11 @@ export class TakenWarningComponent {
     this.userDates = data.userDates;
     this.dateTaken = data.date;
     this.dateTakenString = this.dateFormatter.getStringFromDate(this.dateTaken);
+    this.matchingDates$ = this.userDates.activeAppointments$.pipe(
+      map((active) =>
+        active.filter((date) => date.date === this.dateTakenString)
+      )
+    );
   }
 
   continuePlanning() {

@@ -19,6 +19,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { RefreshCalendarStateService } from '../../../../services/refresh-calendar-state.service';
 
 interface TimeData {
   time: string;
@@ -62,6 +63,7 @@ interface ServerResponse {
 export class AppointmentDetailDialogComponent {
   dateFormatter = inject(DateFormatterService);
   private _snackBar = inject(MatSnackBar);
+  refreshCalendarService = inject(RefreshCalendarStateService);
   userDates: DateDataService;
   date: string;
   time: TimeData;
@@ -101,7 +103,9 @@ export class AppointmentDetailDialogComponent {
     this.message.setValue(`Hallo ${this.timeslot!.name},
 Leider müssen wir deinen Termin am ${this.formatDate(this.date)} um ${
       this.time.time
-    } Uhr absagen. Vereinbare gerne einen neuen Termin. 
+    } Uhr absagen. Vereinbare gerne einen neuen Termin unter: ${
+      this.userDates.userBaseData.publiclink
+    }. 
 Mit freundlichen Grüßen
 ${this.userDates.userBaseData.firstname} ${this.userDates.userBaseData.lastname}
 ${this.userDates.userBaseData.email}
@@ -134,6 +138,7 @@ ${this.userDates.userBaseData.email}
         this.showCancelResult(response.response);
       }
     }
+    this.refreshCalendarService.requestUpdate();
     this.closeDialog();
   }
 
@@ -152,12 +157,6 @@ ${this.userDates.userBaseData.email}
         message: this.message.value,
         omit: omit ? 'true' : 'false',
       };
-      console.log(omit);
-      console.log(this.timeslot?.email);
-      console.log(this.timeslot?.token);
-      console.log(this.topic.value);
-      console.log(this.message.value);
-      console.log(params);
       try {
         const response: ServerResponse = await firstValueFrom(
           this.http.get<ServerResponse>(url, {
@@ -165,7 +164,6 @@ ${this.userDates.userBaseData.email}
             responseType: 'json',
           })
         );
-        console.log(response);
         return response;
       } catch (err) {
         return { response: 'error' };
@@ -175,7 +173,6 @@ ${this.userDates.userBaseData.email}
   }
 
   private showCancelResult(result: string) {
-    console.log(result);
     result === 'ok'
       ? (result = 'Termin gelöscht')
       : (result = 'Fehler beim Löschen');
