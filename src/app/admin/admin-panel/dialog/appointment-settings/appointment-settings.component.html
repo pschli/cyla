@@ -7,25 +7,18 @@
         <span>{{ time.time }} Uhr</span>
         <span>Dauer: {{ time.duration }}</span>
       </div>
+      <div>
+        <mat-slide-toggle
+          [(ngModel)]="slider"
+          (ngModelChange)="toggleBlock(time.blocked)"
+          ><span class="slider-label"
+            >@if (time.blocked) {geblockt} @else {verfügbar}</span
+          ></mat-slide-toggle
+        >
+      </div>
     </div>
   </div>
-  <div>
-    <div class="button-row">
-      <button
-        mat-button
-        *ngIf="!time.blocked"
-        (click)="toggleBlock(time.blocked)"
-      >
-        blocken
-      </button>
-      <button
-        mat-button
-        *ngIf="time.blocked"
-        (click)="toggleBlock(time.blocked)"
-      >
-        freigeben
-      </button>
-      <button mat-flat-button (click)="closeDialog()">schließen</button>
-    </div>
+  <div class="button-row">
+    <button mat-flat-button (click)="closeDialog()">schließen</button>
   </div>
 </div>

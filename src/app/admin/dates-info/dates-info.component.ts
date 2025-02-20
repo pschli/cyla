@@ -21,6 +21,7 @@ export class DatesInfoComponent {
   readonly panelOpenState = signal(false);
   dateFormatter = inject(DateFormatterService);
   userDates = inject(DateDataService);
+  selectedDate = '';
 
   constructor(public dialog: MatDialog) {}
 
@@ -44,6 +45,7 @@ export class DatesInfoComponent {
   }
 
   changeAppointmentSettings(date: string, day: UserDates, time: Timeslot) {
+    this.selectedDate = date;
     const dialogRef = this.dialog.open(AppointmentSettingsComponent, {
       panelClass: 'custom-dialog-panel',
       data: { userDates: this.userDates, date: date, day: day, time: time },

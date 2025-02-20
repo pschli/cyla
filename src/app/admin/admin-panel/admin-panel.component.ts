@@ -176,7 +176,7 @@ export class AdminPanelComponent implements AfterViewInit {
       this.dayToggledOn[day] = switchOn;
       this.updateMarkedDates(day);
     });
-    this.refreshCalendarService.requestUpdate();
+    this.updateCalendars();
   }
 
   toggleWeekday(weekday: Weekday) {
@@ -223,7 +223,7 @@ export class AdminPanelComponent implements AfterViewInit {
     });
     this.userDates.markedToEdit = [];
     this.toggleAll('off');
-    this.refreshCalendarService.requestUpdate();
+    this.updateCalendars();
   }
 
   dateIsNotMarked(date: Date) {

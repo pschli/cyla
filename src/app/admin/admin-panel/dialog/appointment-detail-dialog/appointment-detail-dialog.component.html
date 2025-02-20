@@ -19,27 +19,29 @@
     >
   </div>
   @if (allowCancel()) {
-  <div class="message-form">
-    <form class="message-form">
-      <mat-form-field appearance="outline">
-        <mat-label>Betreff</mat-label>
-        <input matInput [formControl]="topic" />
-      </mat-form-field>
+  <div [@messagePane]>
+    <div class="message-form">
+      <form class="message-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Betreff</mat-label>
+          <input matInput [formControl]="topic" />
+        </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Nachricht</mat-label>
-        <textarea
-          matInput
-          [formControl]="message"
-          class="message-full"
-        ></textarea>
-      </mat-form-field>
-    </form>
-  </div>
-  <div>
-    <mat-checkbox [(ngModel)]="omitMessage" (ngModelChange)="setDisable()"
-      >Keine Nachricht senden</mat-checkbox
-    >
+        <mat-form-field appearance="outline">
+          <mat-label>Nachricht</mat-label>
+          <textarea
+            matInput
+            [formControl]="message"
+            class="message-full"
+          ></textarea>
+        </mat-form-field>
+      </form>
+    </div>
+    <div>
+      <mat-checkbox [(ngModel)]="omitMessage" (ngModelChange)="setDisable()"
+        >Keine Nachricht senden</mat-checkbox
+      >
+    </div>
   </div>
   }
   <div class="button-row">

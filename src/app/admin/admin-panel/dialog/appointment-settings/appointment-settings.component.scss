@@ -22,13 +22,17 @@ div.outer {
     > div {
       margin: 0;
       display: flex;
-      align-items: start;
+      align-items: center;
       gap: 32px;
       > div {
         margin: 0;
         display: flex;
         flex-direction: column;
-        justify-content: start;
+        justify-content: center;
+        align-items: start;
+        .slider-label {
+          margin-left: 8px;
+        }
       }
     }
   }

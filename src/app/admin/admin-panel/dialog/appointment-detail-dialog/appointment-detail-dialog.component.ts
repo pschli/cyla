@@ -1,7 +1,11 @@
 import { Component, Inject, inject, model } from '@angular/core';
 import { DateFormatterService } from '../../../../services/date-formatter.service';
 import { DateDataService } from '../../../../services/date-data.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import {
   FormControl,
@@ -21,6 +25,7 @@ import {
 } from '@angular/material/snack-bar';
 import { RefreshCalendarStateService } from '../../../../services/refresh-calendar-state.service';
 import { Timeslot } from '../../../../interfaces/timeslot';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 interface dataType {
   userDates: DateDataService;
@@ -42,9 +47,25 @@ interface ServerResponse {
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatDialogModule,
   ],
   templateUrl: './appointment-detail-dialog.component.html',
   styleUrl: './appointment-detail-dialog.component.scss',
+  animations: [
+    trigger('messagePane', [
+      transition(':enter', [
+        style({ opacity: 0, height: 0, overflow: 'hidden' }),
+        animate('200ms ease-in-out', style({ opacity: 1, height: '*' })),
+      ]),
+      transition(':leave', [
+        style({ opacity: 1, height: '*', overflow: 'hidden' }),
+        animate(
+          '200ms ease-in-out',
+          style({ opacity: 0, height: 0, overflow: 'hidden' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class AppointmentDetailDialogComponent {
   dateFormatter = inject(DateFormatterService);

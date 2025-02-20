@@ -1,10 +1,9 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject, Inject, model, ModelSignal } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DateDataService } from '../../../../services/date-data.service';
 import { Timeslot } from '../../../../interfaces/timeslot';
 import { MatButton } from '@angular/material/button';
 import { DateFormatterService } from '../../../../services/date-formatter.service';
-import { NgIf } from '@angular/common';
 import { UserDates } from '../../../../interfaces/user-dates';
 import { FirestoreService } from '../../../../services/firestore.service';
 import {
@@ -12,6 +11,8 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
 
 interface dataType {
   userDates: DateDataService;
@@ -23,7 +24,7 @@ interface dataType {
 @Component({
   selector: 'app-appointment-settings',
   standalone: true,
-  imports: [MatButton, NgIf],
+  imports: [MatSlideToggleModule, MatButton, FormsModule],
   templateUrl: './appointment-settings.component.html',
   styleUrl: './appointment-settings.component.scss',
 })
@@ -35,6 +36,7 @@ export class AppointmentSettingsComponent {
   date: string;
   time: Timeslot;
   day: UserDates;
+  slider: ModelSignal<boolean> = model<boolean>(false);
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -47,6 +49,7 @@ export class AppointmentSettingsComponent {
     this.day = data.day;
     this.date = data.date;
     this.time = data.time;
+    this.slider.set(!this.time.blocked);
   }
 
   async toggleBlock(blocked: boolean) {
@@ -86,7 +89,7 @@ export class AppointmentSettingsComponent {
   showResult(block: boolean, result: string = 'success') {
     let message = '';
     if (result === 'success') {
-      message = block ? 'Termin ist geblockt' : 'Termin ist freigegeben';
+      return;
     } else {
       message = block
         ? 'Fehler: Termin konnte nicht geblockt werden'

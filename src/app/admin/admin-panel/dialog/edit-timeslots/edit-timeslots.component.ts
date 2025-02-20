@@ -36,6 +36,7 @@ import { merge } from 'rxjs';
 import { TimeslotSavedHandlerService } from '../../../../services/timeslot-saved-handler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DurationsService } from '../../../../services/durations.service';
+import { DateDataService } from '../../../../services/date-data.service';
 
 interface Time {
   timevalue: string;
@@ -124,7 +125,7 @@ interface TimeslotData {
   styleUrl: './edit-timeslots.component.scss',
 })
 export class EditTimeslotsComponent {
-  dateservice: any;
+  dateservice: DateDataService;
   durationService = inject(DurationsService);
   durations$ = this.durationService.getValues();
   tsh = inject(TimeslotSavedHandlerService);

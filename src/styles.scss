@@ -96,6 +96,12 @@
       title-text-font: "Source Sans 3",
     )
   );
+  @include mat.slide-toggle-overrides(
+    (
+      track-outline-color: orange,
+      disabled-unselected-track-outline-color: red,
+    )
+  );
 }
 
 .material-icons {
