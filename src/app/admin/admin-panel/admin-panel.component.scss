@@ -138,6 +138,13 @@
   max-width: 100%;
 }
 
+@media (max-width: 1184px) {
+  .timeslot-outer {
+    flex-direction: column-reverse;
+    gap: 36px;
+  }
+}
+
 @media (max-width: 1024px) {
   .content {
     margin-left: 48px;
@@ -169,6 +176,36 @@
   .inner {
     mat-card {
       margin: 16px 0px;
+    }
+  }
+
+  .timeslot-outer {
+    gap: 24px;
+
+    .controls-container {
+      margin-top: 16px;
+
+      > .first-row {
+        flex-wrap: wrap;
+      }
+      > div.weekday-row {
+        margin-top: 16px;
+        > div {
+          margin-top: 12px;
+          flex-wrap: wrap;
+          gap: 4px;
+        }
+      }
+      > div.edit-row {
+        margin-top: 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        > button:first-child {
+          font-size: 16px;
+          font-weight: 700;
+        }
+      }
     }
   }
 }

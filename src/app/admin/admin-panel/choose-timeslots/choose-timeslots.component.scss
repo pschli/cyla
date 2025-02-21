@@ -52,3 +52,16 @@
   font-weight: 600;
   border-radius: 100%;
 }
+
+@media (max-width: 450px) {
+  .md-wrapper {
+    margin-top: 16px;
+    width: 100%;
+
+    > div {
+      aspect-ratio: 48 / 42;
+      height: auto;
+      width: 100%;
+    }
+  }
+}
