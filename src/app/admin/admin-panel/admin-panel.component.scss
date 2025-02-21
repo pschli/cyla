@@ -17,7 +17,7 @@
   max-width: 1440px;
   margin-left: 80px;
   margin-right: 80px;
-  margin-top: 80px;
+  margin-top: 12px;
   flex: 1;
   display: flex;
   justify-content: center;
@@ -150,6 +150,11 @@
     margin-left: 32px;
     margin-right: 32px;
   }
+  .inner {
+    mat-card {
+      margin: 24px 0px;
+    }
+  }
 }
 
 @media (max-width: 680px) {
@@ -160,6 +165,11 @@
   .content {
     margin-left: 16px;
     margin-right: 16px;
+  }
+  .inner {
+    mat-card {
+      margin: 16px 0px;
+    }
   }
 }
 
@@ -187,6 +197,10 @@
         }
       }
     }
+
+    mat-card {
+      margin: 8px 0px;
+    }
   }
 }
 
@@ -198,5 +212,11 @@
   .content {
     margin-left: 4px;
     margin-right: 4px;
+  }
+
+  .inner {
+    mat-card {
+      margin: 4px 0px;
+    }
   }
 }
