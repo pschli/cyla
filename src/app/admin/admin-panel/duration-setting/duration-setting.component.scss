@@ -40,7 +40,8 @@
 }
 form {
   > div.interval {
-    display: inline block;
+    display: inline-block;
+
     > p {
       font-size: 16px;
     }
@@ -50,7 +51,7 @@ form {
     }
 
     > div.timeselector {
-      margin-top: 4px;
+      margin-top: 16px;
       margin-bottom: 40px;
       display: flex;
       align-items: center;
@@ -70,4 +71,40 @@ form {
 }
 h3 {
   margin: 4px 0;
+}
+
+@media (max-width: 1124px) {
+  .duration-setting-container {
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+}
+
+@media (max-width: 680px) {
+  form {
+    > div.interval {
+      > div.timeselector {
+        margin-top: 4px;
+        margin-bottom: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        > mat-form-field {
+          width: 112px;
+        }
+        > .duration-name {
+          width: auto;
+        }
+        > button {
+          min-width: 96px;
+          margin-left: 16px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
 }

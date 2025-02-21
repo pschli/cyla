@@ -137,3 +137,39 @@
 #cdk-overlay-0 {
   max-width: 100%;
 }
+
+@media (max-width: 1024px) {
+  .content {
+    margin-left: 48px;
+    margin-right: 48px;
+  }
+}
+
+@media (max-width: 864px) {
+  .content {
+    margin-left: 32px;
+    margin-right: 32px;
+  }
+}
+
+@media (max-width: 680px) {
+  h1 {
+    font-size: 36px;
+  }
+
+  .content {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  .content {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+}
