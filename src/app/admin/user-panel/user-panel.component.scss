@@ -17,21 +17,27 @@
   max-width: 1440px;
   margin-left: 80px;
   margin-right: 80px;
-  margin-top: 80px;
+  margin-top: 0px;
   flex: 1;
   display: flex;
   justify-content: center;
 }
 
 .inner {
+  margin-top: 0;
   flex: 1;
   @include mat.card-overrides(
     (
       outline-width: 0,
     )
   );
+  .headline-container {
+    position: relative;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
   > div {
-    margin-top: 36px;
+    margin-top: 32px;
     width: 100%;
     display: flex;
 
@@ -46,7 +52,8 @@
   }
   .user-info {
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
   }
   .user-info-column {
     display: flex;
@@ -69,13 +76,45 @@
   }
 }
 
-.headline-container {
-  position: relative;
-}
-
 .FAB-Container {
   > button {
     float: right;
     position: sticky;
+  }
+}
+
+@media (max-width: 1024px) {
+  .content {
+    margin-left: 48px;
+    margin-right: 48px;
+  }
+}
+
+@media (max-width: 864px) {
+  .content {
+    margin-left: 32px;
+    margin-right: 32px;
+  }
+}
+
+@media (max-width: 680px) {
+  h1 {
+    font-size: 36px;
+  }
+
+  .content {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  .content {
+    margin-left: 4px;
+    margin-right: 4px;
   }
 }
