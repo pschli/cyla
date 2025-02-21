@@ -153,7 +153,7 @@
 }
 
 @media (max-width: 680px) {
-  h1 {
+  h2 {
     font-size: 36px;
   }
 
@@ -163,8 +163,35 @@
   }
 }
 
+@media (max-width: 510px) {
+  .inner {
+    .month-card-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 12px;
+      > div {
+        width: 100%;
+      }
+      > div:not(:last-child) {
+        > button {
+          display: none;
+        }
+      }
+      > div:last-child {
+        position: relative;
+        > button {
+          position: absolute;
+          bottom: -60px;
+          right: 8px;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 480px) {
-  h1 {
+  h2 {
     font-size: 32px;
   }
 
