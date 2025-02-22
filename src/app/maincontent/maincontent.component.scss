@@ -3,26 +3,29 @@ h2 {
 }
 
 .container {
-  min-height: calc(100vh - 96px);
+  min-height: calc(100vh - 64px);
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .content {
-  max-width: 1920px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 1440px;
+  margin-left: 80px;
+  margin-right: 80px;
+  margin-top: 0px;
+  flex: 1;
   display: flex;
+  justify-content: center;
 }
 
 .inner {
-  margin-left: 80px;
-  margin-right: 80px;
-  margin-top: 80px;
+  margin-top: 0px;
   width: 100%;
 
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 80px;
   > div {
     height: 100%;
@@ -30,16 +33,40 @@ h2 {
   }
 }
 
-.left {
-  display: flex;
-  flex-direction: column;
+@media (max-width: 1024px) {
+  .content {
+    margin-left: 48px;
+    margin-right: 48px;
+  }
 }
 
-.datepicker {
-  width: 100%;
+@media (max-width: 864px) {
+  .content {
+    margin-left: 32px;
+    margin-right: 32px;
+  }
 }
 
-.choosetime {
-  width: 100%;
-  margin-top: 40px;
+@media (max-width: 680px) {
+  .content {
+    margin-left: 16px;
+    margin-right: 16px;
+    .inner {
+      h2 {
+        font-size: 36px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    margin-left: 4px;
+    margin-right: 4px;
+    .inner {
+      h2 {
+        font-size: 32px;
+      }
+    }
+  }
 }
