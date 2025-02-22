@@ -47,7 +47,7 @@
         class="choosetime"
       ></app-choose-time>
       @if (scheduledMeeting.data.time && scheduledMeeting.data.date) {
-      <div>
+      <div class="selection-text">
         Du wünschst einen Termin {{ localDate }} um
         {{ scheduledMeeting.data.time }} Uhr.
       </div>
@@ -60,7 +60,7 @@
       </button>
     </div>
   </mat-step>
-  <mat-step [formGroup]="legalCheck">
+  <!-- <mat-step [formGroup]="legalCheck">
     <ng-template matStepLabel>Prüfen und Absenden</ng-template>
     <mat-card class="summary"
       ><h3>Bitte kontrolliere deine Eingaben.</h3>
@@ -97,5 +97,5 @@
         </button>
       </div></mat-card
     >
-  </mat-step>
+  </mat-step> -->
 </mat-stepper>

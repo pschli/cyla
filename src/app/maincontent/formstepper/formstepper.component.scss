@@ -3,11 +3,11 @@ h3 {
 }
 
 .step-inner {
-  margin-left: 16px;
+  margin-left: 0;
   margin-right: 0;
   margin-top: 40px;
   margin-bottom: 40px;
-  width: 100%;
+  // width: 100%;
 
   display: flex;
   flex-direction: column;
@@ -15,7 +15,12 @@ h3 {
   gap: 36px;
   > div {
     height: 100%;
-    flex: 1;
+    // flex: 1;
+  }
+  > .selection-text {
+    max-width: 100%;
+    line-height: 137%;
+    word-wrap: break-word;
   }
   app-choose-duration {
     width: calc(100% - 24px);
