@@ -60,26 +60,16 @@
       </button>
     </div>
   </mat-step>
-  <!-- <mat-step [formGroup]="legalCheck">
+  <mat-step [formGroup]="legalCheck">
     <ng-template matStepLabel>Prüfen und Absenden</ng-template>
     <mat-card class="summary"
       ><h3>Bitte kontrolliere deine Eingaben.</h3>
-      <mat-list role="list">
-        <mat-list-item role="listitem"
-          >Name: <span>{{ scheduledMeeting.data.name }}</span></mat-list-item
-        >
-        <mat-list-item role="listitem"
-          >Email: <span>{{ scheduledMeeting.data.email }}</span></mat-list-item
-        >
-        <mat-list-item role="listitem"
-          >Datum: <span>{{ localDate }}</span></mat-list-item
-        >
-        <mat-list-item role="listitem"
-          >Uhrzeit:
-          <span>{{ scheduledMeeting.data.time }} Uhr</span></mat-list-item
-        >
-      </mat-list>
-
+      <p class="user-data">
+        Name: {{ scheduledMeeting.data.name }}<br />
+        Email: {{ scheduledMeeting.data.email }}<br />
+        Datum: {{ localDate }}<br />
+        Uhrzeit: {{ scheduledMeeting.data.time }} Uhr
+      </p>
       <p>
         <mat-checkbox [formControl]="legalCheck.controls.checked"
           >Ich akzeptiere die Datenschutzbedingungen
@@ -97,5 +87,5 @@
         </button>
       </div></mat-card
     >
-  </mat-step> -->
+  </mat-step>
 </mat-stepper>
