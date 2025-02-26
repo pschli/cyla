@@ -1,13 +1,12 @@
 @if (authService.currentUserSig() === null) {
-<div class="container">
+<div class="container" [@content]>
   <div class="content">
     <div class="inner">
       <div>
         <h1>Gewinne Zeit</h1>
         <p class="kicker">
           Sprechstunden und Termine zu organisieren verursacht Arbeit, Aufwand
-          und beansprucht Zeit. Cyla Scheduling befreit dich davon. Außerdem
-          vermeidet es Wartezeiten und ineffiziente Terminfolgen.
+          und beansprucht Zeit. Cyla Scheduling befreit dich davon.
         </p>
         <div>
           <button mat-flat-button color="primary" (click)="openSignup()">

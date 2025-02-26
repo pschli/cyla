@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { routeTransitions } from './route-transitions';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,9 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
       useValue: { appearance: 'outline' },
     },
   ],
+  animations: [routeTransitions],
 })
 export class AppComponent {
+  constructor(protected route: ActivatedRoute) {}
   title = 'illbethere';
 }

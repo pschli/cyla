@@ -1,2 +1,7 @@
 <app-header></app-header>
-<router-outlet></router-outlet>
+<div
+  style="display: contents; position: relative"
+  [@routeTransition]="route.snapshot.data"
+>
+  <router-outlet></router-outlet>
+</div>

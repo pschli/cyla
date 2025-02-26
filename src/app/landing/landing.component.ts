@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SignupComponent } from '../dialog/signup/signup.component';
 import { AuthService } from '../services/auth.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-landing',
@@ -11,6 +12,7 @@ import { AuthService } from '../services/auth.service';
   imports: [MatButtonModule, RouterLink],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
+  animations: [],
 })
 export class LandingComponent implements OnInit {
   authService = inject(AuthService);
