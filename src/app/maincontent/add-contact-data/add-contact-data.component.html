@@ -4,7 +4,7 @@
       <mat-label>Vorname</mat-label>
       <input
         matInput
-        placeholder="First Name"
+        placeholder="Vorname"
         [formControl]="formData.controls.firstname"
         (blur)="updateErrorMessage('firstname')"
         (change)="validateForm()"
@@ -18,7 +18,7 @@
       <mat-label>Nachname</mat-label>
       <input
         matInput
-        placeholder="Last Name"
+        placeholder="Nachname"
         [formControl]="formData.controls.lastname"
         (blur)="updateErrorMessage('lastname')"
         (change)="validateForm()"
@@ -35,7 +35,7 @@
     <mat-label>E-Mail-Adresse</mat-label>
     <input
       matInput
-      placeholder="pat@example.com"
+      placeholder="me@example.com"
       [formControl]="formData.controls.email"
       (blur)="updateErrorMessage('email')"
       (change)="validateForm()"

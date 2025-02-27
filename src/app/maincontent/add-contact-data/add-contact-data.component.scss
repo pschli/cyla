@@ -4,6 +4,7 @@ form {
   > .name-wrapper {
     display: flex;
     gap: 12px;
+    margin-bottom: 8px;
   }
 }
 
@@ -11,9 +12,11 @@ form {
   form {
     .mat-mdc-form-field {
       width: 100%;
+      margin-bottom: 8px;
     }
     > .name-wrapper {
       display: block;
+      margin-bottom: 0px;
     }
   }
 }

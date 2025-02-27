@@ -24,6 +24,7 @@
       ></app-choose-duration>
     </div>
     <div>
+      <button mat-button matStepperPrevious>zurück</button>
       <button mat-button matStepperNext [disabled]="!durationFormCompleted">
         weiter
       </button>
@@ -52,7 +53,7 @@
       } }
     </div>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperPrevious>zurück</button>
       <button mat-button matStepperNext [disabled]="!dateFormCompleted">
         weiter
       </button>
