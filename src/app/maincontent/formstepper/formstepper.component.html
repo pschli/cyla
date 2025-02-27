@@ -3,7 +3,19 @@
   [linear]="true"
   animationDuration="400"
   #stepper
->
+  ><mat-step [completed]="contactFormCompleted">
+    <ng-template matStepLabel>Deine Daten</ng-template>
+    <div class="step-inner">
+      <app-add-contact-data
+        (contactDataValid)="setContactStepValidity($event)"
+      ></app-add-contact-data>
+    </div>
+    <div>
+      <button mat-button matStepperNext [disabled]="!contactFormCompleted">
+        Next
+      </button>
+    </div>
+  </mat-step>
   <mat-step [completed]="durationFormCompleted">
     <ng-template matStepLabel>Wähle eine Terminart</ng-template>
     <div class="step-inner">
@@ -14,20 +26,6 @@
     <div>
       <button mat-button matStepperNext [disabled]="!durationFormCompleted">
         weiter
-      </button>
-    </div>
-  </mat-step>
-
-  <mat-step [completed]="contactFormCompleted">
-    <ng-template matStepLabel>Deine Daten</ng-template>
-    <div class="step-inner">
-      <app-add-contact-data
-        (contactDataValid)="setContactStepValidity($event)"
-      ></app-add-contact-data>
-    </div>
-    <div>
-      <button mat-button matStepperNext [disabled]="!contactFormCompleted">
-        Next
       </button>
     </div>
   </mat-step>
