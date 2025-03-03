@@ -12,7 +12,7 @@
           matTooltip="Mausklick zum Löschen"
         >
           <div>
-            <div>{{ duration.duration }} Stunde(n)</div>
+            <div>{{ duration.duration | duration }}</div>
             <div>{{ duration.name }}</div>
           </div>
           <mat-icon class="hover">delete</mat-icon>

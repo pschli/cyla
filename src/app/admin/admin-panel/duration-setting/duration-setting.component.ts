@@ -16,6 +16,7 @@ import { DurationsService } from '../../../services/durations.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { DurationPipe } from '../../../pipes/duration.pipe';
 
 interface Time {
   timevalue: string;
@@ -25,6 +26,7 @@ interface Time {
   selector: 'app-duration-setting',
   standalone: true,
   imports: [
+    DurationPipe,
     NgIf,
     AsyncPipe,
     ReactiveFormsModule,

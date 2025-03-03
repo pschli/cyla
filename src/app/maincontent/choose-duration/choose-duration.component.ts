@@ -13,11 +13,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AppointmentInfoService } from '../../services/appointment-info.service';
+import { DurationPipe } from '../../pipes/duration.pipe';
 
 @Component({
   selector: 'app-choose-duration',
   standalone: true,
   imports: [
+    DurationPipe,
     AsyncPipe,
     MatFormFieldModule,
     MatSelectModule,

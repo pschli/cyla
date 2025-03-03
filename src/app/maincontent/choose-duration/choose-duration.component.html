@@ -9,7 +9,7 @@
   >
     @for (duration of durations; track duration.name) {
     <mat-option [value]="duration.duration"
-      >{{ duration.name }}: {{ duration.duration }} Stunden</mat-option
+      >{{ duration.name }}: {{ duration.duration | duration }}</mat-option
     >
     } </mat-select
   >@if (selection.invalid) {
