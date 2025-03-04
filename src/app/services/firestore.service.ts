@@ -55,14 +55,14 @@ export class FirestoreService {
     }
   }
 
-  async createPublicLink(uid: string, publicLink: string) {
+  async createTempLink(uid: string, publicLink: string) {
     if (!uid || !this.currentUid || uid !== this.currentUid) return;
     try {
       await updateDoc(doc(this.firestore, 'users', uid), {
-        publiclink: publicLink,
+        tempLink: publicLink,
       });
     } catch (e) {
-      console.error('Error saving public link:', e);
+      console.error('Error saving tempLink:', e);
     }
   }
 
