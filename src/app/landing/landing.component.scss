@@ -15,17 +15,18 @@
 .inner {
   margin-left: 80px;
   margin-right: 80px;
-  margin-top: 80px;
+
   width: 100%;
   display: flex;
   justify-content: center;
   > div {
     margin-top: 30%;
-    max-width: 900px;
+    max-width: 960px;
     display: flex;
     flex-direction: column;
     align-items: center;
     > div {
+      margin-top: 32px;
       display: flex;
       gap: 8px;
       > button,
@@ -39,12 +40,20 @@
 }
 
 h1 {
+  font-size: 64px;
+  line-height: 115%;
+  letter-spacing: -1.6px;
   text-align: center;
   margin: 0;
+  text-wrap: balance;
 }
 
 .kicker {
+  margin-bottom: 0;
   text-align: center;
+  text-wrap: balance;
+  font-weight: 500;
+  color: var(--mat-optgroup-label-text-color);
   font-size: 20px;
   line-height: 27px;
   max-width: 60ch;
