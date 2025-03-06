@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="content">
+    <div class="inner">
+      <button mat-button routerLink="../overview">
+        <mat-icon>chevron_left</mat-icon>zurück zur Übersicht
+      </button>
+      <h2>Dein Konto</h2>
+      @let user = auth.user$ | async; @let accountData = userData$ | async; @if
+      (user && accountData) {
+      <div class="user-data">
+        <mat-list>
+          <mat-list-item
+            >{{ accountData["firstname"] }}
+            {{ accountData["lastname"] }}</mat-list-item
+          >
+          <mat-divider></mat-divider>
+          <mat-list-item>{{ user.email }}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="pw-reset"
+            ><button mat-button>Passwort zurücksetzen</button></mat-list-item
+          >
+        </mat-list>
+      </div>
+
+      <button mat-stroked-button class="delete-btn" color="warn">
+        Konto löschen
+      </button>
+      }
+    </div>
+  </div>
+</div>

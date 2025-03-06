@@ -10,11 +10,12 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { LoginComponent } from '../dialog/login/login.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatDialogModule, MatButtonModule],
+  imports: [MatToolbarModule, MatDialogModule, MatButtonModule, MatIconModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -41,5 +42,9 @@ export class HeaderComponent {
   login() {
     this.dialogRef.closeAll();
     const dialogRef = this.dialog.open(LoginComponent);
+  }
+
+  openAccountSettings() {
+    this.router.navigateByUrl('admin/account');
   }
 }

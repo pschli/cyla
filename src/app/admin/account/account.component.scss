@@ -1,0 +1,32 @@
+.container {
+  min-height: calc(100vh - 64px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  max-width: 1440px;
+  margin-left: 80px;
+  margin-right: 80px;
+  margin-top: 12px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.inner {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.user-data {
+  max-width: 640px;
+  & .pw-reset {
+    margin-left: -12px;
+  }
+}
+
+.delete-btn {
+  margin-top: 32px;
+}

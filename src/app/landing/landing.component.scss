@@ -1,3 +1,35 @@
+@keyframes slide-in {
+  from {
+    top: -72px;
+  }
+  to {
+    top: 0;
+  }
+}
+
+.banner {
+  width: 100%;
+  height: 72px;
+  background-color: var(--mat-app-background-color);
+  box-shadow: var(--mat-app-elevation-shadow-level-10);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  animation: slide-in 600ms ease-in-out;
+  & span {
+    font-family: "Molle";
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  & button {
+    font-weight: 500;
+  }
+}
+
 .container {
   min-height: calc(100vh - 64px);
   width: 100%;
@@ -39,10 +71,50 @@
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes move-up1 {
+  from {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-8deg)
+      translate3d(-50% + 0, 150px, 0);
+  }
+  to {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-8deg)
+      translate3d(-50% + 0, 100px, 0);
+  }
+}
+
+@keyframes move-up2 {
+  from {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-7deg)
+      translate3d(-50% + 25%, 50px, 0);
+  }
+  to {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-7deg)
+      translate3d(-50% + 25%, 0, 0);
+  }
+}
+
+@keyframes move-up3 {
+  from {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-6deg)
+      translate3d(0, -50px, 0);
+  }
+  to {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-6deg)
+      translate3d(0, -100px, 0);
+  }
+}
+
 .hero-outer {
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
+  animation: fade-in 600ms ease-in-out;
   width: 100%;
   -webkit-mask-image: linear-gradient(to top, transparent 3%, black 10%);
   mask-image: linear-gradient(to top, transparent 3%, black 10%);
@@ -65,20 +137,23 @@
   }
   > .img1 {
     z-index: -3;
-    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-10deg)
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-8deg)
       translate3d(-50% + 0, 100px, 0);
+    animation: move-up1 600ms ease-out 120ms;
   }
 
   > .img2 {
     z-index: -2;
-    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-8deg)
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-7deg)
       translate3d(-50% + 25%, 0, 0);
+    animation: move-up2 600ms ease-out 60ms;
   }
 
   > .img3 {
     z-index: -1;
     transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-6deg)
       translate3d(0, -100px, 0);
+    animation: move-up3 600ms ease-out;
   }
 }
 
@@ -100,4 +175,8 @@ h1 {
   font-size: 20px;
   line-height: 27px;
   max-width: 60ch;
+}
+
+.learnmore {
+  animation: fade-in 600ms ease-in-out;
 }

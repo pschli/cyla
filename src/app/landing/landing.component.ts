@@ -1,24 +1,38 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { SignupComponent } from '../dialog/signup/signup.component';
 import { AuthService } from '../services/auth.service';
+import { LearnmoreComponent } from '../learnmore/learnmore.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [MatButtonModule, RouterLink],
+  imports: [MatButtonModule, LearnmoreComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
-  animations: [],
+  animations: [
+    trigger('banner', [
+      transition(':leave', [
+        style({ top: 0 }),
+        animate('200ms ease-in', style({ top: '-72px' })),
+      ]),
+    ]),
+  ],
 })
 export class LandingComponent implements OnInit {
   authService = inject(AuthService);
   router = inject(Router);
+  learnmoreClicked = false;
+  showBanner = false;
 
   constructor(public dialog: MatDialog) {}
+
+  @HostListener('window:scroll', ['$event']) onScrollEvent() {
+    this.showBanner = window.scrollY > 100 ? true : false;
+  }
   openSignup() {
     const dialogRef = this.dialog.open(SignupComponent);
   }
@@ -34,5 +48,12 @@ export class LandingComponent implements OnInit {
         this.authService.currentUserSig.set(null);
       }
     });
+  }
+
+  openLearnMore(element: HTMLElement) {
+    this.learnmoreClicked = true;
+    setTimeout(() => {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }, 60);
   }
 }

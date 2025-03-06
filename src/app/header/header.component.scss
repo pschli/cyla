@@ -1,5 +1,14 @@
 mat-toolbar {
   justify-content: space-between;
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    & .account {
+      border: 1px solid
+        var(--mdc-outlined-button-outline-color, var(--mat-app-outline));
+    }
+  }
   > span {
     font-family: "Molle";
     font-size: 24px;

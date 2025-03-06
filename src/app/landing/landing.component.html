@@ -1,4 +1,11 @@
-@if (authService.currentUserSig() === null) {
+@if (authService.currentUserSig() === null) { @if (showBanner === true) {
+<div class="banner" [@banner]>
+  <h3>Teste <span>Cyla</span> und automatisiere deine Terminplanung</h3>
+  <button mat-flat-button color="primary" (click)="openSignup()">
+    jetzt starten
+  </button>
+</div>
+}
 <div class="container">
   <div class="content">
     <div class="inner">
@@ -12,7 +19,9 @@
         <div>
           <button mat-flat-button color="primary" (click)="openSignup()">
             Beginne jetzt</button
-          ><a mat-button color="primary" routerLink="learnmore">Erfahre mehr</a>
+          ><a mat-button color="primary" (click)="openLearnMore(learn)"
+            >Erfahre mehr</a
+          >
         </div>
       </div>
       <div class="hero-outer">
@@ -25,6 +34,10 @@
           />
           <img class="img3" src="assets/img/header/overview.png" alt="" />
         </div>
+      </div>
+      <div #learn>
+        @if (learnmoreClicked === true) {
+        <app-learnmore class="learnmore"></app-learnmore>}
       </div>
     </div>
   </div>

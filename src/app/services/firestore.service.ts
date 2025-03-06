@@ -5,9 +5,11 @@ import {
   doc,
   DocumentReference,
   Firestore,
+  getDoc,
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
+import { from, map } from 'rxjs';
 
 interface DurationPayload {
   duration: string;
@@ -53,6 +55,15 @@ export class FirestoreService {
     } catch (e) {
       console.error('Error saving user data:', e);
     }
+  }
+
+  getAccountData() {
+    if (!this.currentUid) return;
+    const UserDocRef = doc(this.firestore, 'users', this.currentUid);
+    const userData$ = from(getDoc(UserDocRef)).pipe(
+      map((docSnap) => (docSnap.exists() ? docSnap.data() : null))
+    );
+    return userData$;
   }
 
   async createTempLink(uid: string, publicLink: string) {

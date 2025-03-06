@@ -1,7 +1,18 @@
 <mat-toolbar>
   <span>Cyla</span>
   @if (authService.currentUserSig()) {
-  <button mat-stroked-button (click)="logout()">Logout</button> } @else {
+  <div>
+    <button
+      mat-icon-button
+      aria-label="Kontoeinstellungen"
+      appearance="outlined"
+      class="account"
+      (click)="openAccountSettings()"
+    >
+      <mat-icon>person</mat-icon></button
+    ><button mat-stroked-button (click)="logout()">Logout</button>
+  </div>
+  } @else {
   <button mat-stroked-button (click)="login()">Login</button>
   }
 </mat-toolbar>

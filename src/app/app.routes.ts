@@ -10,6 +10,7 @@ import { UserPanelComponent } from './admin/user-panel/user-panel.component';
 import { ConfirmComponent } from './maincontent/confirm/confirm.component';
 import { CancelComponent } from './maincontent/cancel/cancel.component';
 import { AdminComponent } from './admin/admin.component';
+import { AccountComponent } from './admin/account/account.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -32,6 +33,11 @@ export const routes: Routes = [
       {
         path: 'overview',
         component: UserPanelComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: 'account',
+        component: AccountComponent,
         canActivate: [authGuard],
       },
     ],
