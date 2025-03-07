@@ -9,12 +9,44 @@
       (user && accountData) {
       <div class="user-data">
         <mat-list>
+          <mat-list-item>
+            <div class="data-container">
+              {{ accountData["firstname"] }} {{ accountData["lastname"] }}
+              <button
+                mat-icon-button
+                aria-label="Name ändern"
+                (click)="editData('name')"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
           <mat-list-item
-            >{{ accountData["firstname"] }}
-            {{ accountData["lastname"] }}</mat-list-item
+            ><div class="data-container">
+              {{ user.email }}
+              <button
+                mat-icon-button
+                aria-label="Email ändern"
+                (click)="editData('email')"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div></mat-list-item
           >
           <mat-divider></mat-divider>
-          <mat-list-item>{{ user.email }}</mat-list-item>
+          <mat-list-item
+            ><div class="data-container">
+              {{ accountData["publiclink"] }}
+              <button
+                mat-icon-button
+                aria-label="öffentlichen Link ändern"
+                (click)="changePublicLink()"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div></mat-list-item
+          >
           <mat-divider></mat-divider>
           <mat-list-item class="pw-reset"
             ><button mat-button>Passwort zurücksetzen</button></mat-list-item

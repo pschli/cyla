@@ -5,7 +5,7 @@
       <mat-dialog-content class="formfield">
         <div>
           <mat-form-field>
-            <mat-label>Enter first name</mat-label>
+            <mat-label>Vorname</mat-label>
             <input
               matInput
               placeholder="First Name"
@@ -17,7 +17,7 @@
             <mat-error>{{ errorMessage.firstname }}</mat-error>
             } </mat-form-field
           ><mat-form-field>
-            <mat-label>Enter last name</mat-label>
+            <mat-label>Nachname</mat-label>
             <input
               matInput
               placeholder="Last Name"
@@ -31,7 +31,7 @@
           </mat-form-field>
         </div>
         <mat-form-field>
-          <mat-label>Enter user email</mat-label>
+          <mat-label>E-Mail-Adresse</mat-label>
           <input
             matInput
             placeholder="pat@example.com"
@@ -45,7 +45,7 @@
           }
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Enter your password</mat-label>
+          <mat-label>Passwort</mat-label>
           <input
             matInput
             type="password"
@@ -129,7 +129,7 @@
         </div>
         }
         <mat-form-field>
-          <mat-label>Repeat your password</mat-label>
+          <mat-label>Wiederhole dein Passwort</mat-label>
           <input
             matInput
             [type]="hide() ? 'password' : 'text'"

@@ -24,6 +24,24 @@
   max-width: 640px;
   & .pw-reset {
     margin-left: -12px;
+    margin-top: 8px;
+  }
+  & .data-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    > button {
+      opacity: 0;
+      transition: opacity 200ms ease-in-out;
+    }
+    &:hover {
+      cursor: pointer;
+      > button {
+        opacity: 1;
+      }
+    }
   }
 }
 
