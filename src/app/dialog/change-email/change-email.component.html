@@ -1,0 +1,39 @@
+<div class="outer">
+  <div class="inner">
+    <form action="" [formGroup]="formData">
+      <mat-dialog-content class="formfield">
+        <mat-form-field>
+          <mat-label>E-Mail-Adresse</mat-label>
+          <input
+            matInput
+            placeholder="pat@example.com"
+            autocomplete="email"
+            [formControl]="formData.controls.email"
+            (blur)="updateErrorMessage('email')"
+            required
+          />
+          @if (formData.controls.email.invalid) {
+          <mat-error>{{ errorMessage.email }}</mat-error>
+          }
+        </mat-form-field>
+      </mat-dialog-content>
+      <div>
+        <mat-dialog-actions>
+          <div class="button-row">
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              [disabled]="formData.invalid"
+            >
+              ändern
+            </button>
+            <button mat-button color="primary" (click)="closeDialog()">
+              abbrechen
+            </button>
+          </div>
+        </mat-dialog-actions>
+      </div>
+    </form>
+  </div>
+</div>

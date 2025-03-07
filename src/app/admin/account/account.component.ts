@@ -5,20 +5,13 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AsyncPipe } from '@angular/common';
 import { FirestoreService } from '../../services/firestore.service';
-import { merge, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DocumentData } from '@angular/fire/firestore';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangeNameComponent } from '../../dialog/change-name/change-name.component';
+import { ChangeEmailComponent } from '../../dialog/change-email/change-email.component';
 
 @Component({
   selector: 'app-account',
@@ -43,11 +36,16 @@ export class AccountComponent {
 
   editSelection = { name: false, email: false };
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     this.userData$ = this.fs.getAccountData();
   }
 
-  editData(dataType: 'name' | 'email') {}
+  editData(dataType: 'name' | 'email') {
+    const dialogRef =
+      dataType === 'name'
+        ? this.dialog.open(ChangeNameComponent)
+        : this.dialog.open(ChangeEmailComponent);
+  }
 
   changePublicLink() {}
 }

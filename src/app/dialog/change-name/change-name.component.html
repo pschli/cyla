@@ -1,0 +1,52 @@
+<div class="outer">
+  <div class="inner">
+    <form action="" [formGroup]="formData">
+      <mat-dialog-content class="formfield">
+        <div>
+          <mat-form-field>
+            <mat-label>Vorname</mat-label>
+            <input
+              matInput
+              placeholder="Vorname"
+              [formControl]="formData.controls.firstname"
+              (blur)="updateErrorMessage('firstname')"
+              required
+            />
+            @if (formData.controls.firstname.invalid) {
+            <mat-error>{{ errorMessage.firstname }}</mat-error>
+            } </mat-form-field
+          ><mat-form-field>
+            <mat-label>Nachname</mat-label>
+            <input
+              matInput
+              placeholder="Nachname"
+              [formControl]="formData.controls.lastname"
+              (blur)="updateErrorMessage('lastname')"
+              required
+            />
+            @if (formData.controls.lastname.invalid) {
+            <mat-error>{{ errorMessage.lastname }}</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </mat-dialog-content>
+      <div>
+        <mat-dialog-actions>
+          <div class="button-row">
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              [disabled]="formData.invalid"
+            >
+              ändern
+            </button>
+            <button mat-button color="primary" (click)="closeDialog()">
+              abbrechen
+            </button>
+          </div>
+        </mat-dialog-actions>
+      </div>
+    </form>
+  </div>
+</div>

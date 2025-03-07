@@ -4,13 +4,6 @@
   position: relative;
 }
 
-.logo {
-  position: absolute;
-  top: -80px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .formfield {
   padding-left: 0;
   padding-right: 0;
@@ -58,36 +51,15 @@
   }
 }
 
-.signup-btn {
+.button-row {
   width: 100%;
-  padding: 20px;
-  div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    img {
-      height: 20px;
-    }
-  }
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
 }
 
 .mat-mdc-dialog-actions {
   padding-left: 0;
   padding-right: 0;
-}
-
-.loginlink {
-  margin-top: 8px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: center;
-  font-size: 14px;
-  line-height: 28px;
-}
-
-.authservice {
-  margin-top: 24px;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
 }
