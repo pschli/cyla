@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -36,7 +36,7 @@ export class AccountComponent {
 
   editSelection = { name: false, email: false };
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private cd: ChangeDetectorRef) {
     this.userData$ = this.fs.getAccountData();
   }
 

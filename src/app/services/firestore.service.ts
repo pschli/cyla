@@ -57,6 +57,20 @@ export class FirestoreService {
     }
   }
 
+  async updateUserName(firstname: string, lastname: string) {
+    if (!this.currentUid) return 'error';
+    try {
+      await updateDoc(doc(this.firestore, 'users', this.currentUid), {
+        firstname: firstname,
+        lastname: lastname,
+      });
+      return 'success';
+    } catch (e) {
+      console.error('Error saving user data:', e);
+      return 'error';
+    }
+  }
+
   getAccountData() {
     if (!this.currentUid) return;
     const UserDocRef = doc(this.firestore, 'users', this.currentUid);

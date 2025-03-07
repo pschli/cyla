@@ -54,6 +54,18 @@ export class AuthService {
     return from(promise);
   }
 
+  async updateDisplayName(firstname: string) {
+    try {
+      const usercred = await updateProfile(this.auth.currentUser!, {
+        displayName: firstname,
+      });
+      return 'success';
+    } catch (err) {
+      console.log(err);
+      return 'error';
+    }
+  }
+
   login(email: string, password: string): Observable<void> {
     const promise = signInWithEmailAndPassword(
       this.firebaseAuth,

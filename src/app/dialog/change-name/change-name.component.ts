@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButton } from '@angular/material/button';
 import {
   MatDialog,
@@ -17,6 +18,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { merge } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { FirestoreService } from '../../services/firestore.service';
 
 @Component({
   selector: 'app-change-name',
@@ -29,16 +32,21 @@ import { merge } from 'rxjs';
     MatInputModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatProgressBarModule,
   ],
   templateUrl: './change-name.component.html',
   styleUrl: './change-name.component.scss',
 })
 export class ChangeNameComponent {
   readonly dialogRef = inject(MatDialogRef<ChangeNameComponent>);
+  authService = inject(AuthService);
+  fs = inject(FirestoreService);
   formData = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     lastname: new FormControl('', [Validators.required]),
   });
+
+  pending = false;
 
   errorMessage = {
     email: '',
@@ -81,5 +89,28 @@ export class ChangeNameComponent {
 
   closeDialog() {
     this.dialogRef.close();
+  }
+
+  async changeName() {
+    if (
+      this.formData.valid &&
+      this.formData.controls.firstname.value &&
+      this.formData.controls.lastname.value
+    ) {
+      this.pending = true;
+      this.formData.disable();
+      let result = await this.authService.updateDisplayName(
+        this.formData.controls.firstname.value
+      );
+      if (result === 'success') {
+        result = await this.fs.updateUserName(
+          this.formData.controls.firstname.value,
+          this.formData.controls.lastname.value
+        );
+        if (result === 'success') {
+          this.closeDialog();
+        }
+      }
+    }
   }
 }
