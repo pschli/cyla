@@ -3,13 +3,14 @@ import {
   CollectionReference,
   deleteDoc,
   doc,
+  DocumentData,
   DocumentReference,
   Firestore,
   getDoc,
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { from, map } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 
 interface DurationPayload {
   duration: string;
@@ -34,6 +35,7 @@ export class FirestoreService {
   firestore = inject(Firestore);
   usersCollection?: CollectionReference;
   currentUid: string = '';
+  userData$: Observable<DocumentData | null> | undefined;
 
   constructor() {}
 
@@ -71,13 +73,25 @@ export class FirestoreService {
     }
   }
 
+  async updateUserMail(email: string) {
+    if (!this.currentUid) return 'error';
+    try {
+      await updateDoc(doc(this.firestore, 'users', this.currentUid), {
+        email: email,
+      });
+      return 'success';
+    } catch (e) {
+      console.error('Error saving user data:', e);
+      return 'error';
+    }
+  }
+
   getAccountData() {
     if (!this.currentUid) return;
     const UserDocRef = doc(this.firestore, 'users', this.currentUid);
-    const userData$ = from(getDoc(UserDocRef)).pipe(
+    this.userData$ = from(getDoc(UserDocRef)).pipe(
       map((docSnap) => (docSnap.exists() ? docSnap.data() : null))
     );
-    return userData$;
   }
 
   async createTempLink(uid: string, publicLink: string) {

@@ -10,7 +10,13 @@ import {
 import { from, Observable } from 'rxjs';
 import { UserInterface } from '../interfaces/user.interface';
 import { FirestoreService } from './firestore.service';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {
+  AuthCredential,
+  EmailAuthProvider,
+  getAuth,
+  onAuthStateChanged,
+  verifyBeforeUpdateEmail,
+} from 'firebase/auth';
 import { Router } from '@angular/router';
 import { GreetingService } from './greeting.service';
 
@@ -54,11 +60,25 @@ export class AuthService {
     return from(promise);
   }
 
+  getCredentials(email: string, password: string): AuthCredential {
+    return EmailAuthProvider.credential(email, password);
+  }
+
   async updateDisplayName(firstname: string) {
     try {
-      const usercred = await updateProfile(this.auth.currentUser!, {
+      await updateProfile(this.auth.currentUser!, {
         displayName: firstname,
       });
+      return 'success';
+    } catch (err) {
+      console.log(err);
+      return 'error';
+    }
+  }
+
+  async updateEmail(email: string) {
+    try {
+      verifyBeforeUpdateEmail(this.auth.currentUser!, email);
       return 'success';
     } catch (err) {
       console.log(err);
@@ -72,17 +92,16 @@ export class AuthService {
       email,
       password
     ).then((response) => {
+      if (response.user.email) this.fs.updateUserMail(response.user.email);
       this.fs.currentUid = response.user.uid;
     });
     return from(promise);
   }
 
-  logout(): Observable<void> {
+  logout(page: string = '') {
     this.fs.currentUid = '';
     this.greeting.requestReset();
-    const promise = signOut(this.firebaseAuth).then(() => {
-      this.router.navigateByUrl('');
-    });
-    return from(promise);
+    this.router.navigateByUrl(page);
+    const promise = signOut(this.firebaseAuth);
   }
 }

@@ -5,8 +5,6 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AsyncPipe } from '@angular/common';
 import { FirestoreService } from '../../services/firestore.service';
-import { Observable } from 'rxjs';
-import { DocumentData } from '@angular/fire/firestore';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,14 +28,13 @@ import { ChangeEmailComponent } from '../../dialog/change-email/change-email.com
 export class AccountComponent {
   auth = inject(AuthService);
   fs = inject(FirestoreService);
-  userData$: Observable<DocumentData | null> | undefined;
 
   animationState = { name: 'pending', email: 'pending' };
 
   editSelection = { name: false, email: false };
 
   constructor(public dialog: MatDialog, private cd: ChangeDetectorRef) {
-    this.userData$ = this.fs.getAccountData();
+    this.fs.getAccountData();
   }
 
   editData(dataType: 'name' | 'email') {

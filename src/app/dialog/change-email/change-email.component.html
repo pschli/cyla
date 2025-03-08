@@ -1,18 +1,40 @@
+@if (pending) {<mat-progress-bar mode="indeterminate"></mat-progress-bar>} @else
+{
+<div class="spacer"></div>
+}
 <div class="outer">
   <div class="inner">
     <form action="" [formGroup]="formData">
       <mat-dialog-content class="formfield">
         <mat-form-field>
-          <mat-label>E-Mail-Adresse</mat-label>
+          <mat-label>Passwort eingeben</mat-label>
+          <input
+            matInput
+            [type]="hide() ? 'password' : 'text'"
+            [formControl]="formData.controls.password"
+            autocomplete="current-password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+          >
+            <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Neue E-Mail-Adresse</mat-label>
           <input
             matInput
             placeholder="pat@example.com"
             autocomplete="email"
-            [formControl]="formData.controls.email"
+            [formControl]="formData.controls.newemail"
             (blur)="updateErrorMessage('email')"
             required
           />
-          @if (formData.controls.email.invalid) {
+          @if (formData.controls.newemail.invalid) {
           <mat-error>{{ errorMessage.email }}</mat-error>
           }
         </mat-form-field>
@@ -24,11 +46,17 @@
               mat-flat-button
               color="primary"
               type="submit"
-              [disabled]="formData.invalid"
+              [disabled]="formData.invalid || pending"
+              (click)="changeEmail()"
             >
               ändern
             </button>
-            <button mat-button color="primary" (click)="closeDialog()">
+            <button
+              mat-button
+              color="primary"
+              [disabled]="pending"
+              (click)="closeDialog()"
+            >
               abbrechen
             </button>
           </div>

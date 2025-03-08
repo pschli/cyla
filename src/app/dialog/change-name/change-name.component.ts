@@ -49,11 +49,8 @@ export class ChangeNameComponent {
   pending = false;
 
   errorMessage = {
-    email: '',
     firstname: '',
     lastname: '',
-    password: '',
-    repeatpw: '',
   };
 
   constructor(public dialog: MatDialog) {
@@ -108,6 +105,7 @@ export class ChangeNameComponent {
           this.formData.controls.lastname.value
         );
         if (result === 'success') {
+          this.fs.getAccountData();
           this.closeDialog();
         }
       }

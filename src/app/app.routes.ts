@@ -11,6 +11,7 @@ import { ConfirmComponent } from './maincontent/confirm/confirm.component';
 import { CancelComponent } from './maincontent/cancel/cancel.component';
 import { AdminComponent } from './admin/admin.component';
 import { AccountComponent } from './admin/account/account.component';
+import { ConfirmEmailComponent } from './maincontent/confirm-email/confirm-email.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { path: 'success', component: SuccessComponent },
   { path: 'learnmore', component: LearnmoreComponent },
   { path: 'invalidUserlink', component: InvalidUserlinkComponent },
+  { path: 'confirm-email', component: ConfirmEmailComponent },
   {
     path: 'admin',
     component: AdminComponent,

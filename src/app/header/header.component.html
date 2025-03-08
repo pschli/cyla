@@ -1,6 +1,6 @@
 <mat-toolbar>
   <span>Cyla</span>
-  @if (authService.currentUserSig()) {
+  @if (authService.auth.currentUser) {
   <div>
     <button
       mat-icon-button
