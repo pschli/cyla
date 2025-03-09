@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
+  updatePassword,
   user,
 } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
@@ -76,9 +77,19 @@ export class AuthService {
     }
   }
 
-  async updateEmail(email: string) {
+  async updateEmail(email: string): Promise<string> {
     try {
-      verifyBeforeUpdateEmail(this.auth.currentUser!, email);
+      await verifyBeforeUpdateEmail(this.auth.currentUser!, email);
+      return 'success';
+    } catch (err) {
+      console.error('Error updating email:', err);
+      return 'error';
+    }
+  }
+
+  async updateUserPassword(password: string) {
+    try {
+      await updatePassword(this.auth.currentUser!, password);
       return 'success';
     } catch (err) {
       console.log(err);

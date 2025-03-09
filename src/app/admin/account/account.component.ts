@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeNameComponent } from '../../dialog/change-name/change-name.component';
 import { ChangeEmailComponent } from '../../dialog/change-email/change-email.component';
+import { ChangePasswordComponent } from '../../dialog/change-password/change-password.component';
 
 @Component({
   selector: 'app-account',
@@ -44,5 +45,11 @@ export class AccountComponent {
         : this.dialog.open(ChangeEmailComponent);
   }
 
-  changePublicLink() {}
+  changePassword() {
+    const dialogRef = this.dialog.open(ChangePasswordComponent);
+  }
+
+  deleteUser() {
+    console.log('delete user');
+  }
 }

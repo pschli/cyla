@@ -21,9 +21,10 @@ import { AuthService } from '../../services/auth.service';
 import { FirestoreService } from '../../services/firestore.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { reauthenticateWithCredential } from '@angular/fire/auth';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-change-name',
+  selector: 'app-change-password',
   standalone: true,
   imports: [
     MatDialogModule,
@@ -34,21 +35,29 @@ import { reauthenticateWithCredential } from '@angular/fire/auth';
     MatIconModule,
     ReactiveFormsModule,
     MatProgressBarModule,
+    NgClass,
   ],
-  templateUrl: './change-email.component.html',
+  templateUrl: './change-password.component.html',
   styleUrl: '../change-name/change-name.component.scss',
 })
-export class ChangeEmailComponent {
-  readonly dialogRef = inject(MatDialogRef<ChangeEmailComponent>);
+export class ChangePasswordComponent {
+  readonly dialogRef = inject(MatDialogRef<ChangePasswordComponent>);
   authService = inject(AuthService);
   fs = inject(FirestoreService);
   pending = false;
+
+  strongPasswordRegx: RegExp =
+    /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
+
   formData = new FormGroup({
-    newemail: new FormControl({ value: '', disabled: this.pending }, [
-      Validators.required,
-      Validators.email,
-    ]),
     password: new FormControl({ value: '', disabled: this.pending }, [
+      Validators.required,
+    ]),
+    newPassword: new FormControl({ value: '', disabled: this.pending }, [
+      Validators.required,
+      Validators.pattern(this.strongPasswordRegx),
+    ]),
+    repeatpw: new FormControl({ value: '', disabled: this.pending }, [
       Validators.required,
     ]),
   });
@@ -60,37 +69,33 @@ export class ChangeEmailComponent {
   }
 
   errorMessage = {
-    email: '',
+    password: '',
+    newpassword: '',
+    repeatpw: '',
   };
 
   constructor(public dialog: MatDialog) {
     merge(
-      this.formData.controls.newemail.statusChanges,
-      this.formData.controls.newemail.valueChanges
+      this.formData.controls.password.statusChanges,
+      this.formData.controls.password.valueChanges
     )
       .pipe(takeUntilDestroyed())
-      .subscribe(() => this.updateErrorMessage('email'));
+      .subscribe(() => this.updateErrorMessage('password'));
+    merge(
+      this.formData.controls.repeatpw.statusChanges,
+      this.formData.controls.repeatpw.valueChanges
+    )
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessage('repeatpw'));
   }
 
-  updateErrorMessage(field: string) {
-    if (this.formData.controls.newemail.hasError('required')) {
-      this.errorMessage.email = 'Bitte E-Mail eingeben';
-    } else if (this.formData.controls.newemail.hasError('email')) {
-      this.errorMessage.email = 'Keine gültige E-Mail';
-    } else if (this.formData.controls.newemail.hasError('emailAlreadyInUse')) {
-      this.errorMessage.email = 'E-Mail existiert bereits';
-    } else {
-      this.errorMessage.email = '';
-    }
-  }
-
-  async changeEmail() {
+  async changePassword() {
     if (
       this.formData.valid &&
       this.authService.auth.currentUser &&
       this.authService.auth.currentUser.email &&
       this.formData.controls.password.value &&
-      this.formData.controls.newemail.value
+      this.formData.controls.newPassword.value
     ) {
       this.pending = true;
       const credential = this.authService.getCredentials(
@@ -103,18 +108,44 @@ export class ChangeEmailComponent {
       )
         .then(() => {
           this.authService
-            .updateEmail(this.formData.controls.newemail.value!)
+            .updateUserPassword(this.formData.controls.newPassword.value!)
             .then(() => {
-              this.authService.logout('confirm-email');
               this.dialogRef.close();
             })
             .catch((err) => {
-              console.error('Error updating email:', err);
+              console.error('Error updating password:', err);
             });
         })
         .catch((error) => {
           console.error('Error reauthenticating:', error);
         });
+    }
+  }
+
+  updateErrorMessage(field: string) {
+    if (field === 'newpassword') {
+      if (this.formData.controls.password.hasError('required')) {
+        this.errorMessage.password = 'Bitte Passwort eingeben';
+      } else if (this.formData.controls.password.hasError('pattern')) {
+        this.errorMessage.password = 'Passwort zu schwach.';
+      } else {
+        this.errorMessage.password = '';
+      }
+    } else if (field === 'repeatpw') {
+      if (this.formData.controls.repeatpw.hasError('notEqual')) {
+        this.errorMessage.repeatpw = 'Passwort stimmt nicht überein';
+      }
+    }
+  }
+
+  checkEqual() {
+    if (
+      this.formData.controls.repeatpw.value ===
+      this.formData.controls.newPassword.value
+    ) {
+      this.formData.controls.repeatpw.setErrors(null);
+    } else {
+      this.formData.controls.repeatpw.setErrors({ notEqual: true });
     }
   }
 
