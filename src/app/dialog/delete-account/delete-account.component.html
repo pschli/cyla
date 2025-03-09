@@ -4,10 +4,13 @@
 }
 <div class="outer">
   <div class="inner">
-    <h2 mat-dialog-title>E-Mail-Adresse ändern</h2>
+    <h2 mat-dialog-title>Konto löschen</h2>
     <form action="" [formGroup]="formData">
       <mat-dialog-content class="formfield">
-        <p>Bitte gib dein Passwort ein und wähle eine neue E-Mail-Adresse.</p>
+        <p>
+          Alle Daten werden gelöscht! Bitte gib dein Passwort ein, um fort zu
+          fahren.
+        </p>
         <mat-form-field>
           <mat-label>Passwort eingeben</mat-label>
           <input
@@ -26,32 +29,18 @@
             <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>Neue E-Mail-Adresse</mat-label>
-          <input
-            matInput
-            placeholder="pat@example.com"
-            autocomplete="email"
-            [formControl]="formData.controls.newemail"
-            (blur)="updateErrorMessage('email')"
-            required
-          />
-          @if (formData.controls.newemail.invalid) {
-          <mat-error>{{ errorMessage.email }}</mat-error>
-          }
-        </mat-form-field>
       </mat-dialog-content>
       <div>
         <mat-dialog-actions>
           <div class="button-row">
             <button
               mat-flat-button
-              color="primary"
+              color="warn"
               type="submit"
               [disabled]="formData.invalid || pending"
-              (click)="changeEmail()"
+              (click)="deleteAccount()"
             >
-              ändern
+              Konto löschen
             </button>
             <button
               mat-button

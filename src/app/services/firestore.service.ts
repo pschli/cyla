@@ -182,4 +182,29 @@ export class FirestoreService {
       console.error("Couldn't delete date.", e);
     }
   }
+
+  async deleteUserData() {
+    console.log('deleting user Data');
+    if (!this.currentUid) return;
+    const dateRef: DocumentReference = doc(
+      this.firestore,
+      'data',
+      this.currentUid
+    );
+    const userRef: DocumentReference = doc(
+      this.firestore,
+      'users',
+      this.currentUid
+    );
+    try {
+      await deleteDoc(dateRef);
+    } catch (e) {
+      console.error("Couldn't delete dates.", e);
+    }
+    try {
+      await deleteDoc(userRef);
+    } catch (e) {
+      console.error("Couldn't delete user data.", e);
+    }
+  }
 }

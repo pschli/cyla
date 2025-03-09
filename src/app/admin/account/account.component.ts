@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChangeNameComponent } from '../../dialog/change-name/change-name.component';
 import { ChangeEmailComponent } from '../../dialog/change-email/change-email.component';
 import { ChangePasswordComponent } from '../../dialog/change-password/change-password.component';
+import { DeleteAccountComponent } from '../../dialog/delete-account/delete-account.component';
 
 @Component({
   selector: 'app-account',
@@ -50,6 +51,6 @@ export class AccountComponent {
   }
 
   deleteUser() {
-    console.log('delete user');
+    const dialogRef = this.dialog.open(DeleteAccountComponent);
   }
 }

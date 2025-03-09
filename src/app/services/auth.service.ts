@@ -13,6 +13,7 @@ import { UserInterface } from '../interfaces/user.interface';
 import { FirestoreService } from './firestore.service';
 import {
   AuthCredential,
+  deleteUser,
   EmailAuthProvider,
   getAuth,
   onAuthStateChanged,
@@ -90,6 +91,16 @@ export class AuthService {
   async updateUserPassword(password: string) {
     try {
       await updatePassword(this.auth.currentUser!, password);
+      return 'success';
+    } catch (err) {
+      console.log(err);
+      return 'error';
+    }
+  }
+
+  async requestDeleteUser() {
+    try {
+      await deleteUser(this.auth.currentUser!);
       return 'success';
     } catch (err) {
       console.log(err);
