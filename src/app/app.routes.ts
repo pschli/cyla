@@ -12,6 +12,7 @@ import { CancelComponent } from './maincontent/cancel/cancel.component';
 import { AdminComponent } from './admin/admin.component';
 import { AccountComponent } from './admin/account/account.component';
 import { ConfirmEmailComponent } from './maincontent/confirm-email/confirm-email.component';
+import { AccountDeletedComponent } from './maincontent/account-deleted/account-deleted.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -22,6 +23,7 @@ export const routes: Routes = [
   { path: 'learnmore', component: LearnmoreComponent },
   { path: 'invalidUserlink', component: InvalidUserlinkComponent },
   { path: 'confirm-email', component: ConfirmEmailComponent },
+  { path: 'account-deleted', component: AccountDeletedComponent },
   {
     path: 'admin',
     component: AdminComponent,
