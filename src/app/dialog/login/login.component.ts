@@ -89,7 +89,7 @@ export class LoginComponent {
   }
 
   passwordHelp() {
-    console.log('Hier werden Sie geholfen.');
+    console.log('Passwort Hilfe.');
   }
 
   closeDialog($event?: Event) {
@@ -111,6 +111,7 @@ export class LoginComponent {
         },
         error: (err) => {
           this.firebaseErrorMessage = err.code;
+
           this.loading = false;
         },
       });

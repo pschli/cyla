@@ -58,7 +58,7 @@ export class AdminPanelComponent implements AfterViewInit {
   loading: boolean = true;
   username$ = this.authService.user$.pipe(map((user) => user?.displayName));
   successHandlerSub = this.tsh.getTrigger().subscribe((trigger) => {
-    if (trigger !== 0) {
+    if (trigger && trigger !== 0) {
       this.handleTimeslotsSaved();
     }
   });
@@ -224,6 +224,7 @@ export class AdminPanelComponent implements AfterViewInit {
     this.userDates.markedToEdit = [];
     this.toggleAll('off');
     this.updateCalendars();
+    this.tsh.resetTrigger();
   }
 
   dateIsNotMarked(date: Date) {

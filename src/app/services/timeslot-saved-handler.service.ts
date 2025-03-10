@@ -14,4 +14,8 @@ export class TimeslotSavedHandlerService {
   requestAction() {
     this.successReaction$.next(1);
   }
+
+  resetTrigger() {
+    this.successReaction$.next(0);
+  }
 }

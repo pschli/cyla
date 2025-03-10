@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   CollectionReference,
@@ -10,7 +11,7 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { from, map, Observable } from 'rxjs';
+import { from, lastValueFrom, map, Observable } from 'rxjs';
 
 interface DurationPayload {
   duration: string;
@@ -37,7 +38,7 @@ export class FirestoreService {
   currentUid: string = '';
   userData$: Observable<DocumentData | null> | undefined;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   async createUserBaseData(
     uid: string,
@@ -184,7 +185,6 @@ export class FirestoreService {
   }
 
   async deleteUserData() {
-    console.log('deleting user Data');
     if (!this.currentUid) return;
     const dateRef: DocumentReference = doc(
       this.firestore,
@@ -197,14 +197,31 @@ export class FirestoreService {
       this.currentUid
     );
     try {
-      await deleteDoc(dateRef);
+      await setDoc(dateRef, { markedForDelete: true });
+      console.log('marking date data for delete');
+      try {
+        await deleteDoc(userRef);
+        console.log('deleting user data');
+        await this.sendDeleteRequest(this.currentUid);
+      } catch (e) {
+        console.error("Couldn't delete user data.", e);
+      }
     } catch (e) {
       console.error("Couldn't delete dates.", e);
     }
+  }
+
+  private async sendDeleteRequest(uid: string) {
+    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/deleteUserData';
+    let params = { uid: uid };
     try {
-      await deleteDoc(userRef);
-    } catch (e) {
-      console.error("Couldn't delete user data.", e);
+      const response: any = await lastValueFrom(
+        this.http.get(url, { params, responseType: 'json' })
+      );
+      return response.response.toString();
+    } catch (err) {
+      console.error('Error:', err);
+      return 'error';
     }
   }
 }

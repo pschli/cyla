@@ -2,9 +2,12 @@
   <div class="logo">Cyla</div>
   <div class="inner">
     <form action="" [formGroup]="formData">
-      <mat-dialog-content class="formfield">
+      <mat-dialog-content class="formfield"
+        >@if (firebaseErrorMessage) {
+        <p class="login-error">E-Mail oder Passwort ungültig.</p>
+        }
         <mat-form-field>
-          <mat-label>Enter user email</mat-label>
+          <mat-label>E-Mail-Adresse</mat-label>
           <input
             matInput
             placeholder="pat@example.com"
@@ -18,7 +21,7 @@
           }
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Enter your password</mat-label>
+          <mat-label>Passwort</mat-label>
           <input
             matInput
             [type]="hide() ? 'password' : 'text'"

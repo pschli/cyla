@@ -66,6 +66,13 @@
   gap: 12px;
 }
 
+.login-error {
+  padding: 16px;
+  font-size: 18px;
+  color: var(--mat-form-field-error-text-color);
+  border: 1px solid var(--mat-form-field-error-text-color);
+}
+
 @media (max-width: 450px) {
   .signup-btn {
     min-width: 0;
