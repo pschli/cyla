@@ -200,9 +200,13 @@ export class FirestoreService {
       await setDoc(dateRef, { markedForDelete: true });
       console.log('marking date data for delete');
       try {
+        let idLink: string = '';
+        let userSub = this.userData$?.subscribe((data) => {
+          if (data && data['publiclink']) idLink = data['publiclink'];
+        });
         await deleteDoc(userRef);
         console.log('deleting user data');
-        await this.sendDeleteRequest(this.currentUid);
+        await this.sendDeleteRequest(this.currentUid, idLink);
       } catch (e) {
         console.error("Couldn't delete user data.", e);
       }
@@ -211,9 +215,9 @@ export class FirestoreService {
     }
   }
 
-  private async sendDeleteRequest(uid: string) {
+  private async sendDeleteRequest(uid: string, idLink: string) {
     let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/deleteUserData';
-    let params = { uid: uid };
+    let params = { uid: uid, idLink: idLink };
     try {
       const response: any = await lastValueFrom(
         this.http.get(url, { params, responseType: 'json' })
