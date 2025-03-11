@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { LoginComponent } from '../login/login.component';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SignupComponent } from '../signup/signup.component';
 import { NgIf } from '@angular/common';
 import {
@@ -11,11 +11,19 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login-container',
   standalone: true,
-  imports: [LoginComponent, SignupComponent, NgIf],
+  imports: [
+    LoginComponent,
+    SignupComponent,
+    NgIf,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './login-container.component.html',
   styleUrl: './login-container.component.scss',
   animations: [
@@ -53,9 +61,14 @@ import {
   ],
 })
 export class LoginContainerComponent {
+  readonly dialogRef = inject(MatDialogRef<LoginContainerComponent>);
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 
   changeDialogState(value: string) {
     this.data.state = value;
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 }

@@ -37,6 +37,7 @@ export class LandingComponent implements OnInit {
   openSignup() {
     const dialogRef = this.dialog.open(LoginContainerComponent, {
       data: { state: 'sign-up' },
+      autoFocus: false,
     });
   }
 

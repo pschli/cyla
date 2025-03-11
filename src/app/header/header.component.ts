@@ -43,6 +43,7 @@ export class HeaderComponent {
     this.dialogRef.closeAll();
     const dialogRef = this.dialog.open(LoginContainerComponent, {
       data: { state: 'login' },
+      autoFocus: false,
     });
   }
 
