@@ -180,3 +180,153 @@ h1 {
 .learnmore {
   animation: fade-in 600ms ease-in-out;
 }
+
+@media (max-width: 1280px) {
+  .heropic {
+    height: 600px;
+  }
+
+  .content {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  .heropic {
+    height: 480px;
+  }
+
+  .content {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  .kicker {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .inner {
+    > div.headline {
+      margin-top: 80px;
+      > div {
+        margin-top: 32px;
+        display: flex;
+        gap: 8px;
+        > button,
+        a {
+          margin-top: 12px;
+          font-size: 16px;
+          padding: 18px;
+        }
+      }
+    }
+  }
+}
+@keyframes move-up12 {
+  from {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-8deg)
+      translate3d(-50% + 0, 70px, 0);
+  }
+  to {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-8deg)
+      translate3d(-50% + 0, 50px, 0);
+  }
+}
+
+@keyframes move-up22 {
+  from {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-7deg)
+      translate3d(-50% + 25%, 20px, 0);
+  }
+  to {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-7deg)
+      translate3d(-50% + 25%, 0, 0);
+  }
+}
+
+@keyframes move-up32 {
+  from {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-6deg)
+      translate3d(0, -20px, 0);
+  }
+  to {
+    transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-6deg)
+      translate3d(0, -50px, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  .heropic {
+    margin-top: 48px;
+    height: 320px;
+    > img {
+      width: 640px;
+      border-radius: 24px;
+      position: absolute;
+      top: 96px;
+      left: 50%;
+      box-shadow: var(--mat-app-elevation-shadow-level-20);
+    }
+    > .img1 {
+      z-index: -3;
+      transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-8deg)
+        translate3d(-50% + 0, 50px, 0);
+      animation: move-up12 600ms ease-out 120ms;
+    }
+
+    > .img2 {
+      z-index: -2;
+      transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-7deg)
+        translate3d(-50% + 25%, 0, 0);
+      animation: move-up22 600ms ease-out 60ms;
+    }
+
+    > .img3 {
+      z-index: -1;
+      transform: perspective(65cm) rotateY(20deg) rotateX(15deg) rotateZ(-6deg)
+        translate3d(0, -50px, 0);
+      animation: move-up32 600ms ease-out;
+    }
+  }
+
+  .content {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  h1 {
+    font-size: 42px;
+    text-align: left;
+  }
+
+  .kicker {
+    width: 100%;
+    text-align: left;
+  }
+
+  .inner {
+    > div.headline {
+      margin-top: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      > div {
+        margin-top: 32px;
+        display: flex;
+        gap: 8px;
+        > button,
+        a {
+          margin-top: 12px;
+          font-size: 16px;
+          padding: 18px;
+        }
+      }
+    }
+  }
+}
