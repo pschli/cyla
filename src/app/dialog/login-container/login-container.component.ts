@@ -1,4 +1,9 @@
-import { Component, inject, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Inject,
+} from '@angular/core';
 import { LoginComponent } from '../login/login.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SignupComponent } from '../signup/signup.component';
@@ -59,6 +64,7 @@ import { MatIconModule } from '@angular/material/icon';
       ]),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginContainerComponent {
   readonly dialogRef = inject(MatDialogRef<LoginContainerComponent>);
