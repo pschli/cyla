@@ -6,6 +6,7 @@ import { SignupComponent } from '../dialog/signup/signup.component';
 import { AuthService } from '../services/auth.service';
 import { LearnmoreComponent } from '../learnmore/learnmore.component';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { LoginContainerComponent } from '../dialog/login-container/login-container.component';
 
 @Component({
   selector: 'app-landing',
@@ -34,8 +35,11 @@ export class LandingComponent implements OnInit {
     this.showBanner = window.scrollY > 100 ? true : false;
   }
   openSignup() {
-    const dialogRef = this.dialog.open(SignupComponent);
+    const dialogRef = this.dialog.open(LoginContainerComponent, {
+      data: { state: 'sign-up' },
+    });
   }
+
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
       if (user) {

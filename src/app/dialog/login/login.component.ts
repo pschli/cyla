@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SignupComponent } from '../signup/signup.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { LoginContainerComponent } from '../login-container/login-container.component';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +38,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  readonly dialogRef = inject(MatDialogRef<SignupComponent>);
+  readonly dialogRef = inject(MatDialogRef<LoginContainerComponent>);
   router = inject(Router);
   authService = inject(AuthService);
   loading: boolean = false;
@@ -111,7 +112,6 @@ export class LoginComponent {
         },
         error: (err) => {
           this.firebaseErrorMessage = err.code;
-
           this.loading = false;
         },
       });

@@ -1,0 +1,17 @@
+<div
+  #panes
+  [@paneChange]="{
+    value: data.state === 'sign-up',
+    params: {
+      startHeight: panes.clientHeight,
+      startWidth: panes.clientWidth
+    }
+  }"
+  class="panes"
+>
+  <app-login *ngIf="data.state === 'login'"></app-login>
+  <app-signup
+    *ngIf="data.state === 'sign-up'"
+    (changeDialog)="changeDialogState($event)"
+  ></app-signup>
+</div>

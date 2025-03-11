@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -15,13 +15,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LandingComponent } from '../../landing/landing.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { NgClass } from '@angular/common';
+import { LoginContainerComponent } from '../login-container/login-container.component';
 
 type NonNullData = {
   email: string;
@@ -47,7 +46,8 @@ type NonNullData = {
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
-  readonly dialogRef = inject(MatDialogRef<LandingComponent>);
+  readonly dialogRef = inject(MatDialogRef<LoginContainerComponent>);
+  @Output() changeDialog = new EventEmitter<string>();
   router = inject(Router);
   authService = inject(AuthService);
   loading: boolean = false;
@@ -176,8 +176,7 @@ export class SignupComponent {
   }
 
   openLogin() {
-    this.closeDialog();
-    const dialogRef = this.dialog.open(LoginComponent);
+    this.changeDialog.emit('login');
   }
 
   closeDialog($event?: Event) {

@@ -8,9 +8,9 @@ import {
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { LoginComponent } from '../dialog/login/login.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { LoginContainerComponent } from '../dialog/login-container/login-container.component';
 
 @Component({
   selector: 'app-header',
@@ -41,7 +41,9 @@ export class HeaderComponent {
 
   login() {
     this.dialogRef.closeAll();
-    const dialogRef = this.dialog.open(LoginComponent);
+    const dialogRef = this.dialog.open(LoginContainerComponent, {
+      data: { state: 'login' },
+    });
   }
 
   openAccountSettings() {

@@ -84,9 +84,8 @@ export class CreatePublicLinkComponent {
   }
 
   async sendLink() {
-    const link = this.linkFormControl.value;
+    const link = this.linkFormControl.value?.toLowerCase();
     if (link) {
-      let tempLink;
       let linkState = await this.sendPublicLink(link);
       this.handleResponse(linkState, link);
     }
