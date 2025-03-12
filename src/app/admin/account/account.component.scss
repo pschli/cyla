@@ -51,3 +51,32 @@
 .delete-btn {
   margin-top: 32px;
 }
+
+@media (pointer: coarse) {
+  .user-data {
+    & .data-container {
+      > button {
+        opacity: 1;
+        transition: opacity 200ms ease-in-out;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}
+
+@media (max-width: 440px) {
+  .content {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+}

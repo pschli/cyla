@@ -193,6 +193,10 @@ h1 {
 }
 
 @media (max-width: 900px) {
+  .d-none {
+    display: none;
+  }
+
   .heropic {
     height: 480px;
   }

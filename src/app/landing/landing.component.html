@@ -1,5 +1,5 @@
 @if (authService.currentUserSig() === null) { @if (showBanner === true) {
-<div class="banner" [@banner]>
+<div class="banner d-none" [@banner]>
   <h3>Teste <span>Cyla</span> und automatisiere deine Terminplanung</h3>
   <button mat-flat-button color="primary" (click)="openSignup()">
     jetzt starten
