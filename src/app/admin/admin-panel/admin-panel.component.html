@@ -117,21 +117,14 @@
             <span>Nach Wochentag auswählen</span>
             <div>
               @for (day of dayString; track day) {
-              <button
-                mat-flat-button
-                *ngIf="dayToggledOn[day[0]] === true"
-                (click)="toggleWeekday(day[0])"
-                color="primary"
+
+              <mat-button-toggle
+                checked="{{ dayToggledOn[day[0]] }}"
+                value="{{ day }}"
+                (change)="toggleWeekday(day[0])"
+                >{{ day[1] }}</mat-button-toggle
               >
-                {{ day[1] }}
-              </button>
-              <button
-                mat-stroked-button
-                *ngIf="dayToggledOn[day[0]] === false"
-                (click)="toggleWeekday(day[0])"
-              >
-                {{ day[1] }}</button
-              >}
+              }
             </div>
           </div>
           <div class="edit-row">

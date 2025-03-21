@@ -22,6 +22,7 @@ import { MatButton, MatFabButton } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { EditPlannedWarningComponent } from './dialog/edit-planned-warning/edit-planned-warning.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
 
@@ -42,6 +43,7 @@ type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
     MatDividerModule,
     MatTabsModule,
     DurationSettingComponent,
+    MatButtonToggleModule,
   ],
 
   templateUrl: './admin-panel.component.html',
@@ -85,13 +87,13 @@ export class AdminPanelComponent implements AfterViewInit {
     so: 0,
   };
   dayString: [Weekday, string][] = [
-    ['mo', 'Mon'],
-    ['di', 'Die'],
-    ['mi', 'Mit'],
-    ['do', 'Don'],
-    ['fr', 'Fre'],
-    ['sa', 'Sam'],
-    ['so', 'Son'],
+    ['mo', 'Montag'],
+    ['di', 'Dienstag'],
+    ['mi', 'Mittwoch'],
+    ['do', 'Donnerstag'],
+    ['fr', 'Freitag'],
+    ['sa', 'Samstag'],
+    ['so', 'Sonntag'],
   ];
 
   allowEdit = model(false);
