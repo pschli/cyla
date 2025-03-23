@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   CollectionReference,
   deleteDoc,
@@ -11,7 +12,7 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { from, lastValueFrom, map, Observable } from 'rxjs';
+import { firstValueFrom, from, lastValueFrom, map, Observable } from 'rxjs';
 
 interface DurationPayload {
   duration: string;
@@ -198,14 +199,13 @@ export class FirestoreService {
     );
     try {
       await setDoc(dateRef, { markedForDelete: true });
-      console.log('marking date data for delete');
       try {
         let idLink: string = '';
-        let userSub = this.userData$?.subscribe((data) => {
+        if (this.userData$) {
+          const data = await firstValueFrom(this.userData$);
           if (data && data['publiclink']) idLink = data['publiclink'];
-        });
+        }
         await deleteDoc(userRef);
-        console.log('deleting user data');
         await this.sendDeleteRequest(this.currentUid, idLink);
       } catch (e) {
         console.error("Couldn't delete user data.", e);
