@@ -71,6 +71,10 @@
   }
 }
 
+.spacer {
+  height: 288px;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -190,9 +194,16 @@ h1 {
     margin-left: 40px;
     margin-right: 40px;
   }
+  .spacer {
+    height: 120px;
+  }
 }
 
 @media (max-width: 900px) {
+  .spacer {
+    height: 80px;
+  }
+
   .d-none {
     display: none;
   }
@@ -332,5 +343,9 @@ h1 {
         }
       }
     }
+  }
+
+  .spacer {
+    height: 64px;
   }
 }

@@ -2,7 +2,7 @@ import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { SignupComponent } from '../dialog/signup/signup.component';
+
 import { AuthService } from '../services/auth.service';
 import { LearnmoreComponent } from '../learnmore/learnmore.component';
 import { animate, style, transition, trigger } from '@angular/animations';
