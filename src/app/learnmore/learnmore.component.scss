@@ -1,5 +1,5 @@
 .teaser-header {
-  margin: 0;
+  margin: 88px 0 0 0;
   text-align: center;
 }
 .teaser {
@@ -18,6 +18,11 @@
 }
 
 @media (max-width: 900px) {
+  .teaser-header {
+    margin: 0;
+    text-align: center;
+  }
+
   .teaser {
     margin-top: 48px;
     gap: 24px;
