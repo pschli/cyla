@@ -17,7 +17,6 @@ import { merge } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { SignupComponent } from '../signup/signup.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoginContainerComponent } from '../login-container/login-container.component';
@@ -60,6 +59,7 @@ export class LoginComponent {
   }
 
   firebaseErrorMessage: string | null = null;
+  passwordHelpError: boolean = false;
 
   errorMessage = {
     email: '',
@@ -90,7 +90,28 @@ export class LoginComponent {
   }
 
   passwordHelp() {
-    console.log('Passwort Hilfe.');
+    this.passwordHelpError = false;
+    if (
+      this.formData.controls.email.valid &&
+      this.formData.controls.email.value
+    ) {
+      this.loading = true;
+      this.authService
+        .passwordHelp(this.formData.controls.email.value)
+        .subscribe({
+          next: () => {
+            this.router.navigateByUrl('password-send');
+            this.formData.reset();
+            this.dialogRef.close();
+          },
+          error: (err) => {
+            this.firebaseErrorMessage = err.code;
+            this.loading = false;
+          },
+        });
+    } else {
+      this.passwordHelpError = true;
+    }
   }
 
   closeDialog($event?: Event) {

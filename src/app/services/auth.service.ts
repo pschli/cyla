@@ -7,6 +7,7 @@ import {
   updateProfile,
   updatePassword,
   user,
+  sendPasswordResetEmail,
 } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 import { UserInterface } from '../interfaces/user.interface';
@@ -106,6 +107,15 @@ export class AuthService {
       console.log(err);
       return 'error';
     }
+  }
+
+  passwordHelp(email: string) {
+    const promise = sendPasswordResetEmail(this.firebaseAuth, email)
+      .then(() => {})
+      .catch((err) => {
+        console.error(err);
+      });
+    return from(promise);
   }
 
   login(email: string, password: string): Observable<void> {

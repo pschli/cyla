@@ -4,6 +4,8 @@
       <mat-dialog-content class="formfield"
         >@if (firebaseErrorMessage) {
         <p class="login-error">E-Mail oder Passwort ungültig.</p>
+        } @else if (passwordHelpError) {
+        <p class="login-error">Bitte E-Mail eingeben.</p>
         }
         <mat-form-field>
           <mat-label>E-Mail-Adresse</mat-label>
@@ -57,7 +59,7 @@
       <span>Passwort vergessen?&nbsp;</span
       ><a (click)="passwordHelp()">Klicke hier</a>
     </div>
-    <mat-divider></mat-divider>
+    <!-- <mat-divider></mat-divider>
     <div class="authservice">
       <button mat-stroked-button color="basic" class="signup-btn">
         <span class="wide">Weiter mit </span>Google
@@ -65,6 +67,6 @@
       <button mat-stroked-button color="basic" class="signup-btn">
         <span class="wide">Weiter mit </span>Apple
       </button>
-    </div>
+    </div> -->
   </div>
 </div>

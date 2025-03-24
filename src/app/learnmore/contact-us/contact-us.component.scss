@@ -1,0 +1,66 @@
+h2 {
+  line-height: 115%;
+}
+
+.wrapper {
+  background-color: var(--mat-app-background-color);
+  margin: 64px -80px;
+  padding: 48px 0;
+}
+
+.teaser-header {
+  margin: 0;
+  text-align: center;
+}
+.teaser {
+  margin-top: 16px;
+  margin-bottom: 64px;
+  margin-left: 80px;
+  margin-right: 80px;
+  p {
+    line-height: 137%;
+  }
+}
+
+@media (max-width: 1280px) {
+  .wrapper {
+    margin: 64px -40px;
+    padding: 48px 0;
+  }
+  .teaser {
+    margin-bottom: 64px;
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  .wrapper {
+    margin: 48px -24px;
+    padding: 32px 0;
+  }
+  .teaser {
+    margin-bottom: 48px;
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrapper {
+    margin: 36px -16px;
+    padding: 24px 0;
+  }
+  .teaser-header {
+    text-align: left;
+    margin: 0 16px;
+  }
+  h2 {
+    font-size: 36px;
+  }
+  .teaser {
+    margin-bottom: 36px;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}

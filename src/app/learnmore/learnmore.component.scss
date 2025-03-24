@@ -4,7 +4,6 @@
 }
 .teaser {
   margin-top: 64px;
-  margin-bottom: 144px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 36px;
@@ -38,7 +37,6 @@
 
   .teaser {
     margin-top: 48px;
-    margin-bottom: 144px;
     gap: 24px;
     > .card-container {
       gap: 24px;

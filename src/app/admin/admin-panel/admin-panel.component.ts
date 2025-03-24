@@ -8,7 +8,6 @@ import { DateDataService } from '../../services/date-data.service';
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ChooseTimeslotsComponent } from './choose-timeslots/choose-timeslots.component';
-import { NgIf } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { DateFormatterService } from '../../services/date-formatter.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -39,7 +38,6 @@ type Weekday = 'mo' | 'di' | 'mi' | 'do' | 'fr' | 'sa' | 'so';
     MonthDisplayComponent,
     MatIconModule,
     ChooseTimeslotsComponent,
-    NgIf,
     MatDividerModule,
     MatTabsModule,
     DurationSettingComponent,
