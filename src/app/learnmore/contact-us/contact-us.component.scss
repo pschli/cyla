@@ -14,7 +14,7 @@ h2 {
 }
 .teaser {
   margin-top: 16px;
-  margin-bottom: 64px;
+
   margin-left: 80px;
   margin-right: 80px;
   p {
@@ -28,7 +28,6 @@ h2 {
     padding: 48px 0;
   }
   .teaser {
-    margin-bottom: 64px;
     margin-left: 40px;
     margin-right: 40px;
   }
@@ -40,7 +39,6 @@ h2 {
     padding: 32px 0;
   }
   .teaser {
-    margin-bottom: 48px;
     margin-left: 24px;
     margin-right: 24px;
   }
@@ -59,8 +57,14 @@ h2 {
     font-size: 36px;
   }
   .teaser {
-    margin-bottom: 36px;
     margin-left: 16px;
     margin-right: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .wrapper {
+    margin: 36px -12px;
+    padding: 24px 0;
   }
 }

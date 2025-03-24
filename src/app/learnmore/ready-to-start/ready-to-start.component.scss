@@ -55,3 +55,20 @@ h2 {
     font-size: 36px;
   }
 }
+
+@media (max-width: 610px) {
+  .wrapper {
+    flex-direction: column;
+  }
+  .teaser-header {
+    text-align: left;
+    margin: 0;
+  }
+  .teaser {
+    button {
+      margin-top: 24px;
+      font-size: 18px;
+      padding: 24px;
+    }
+  }
+}
