@@ -7,16 +7,20 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { AppointmentInfoService } from '../../services/appointment-info.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-add-contact-data',
   standalone: true,
-  imports: [MatInputModule, ReactiveFormsModule],
+  imports: [MatInputModule, ReactiveFormsModule, MatCheckboxModule, RouterLink],
   templateUrl: './add-contact-data.component.html',
   styleUrl: './add-contact-data.component.scss',
 })
 export class AddContactDataComponent {
   scheduledMeeting = inject(AppointmentInfoService);
+
+  ppChecked = false;
 
   formData = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -57,7 +61,7 @@ export class AddContactDataComponent {
   }
 
   validateForm() {
-    if (this.formData.valid) {
+    if (this.formData.valid && this.ppChecked) {
       this.contactDataValid.emit(true);
       let name: string =
         this.formData.controls.firstname.value +
@@ -76,5 +80,10 @@ export class AddContactDataComponent {
   sendContactData(name = '', email = '') {
     this.scheduledMeeting.data.name = name;
     this.scheduledMeeting.data.email = email;
+  }
+
+  getCheckState(checked: boolean) {
+    this.ppChecked = checked;
+    this.validateForm();
   }
 }

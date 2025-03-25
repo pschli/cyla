@@ -150,6 +150,12 @@
           >}
         </mat-form-field>
       </mat-dialog-content>
+      <mat-checkbox (change)="getCheckState($event.checked)"
+        >Ich akzeptiere die
+        <a (click)="closeDialog()" [routerLink]="['/datenschutz']"
+          >Datenschutzerklärung</a
+        ></mat-checkbox
+      >
       <div>
         <mat-dialog-actions>
           <button
@@ -157,7 +163,7 @@
             color="primary"
             type="submit"
             class="signup-btn"
-            [disabled]="formData.invalid"
+            [disabled]="formData.invalid || !ppChecked"
             (click)="registerUser()"
           >
             Registieren
@@ -170,24 +176,5 @@
       <span>Du hast bereits ein Konto?&nbsp;</span
       ><a (click)="openLogin()">Melde dich hier an</a>
     </div>
-    <!-- <mat-divider></mat-divider>
-    <div class="authservice">
-      <button mat-stroked-button color="basic" class="signup-btn">
-        <div>
-          <img
-            src="assets/icons/google-icon-logo-svgrepo-com.svg"
-            alt=""
-          /><span>Weiter mit Google</span>
-        </div>
-      </button>
-      <button mat-stroked-button color="basic" class="signup-btn">
-        <div>
-          <img
-            src="assets/icons/apple-black-logo-svgrepo-com.svg"
-            alt=""
-          /><span>Weiter mit Apple</span>
-        </div>
-      </button>
-    </div> -->
   </div>
 </div>

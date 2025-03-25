@@ -46,4 +46,8 @@
     <mat-error>{{ errorMessage.email }}</mat-error>
     }
   </mat-form-field>
+  <mat-checkbox (change)="getCheckState($event.checked)"
+    >Ich akzeptiere die
+    <a [routerLink]="['/datenschutz']">Datenschutzerklärung</a></mat-checkbox
+  >
 </form>

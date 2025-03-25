@@ -18,9 +18,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { LoginContainerComponent } from '../login-container/login-container.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 type NonNullData = {
   email: string;
@@ -41,6 +42,8 @@ type NonNullData = {
     MatInputModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatCheckboxModule,
+    RouterLink,
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
@@ -51,6 +54,7 @@ export class SignupComponent {
   router = inject(Router);
   authService = inject(AuthService);
   loading: boolean = false;
+  ppChecked = false;
 
   strongPasswordRegx: RegExp =
     /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/;
@@ -225,6 +229,10 @@ export class SignupComponent {
       };
     }
     return validData;
+  }
+
+  getCheckState(checked: boolean) {
+    this.ppChecked = checked;
   }
 
   handleSigninError(error: string) {
