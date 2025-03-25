@@ -14,6 +14,9 @@ import { AccountComponent } from './admin/account/account.component';
 import { ConfirmEmailComponent } from './maincontent/confirm-email/confirm-email.component';
 import { AccountDeletedComponent } from './maincontent/account-deleted/account-deleted.component';
 import { PwSendComponent } from './maincontent/pw-send/pw-send.component';
+import { ImprintComponent } from './legal/imprint/imprint.component';
+import { DatenschutzComponent } from './legal/datenschutz/datenschutz.component';
+import { ContactComponent } from './contact/contact.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -26,6 +29,9 @@ export const routes: Routes = [
   { path: 'confirm-email', component: ConfirmEmailComponent },
   { path: 'password-send', component: PwSendComponent },
   { path: 'account-deleted', component: AccountDeletedComponent },
+  { path: 'impressum', component: ImprintComponent },
+  { path: 'datenschutz', component: DatenschutzComponent },
+  { path: 'contact', component: ContactComponent },
   {
     path: 'admin',
     component: AdminComponent,

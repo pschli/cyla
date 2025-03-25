@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="content">
+    <div class="inner">
+      <div class="button-container">
+        <a mat-button [routerLink]="['']"
+          ><mat-icon>chevron_left</mat-icon>zurück zur Startseite</a
+        >
+        <a mat-button [routerLink]="['/datenschutz']"
+          >zur Datenschutzerklärung<mat-icon>chevron_right</mat-icon></a
+        >
+      </div>
+      <div class="headline">
+        <h1>Impressum</h1>
+        <p class="kicker">
+          Patrick Schlieker<br />Stoeckhardtstr. 20<br />20535 Hamburg<br />
+        </p>
+        <h3>Kontakt</h3>
+        <p class="kicker">
+          Tel: 017649226231<br />
+          E-Mail: mail&#64;patrick-schlieker.de
+        </p>
+        <a mat-stroked-button [routerLink]="['/contact']"
+          ><mat-icon>mail</mat-icon>Schreibe uns</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

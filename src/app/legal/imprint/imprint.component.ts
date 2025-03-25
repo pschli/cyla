@@ -4,10 +4,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-contact-us',
+  selector: 'app-imprint',
   standalone: true,
   imports: [MatButtonModule, RouterLink, MatIconModule],
-  templateUrl: './contact-us.component.html',
-  styleUrl: './contact-us.component.scss',
+  templateUrl: './imprint.component.html',
+  styleUrl: './imprint.component.scss',
 })
-export class ContactUsComponent {}
+export class ImprintComponent {
+  constructor() {
+    window.scrollTo({ top: 0 });
+  }
+}

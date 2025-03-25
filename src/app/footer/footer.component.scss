@@ -1,0 +1,42 @@
+.footer {
+  background-color: var(--mat-app-background-color);
+  display: flex;
+  justify-content: center;
+}
+
+.inner {
+  max-width: 1920px;
+  //   width: 100%;
+  flex: 1;
+  min-height: 72px;
+  display: flex;
+  justify-content: space-between;
+  > div {
+    a {
+      text-decoration: none;
+      color: var(--mat-optgroup-label-text-color);
+      p {
+        color: var(--mat-optgroup-label-text-color);
+      }
+      &:hover {
+        color: var(--mat-app-text-color);
+        p {
+          color: var(--mat-app-text-color);
+        }
+      }
+    }
+    p {
+      margin-top: 64px;
+      margin-bottom: 64px;
+      color: var(--mat-optgroup-label-text-color);
+    }
+    &:first-child {
+      margin-left: 80px;
+    }
+    &:last-child {
+      margin-top: 64px;
+      margin-bottom: 32px;
+      margin-right: 80px;
+    }
+  }
+}
