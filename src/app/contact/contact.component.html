@@ -1,1 +1,77 @@
-<p>contact works!</p>
+<div class="container">
+  <div class="content">
+    <div class="inner">
+      <div class="button-container">
+        <a mat-button [routerLink]="['']"
+          ><mat-icon>chevron_left</mat-icon>zurück zur Startseite</a
+        >
+      </div>
+      <div class="headline">
+        <h1>Kontakt</h1>
+      </div>
+      <!-- <div
+  class="success"
+  [ngClass]="showMessage ? { showmessage: true } : { showmessage: false }"
+  [ngStyle]="showMessageOpacity ? { opacity: 1 } : { opacity: 0 }"
+>
+  <div><h2>Thank you for your message. I will reply shortly.</h2></div></div>-->
+      <div class="contactform">
+        <p class="kicker">Netter Text</p>
+        <form [formGroup]="contactFormData">
+          <mat-form-field>
+            <mat-label>Deine E-Mail-Adresse</mat-label>
+            <input
+              matInput
+              placeholder="email@example.com"
+              [formControl]="contactFormData.controls.email"
+              (blur)="updateErrorMessage('email')"
+              required
+            />
+            @if (contactFormData.controls.email.invalid) {
+            <mat-error>{{ errorMessage.email() }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Dein Name</mat-label>
+            <input
+              matInput
+              placeholder=""
+              [formControl]="contactFormData.controls.name"
+              (blur)="updateErrorMessage('name')"
+              required
+            />
+            @if (contactFormData.controls.name.invalid) {
+            <mat-error>{{ errorMessage.name() }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Betreff</mat-label>
+            <input
+              matInput
+              placeholder=""
+              [formControl]="contactFormData.controls.topic"
+              (blur)="updateErrorMessage('topic')"
+              required
+            />
+            @if (contactFormData.controls.topic.invalid) {
+            <mat-error>{{ errorMessage.topic() }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Nachricht</mat-label>
+            <textarea
+              matInput
+              placeholder="Deine Nachricht"
+              [formControl]="contactFormData.controls.message"
+              (blur)="updateErrorMessage('message')"
+              required
+            ></textarea
+            >@if (contactFormData.controls.message.invalid) {
+            <mat-error>{{ errorMessage.message() }}</mat-error>
+            }
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
