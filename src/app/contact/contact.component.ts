@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -30,6 +31,9 @@ const errorMessages = {
   message: {
     required: 'Bitte gib eine Nachricht ein',
   },
+  legal: {
+    required: 'Bitte erkläre dein Einverständnis zur Datenverarbeitung',
+  },
 } as const;
 
 type ErrorCode = keyof typeof errorMessages;
@@ -47,6 +51,7 @@ type ErrorType<T extends ErrorCode> = keyof (typeof errorMessages)[T];
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
   ],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
@@ -67,6 +72,7 @@ export class ContactComponent {
     ]),
     topic: new FormControl('', [Validators.required]),
     message: new FormControl('', [Validators.required]),
+    legal: new FormControl('', [Validators.required]),
   });
 
   errorMessage = {
@@ -74,6 +80,7 @@ export class ContactComponent {
     name: signal(''),
     topic: signal(''),
     message: signal(''),
+    legal: signal(''),
   };
 
   constructor() {
@@ -101,6 +108,12 @@ export class ContactComponent {
     )
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage('message'));
+    merge(
+      this.contactFormData.controls.legal.statusChanges,
+      this.contactFormData.controls.legal.valueChanges
+    )
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.updateErrorMessage('legal'));
   }
 
   updateErrorMessage(errorCode: ErrorCode) {

@@ -70,6 +70,24 @@
             <mat-error>{{ errorMessage.message() }}</mat-error>
             }
           </mat-form-field>
+          <mat-checkbox
+            [formControl]="contactFormData.controls.legal"
+            (blur)="updateErrorMessage('legal')"
+            required
+            >Ich akzeptiere die
+            <a [routerLink]="['/datenschutz']">Datenschutzerklärung</a> und
+            willige in die Speicherung meiner Daten ein.</mat-checkbox
+          >
+          <div class="errorbox">
+            @if (contactFormData.controls.legal.invalid) {
+            <mat-error>{{ errorMessage.legal() }}</mat-error>
+            }
+          </div>
+          <div class="sendbutton-container">
+            <button mat-flat-button disabled="{{ contactFormData.invalid }}">
+              absenden
+            </button>
+          </div>
         </form>
       </div>
     </div>
