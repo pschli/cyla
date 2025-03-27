@@ -9,14 +9,14 @@
       <div class="headline">
         <h1>Kontakt</h1>
       </div>
-      <!-- <div
-  class="success"
-  [ngClass]="showMessage ? { showmessage: true } : { showmessage: false }"
-  [ngStyle]="showMessageOpacity ? { opacity: 1 } : { opacity: 0 }"
->
-  <div><h2>Thank you for your message. I will reply shortly.</h2></div></div>-->
-      <div class="contactform">
-        <p class="kicker">Netter Text</p>
+      @if (showMessage().valueOf()) {
+
+      <p class="kicker" @textani>
+        Vielen Dank für Deine Nachricht. Wir melden uns in Kürze bei Dir.
+      </p>
+      } @if (showForm().valueOf()) {
+      <div class="contactform" @formani (@formani.done)="showResponse()">
+        <p class="kicker">Schreibe uns!</p>
         <form [formGroup]="contactFormData">
           <mat-form-field>
             <mat-label>Deine E-Mail-Adresse</mat-label>
@@ -84,12 +84,17 @@
             }
           </div>
           <div class="sendbutton-container">
-            <button mat-flat-button disabled="{{ contactFormData.invalid }}">
+            <button
+              mat-flat-button
+              disabled="{{ contactFormData.invalid }}"
+              (click)="sendMessage($event)"
+            >
               absenden
             </button>
           </div>
         </form>
       </div>
+      }
     </div>
   </div>
 </div>

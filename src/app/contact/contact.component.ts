@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -55,9 +62,21 @@ type ErrorType<T extends ErrorCode> = keyof (typeof errorMessages)[T];
   ],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
+  animations: [
+    trigger('formani', [
+      transition(':leave', [animate('300ms ease-in', style({ opacity: 0 }))]),
+    ]),
+    trigger('textani', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms ease-out', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactComponent {
+  http = inject(HttpClient);
   errorMessages = errorMessages;
   contactFormData = new FormGroup({
     email: new FormControl('', [
@@ -82,6 +101,20 @@ export class ContactComponent {
     message: signal(''),
     legal: signal(''),
   };
+
+  post = {
+    endPoint: 'https://patrick-schlieker.de/sendMail.php',
+    body: (payload: any) => JSON.stringify(payload),
+    options: {
+      headers: {
+        'Content-Type': 'text/plain',
+        responseType: 'text',
+      },
+    },
+  };
+
+  showMessage = signal(false);
+  showForm = signal(true);
 
   constructor() {
     merge(
@@ -131,11 +164,39 @@ export class ContactComponent {
     }
   }
 
+  sendMessage(event: Event) {
+    event.preventDefault();
+    if (this.contactFormData.valid) {
+      this.http
+        .post(this.post.endPoint, this.post.body(this.contactFormData.value))
+        .subscribe({
+          next: (response) => {
+            this.contactFormData.disable();
+            this.removeForm();
+          },
+          error: (error) => {
+            console.error(error);
+          },
+          complete: () => {},
+        });
+    }
+  }
+
   isBlanks(control: AbstractControl) {
-    return control.value && control.value.trim().length === 0;
+    if (typeof control.value === 'string')
+      return control.value && control.value.trim().length === 0;
+    return false;
   }
 
   trimInput(control: AbstractControl) {
     control.setValue(control.value.trim());
+  }
+
+  removeForm() {
+    this.showForm.set(false);
+  }
+
+  showResponse() {
+    this.showMessage.set(!this.showForm());
   }
 }
