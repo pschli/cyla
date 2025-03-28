@@ -29,7 +29,7 @@
 }
 
 .marked-date .mat-calendar-body-cell-content {
-  background-color: hsl(from var(--mat-snack-bar-button-color) h s l / 50%);
+  background: hsl(from var(--mat-sys-primary) h s l / 10%);
   border-radius: 100%;
 }
 
