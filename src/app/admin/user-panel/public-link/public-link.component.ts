@@ -24,7 +24,7 @@ export class PublicLinkComponent {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   async copyLinkToClipboard() {
-    const completeLink: string = 'https://cyla.de/schedule/' + this.link;
+    const completeLink: string = 'https://cyla.info/schedule/' + this.link;
     try {
       await navigator.clipboard.writeText(completeLink);
       this._snackBar.open('In die Zwischenablage kopiert', 'OK', {

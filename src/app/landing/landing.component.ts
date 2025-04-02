@@ -32,7 +32,7 @@ export class LandingComponent implements OnInit {
   constructor(public dialog: MatDialog) {}
 
   @HostListener('window:scroll', ['$event']) onScrollEvent() {
-    this.showBanner = window.scrollY > 100 ? true : false;
+    this.showBanner = window.scrollY > 300 ? true : false;
   }
   openSignup() {
     const dialogRef = this.dialog.open(LoginContainerComponent, {
