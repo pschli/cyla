@@ -35,8 +35,8 @@
 
 .planned-date .mat-calendar-body-cell-content {
   background-color: hsl(
-    from var(--mat-form-field-error-text-color, var(--mat-app-error)) h s l /
-      30%
+    from var(--mat-form-field-error-text-color, var(--mat-sys-error)) h s l /
+      20%
   );
   border-radius: 100%;
 }
@@ -47,7 +47,7 @@
 }
 
 .taken-date .mat-calendar-body-cell-content {
-  background: var(--mat-form-field-error-text-color, var(--mat-app-error));
+  background: var(--mat-form-field-error-text-color, var(--mat-sys-error));
   color: var(--mat-app-background-color);
   font-weight: 600;
   border-radius: 100%;
