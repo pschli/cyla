@@ -150,7 +150,7 @@ ${this.userDates.userBaseData.email}
   }
 
   private async handleTokenAndMessage(omit: boolean) {
-    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/cancelbyuser';
+    let url = 'https://cancelbyuser-rlvuhdpanq-uc.a.run.app';
     if (
       this.timeslot?.token &&
       this.timeslot?.email &&

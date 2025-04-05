@@ -216,7 +216,7 @@ export class FirestoreService {
   }
 
   private async sendDeleteRequest(uid: string, idLink: string) {
-    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/deleteUserData';
+    let url = 'https://deleteuserdata-rlvuhdpanq-uc.a.run.app';
     let params = { uid: uid, idLink: idLink };
     try {
       const response: any = await lastValueFrom(

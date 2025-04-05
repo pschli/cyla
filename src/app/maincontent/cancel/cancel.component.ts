@@ -26,7 +26,7 @@ export class CancelComponent implements OnInit {
   }
 
   private cancelAppointment(idLink: string) {
-    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/cancelAppointment';
+    let url = 'https://cancelappointment-rlvuhdpanq-uc.a.run.app';
     let params = { idLink: idLink };
     this.cancelResponse$ = this.http.get(url, {
       params: params,

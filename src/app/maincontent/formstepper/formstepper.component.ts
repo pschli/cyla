@@ -103,7 +103,7 @@ export class FormstepperComponent {
   loadTimeSlots(value: string) {
     if (this.token) {
       if (this.availableDatesSub) this.availableDatesSub.unsubscribe();
-      let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/getdatafromtoken';
+      let url = 'https://getdatafromtoken-rlvuhdpanq-uc.a.run.app';
       let params = { idLink: this.token, duration: value };
       this.timeslots$ = this.http.get(url, {
         params: params,
@@ -161,7 +161,7 @@ export class FormstepperComponent {
     email: string;
   }): Promise<boolean> {
     if (this.token) {
-      let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/savedata';
+      let url = 'https://savedata-rlvuhdpanq-uc.a.run.app';
       let params = {
         idLink: this.token,
         date: data.date,

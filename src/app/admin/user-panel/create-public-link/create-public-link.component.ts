@@ -92,7 +92,7 @@ export class CreatePublicLinkComponent {
   }
 
   async sendPublicLink(link: string) {
-    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/linkidtotoken';
+    let url = 'https://linkidtotoken-rlvuhdpanq-uc.a.run.app';
     let params = { idLink: link, uid: this.fs.currentUid };
     await this.fs.createTempLink(this.fs.currentUid, link);
     try {

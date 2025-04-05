@@ -49,8 +49,7 @@ export class ChooseDurationComponent {
   }
 
   private getDurations(idLink: string) {
-    let url =
-      'http://127.0.0.1:5001/cyla-d3d28/us-central1/getdurationsfromtoken';
+    let url = 'https://getdurationsfromtoken-rlvuhdpanq-uc.a.run.app';
     let params = { idLink: idLink };
     this.durations$ = this.http.get(url, {
       params: params,

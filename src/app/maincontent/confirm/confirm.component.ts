@@ -26,7 +26,7 @@ export class ConfirmComponent implements OnInit {
   }
 
   private confirmAppointment(idLink: string) {
-    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/confirmAppointment';
+    let url = 'https://confirmappointment-rlvuhdpanq-uc.a.run.app';
     let params = { idLink: idLink };
     this.confirmResponse$ = this.http.get(url, {
       params: params,

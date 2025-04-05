@@ -34,7 +34,7 @@ export class MaincontentComponent implements OnInit {
   }
 
   private getId(idLink: string) {
-    let url = 'http://127.0.0.1:5001/cyla-d3d28/us-central1/getidfromtoken';
+    let url = 'https://getidfromtoken-rlvuhdpanq-uc.a.run.app';
     let params = { idLink: idLink };
     this.uidSub = this.http
       .get(url, { params: params, responseType: 'json' })
