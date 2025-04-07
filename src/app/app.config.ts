@@ -7,15 +7,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyAGbaEoxgnaG927RB3piJD5d9OWMwONANA',
-  authDomain: 'cyla-d3d28.firebaseapp.com',
-  projectId: 'cyla-d3d28',
-  storageBucket: 'cyla-d3d28.firebasestorage.app',
-  messagingSenderId: '705817176054',
-  appId: '1:705817176054:web:242993700aba99d7e0c9d7',
-};
+import { firebaseConfig } from './environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [

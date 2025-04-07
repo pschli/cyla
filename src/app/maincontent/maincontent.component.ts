@@ -34,10 +34,14 @@ export class MaincontentComponent implements OnInit {
   }
 
   private getId(idLink: string) {
-    let url = 'https://getidfromtoken-rlvuhdpanq-uc.a.run.app';
-    let params = { idLink: idLink };
+    const url = 'https://getidfromtoken-rlvuhdpanq-uc.a.run.app';
+    const params = { idLink: idLink };
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+
     this.uidSub = this.http
-      .get(url, { params: params, responseType: 'json' })
+      .get(url, { params: params, headers: headers, responseType: 'json' })
       .subscribe((response) => {
         let returnValue: any = response;
         if (returnValue) {
