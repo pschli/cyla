@@ -22,8 +22,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChooseDurationComponent } from '../choose-duration/choose-duration.component';
-import { Observable, Subscription } from 'rxjs';
+import { from, map, Observable, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-formstepper',
@@ -50,6 +51,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './formstepper.component.scss',
 })
 export class FormstepperComponent {
+  private functions = inject(Functions);
   scheduledMeeting = inject(AppointmentInfoService);
   dateFormatter = inject(DateFormatterService);
   dateSelected?: boolean;
@@ -103,15 +105,13 @@ export class FormstepperComponent {
   loadTimeSlots(value: string) {
     if (this.token) {
       if (this.availableDatesSub) this.availableDatesSub.unsubscribe();
-      let url = 'https://getdatafromtoken-rlvuhdpanq-uc.a.run.app';
-      let params = { idLink: this.token, duration: value };
-      this.timeslots$ = this.http.get(url, {
-        params: params,
-        responseType: 'json',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const getDataFn = httpsCallable(this.functions, 'getdatafromtoken');
+      this.timeslots$ = from(
+        getDataFn({
+          idLink: this.token,
+          duration: value,
+        })
+      ).pipe(map((result) => ({ data: result.data })));
       this.availableDatesSub = this.timeslots$.subscribe((slots) => {
         this.availableDates = [];
         this.timeslotsDataset = slots.data;
@@ -161,29 +161,57 @@ export class FormstepperComponent {
     email: string;
   }): Promise<boolean> {
     if (this.token) {
-      let url = 'https://savedata-rlvuhdpanq-uc.a.run.app';
-      let params = {
-        idLink: this.token,
-        date: data.date,
-        time: data.time,
-        name: data.name,
-        email: data.email,
-      };
+      const saveDataFn = httpsCallable(this.functions, 'savedata');
       try {
-        await this.http
-          .get(url, {
-            params: params,
-            responseType: 'json',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-          .toPromise();
+        const params = {
+          idLink: this.token,
+          date: data.date,
+          time: data.time,
+          name: data.name,
+          email: data.email,
+        };
+
+        await saveDataFn(params);
         return true;
       } catch (err) {
-        console.error(err);
+        console.error('Error saving data:', err);
         return false;
       }
-    } else return false;
+    } else {
+      return false;
+    }
   }
+
+  //   async sendDataToBackend(data: {
+  //     date: string;
+  //     time: string;
+  //     name: string;
+  //     email: string;
+  //   }): Promise<boolean> {
+  //     if (this.token) {
+  //       let url = 'https://savedata-rlvuhdpanq-uc.a.run.app';
+  //       let params = {
+  //         idLink: this.token,
+  //         date: data.date,
+  //         time: data.time,
+  //         name: data.name,
+  //         email: data.email,
+  //       };
+  //       try {
+  //         await this.http
+  //           .get(url, {
+  //             params: params,
+  //             responseType: 'json',
+  //             headers: {
+  //               'Content-Type': 'application/json',
+  //             },
+  //           })
+  //           .toPromise();
+  //         return true;
+  //       } catch (err) {
+  //         console.error(err);
+  //         return false;
+  //       }
+  //     } else return false;
+  //   }
 }

@@ -11,9 +11,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 import { AppointmentInfoService } from '../../services/appointment-info.service';
 import { DurationPipe } from '../../pipes/duration.pipe';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-choose-duration',
@@ -33,6 +34,8 @@ import { DurationPipe } from '../../pipes/duration.pipe';
 export class ChooseDurationComponent {
   @Output() durationDataValid = new EventEmitter<boolean>();
 
+  private functions = inject(Functions);
+
   private token: string | null = null;
   durations$!: Observable<any>;
 
@@ -49,16 +52,26 @@ export class ChooseDurationComponent {
   }
 
   private getDurations(idLink: string) {
-    let url = 'https://getdurationsfromtoken-rlvuhdpanq-uc.a.run.app';
-    let params = { idLink: idLink };
-    this.durations$ = this.http.get(url, {
-      params: params,
-      responseType: 'json',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const getDurationsFn = httpsCallable(
+      this.functions,
+      'getdurationsfromtoken'
+    );
+    this.durations$ = from(getDurationsFn({ idLink })).pipe(
+      map((result) => result.data)
+    );
   }
+
+  // private getDurations(idLink: string) {
+  //   let url = 'https://getdurationsfromtoken-rlvuhdpanq-uc.a.run.app';
+  //   let params = { idLink: idLink };
+  //   this.durations$ = this.http.get(url, {
+  //     params: params,
+  //     responseType: 'json',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
+  // }
 
   validateSelection() {
     if (this.selection.valid && this.selection.value) {

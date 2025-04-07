@@ -1,9 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-confirm',
@@ -14,6 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class ConfirmComponent implements OnInit {
   private router = inject(Router);
+  private functions = inject(Functions);
   private token: string | null = null;
   confirmResponse$: Observable<any> | null = null;
 
@@ -26,11 +28,19 @@ export class ConfirmComponent implements OnInit {
   }
 
   private confirmAppointment(idLink: string) {
-    let url = 'https://confirmappointment-rlvuhdpanq-uc.a.run.app';
-    let params = { idLink: idLink };
-    this.confirmResponse$ = this.http.get(url, {
-      params: params,
-      responseType: 'json',
-    });
+    const confirmFn = httpsCallable(this.functions, 'confirmAppointment');
+
+    this.confirmResponse$ = from(confirmFn({ idLink })).pipe(
+      map((result) => result.data)
+    );
   }
+
+  // private confirmAppointment(idLink: string) {
+  //   let url = 'https://confirmappointment-rlvuhdpanq-uc.a.run.app';
+  //   let params = { idLink: idLink };
+  //   this.confirmResponse$ = this.http.get(url, {
+  //     params: params,
+  //     responseType: 'json',
+  //   });
+  // }
 }

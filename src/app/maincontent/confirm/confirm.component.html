@@ -7,7 +7,7 @@
           <h2>Loading</h2>
           <div class="loader"></div>
         </div>
-        } @else { @switch (response.response) { @case ('confirmed') {
+        } @else { @switch (response.status) { @case ('confirmed') {
         <h2>Deine Terminbuchung ist bestätigt</h2>
         } @case ('already confirmed') {
         <h2>Deine Terminbuchung wurde bereits bestätigt</h2>
