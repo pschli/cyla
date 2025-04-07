@@ -22,5 +22,5 @@ import { FooterComponent } from './footer/footer.component';
 })
 export class AppComponent {
   constructor(protected route: ActivatedRoute) {}
-  title = 'illbethere';
+  title = 'Cyla';
 }

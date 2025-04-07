@@ -14,7 +14,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DateDataService } from '../../../services/date-data.service';
-import { lastValueFrom, merge } from 'rxjs';
+import { merge } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { FirestoreService } from '../../../services/firestore.service';
 import { Router } from '@angular/router';
@@ -24,6 +24,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 
 export class LinkErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -54,6 +55,7 @@ export class LinkErrorStateMatcher implements ErrorStateMatcher {
   styleUrl: './create-public-link.component.scss',
 })
 export class CreatePublicLinkComponent {
+  private functions = inject(Functions);
   private _snackBar = inject(MatSnackBar);
   userDates = inject(DateDataService);
   router = inject(Router);
@@ -92,14 +94,12 @@ export class CreatePublicLinkComponent {
   }
 
   async sendPublicLink(link: string) {
-    let url = 'https://linkidtotoken-rlvuhdpanq-uc.a.run.app';
-    let params = { idLink: link, uid: this.fs.currentUid };
+    const params = { idLink: link, uid: this.fs.currentUid };
     await this.fs.createTempLink(this.fs.currentUid, link);
+    const sendPL = httpsCallable(this.functions, 'linkidtotoken');
     try {
-      const response: any = await lastValueFrom(
-        this.http.get(url, { params, responseType: 'json' })
-      );
-      return response.response.toString();
+      const response: any = await sendPL(params);
+      return response.data.response.toString();
     } catch (err) {
       console.error('Error:', err);
       return 'error';

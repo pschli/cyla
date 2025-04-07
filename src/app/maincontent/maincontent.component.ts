@@ -7,8 +7,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { FormstepperComponent } from './formstepper/formstepper.component';
-import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-maincontent',
@@ -21,11 +21,12 @@ import { Subscription } from 'rxjs';
 })
 export class MaincontentComponent implements OnInit {
   private router = inject(Router);
+  private functions = inject(Functions);
   private token: string | null = null;
   private uidSub: Subscription | null = null;
   private uid: any;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
@@ -33,24 +34,17 @@ export class MaincontentComponent implements OnInit {
     if (this.token) this.getId(this.token);
   }
 
-  private getId(idLink: string) {
-    const url = 'https://getidfromtoken-rlvuhdpanq-uc.a.run.app';
-    const params = { idLink: idLink };
-    const headers = {
-      'Content-Type': 'application/json',
-    };
-
-    this.uidSub = this.http
-      .get(url, { params: params, headers: headers, responseType: 'json' })
-      .subscribe((response) => {
-        let returnValue: any = response;
-        if (returnValue) {
-          this.uid = returnValue.uid;
-          if (!this.uid) this.router.navigateByUrl('invalidUserlink');
-        } else {
-          this.router.navigateByUrl('invalidUserlink');
-        }
-      });
+  private async getId(idLink: string) {
+    const getUid = httpsCallable(this.functions, 'getidfromtoken');
+    try {
+      const result: any = await getUid({ idLink: idLink });
+      this.uid = result.data?.uid;
+      if (!this.uid) this.router.navigateByUrl('invalidUserlink');
+    } catch (error) {
+      console.error('Error fetching UID:', error);
+      this.router.navigateByUrl('invalidUserlink');
+      throw error;
+    }
   }
 
   ngOnDestroy(): void {

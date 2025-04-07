@@ -5,9 +5,15 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { provideHttpClient } from '@angular/common/http';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { firebaseConfig } from './environment';
+import {
+  provideAppCheck,
+  initializeAppCheck,
+  ReCaptchaV3Provider,
+} from '@angular/fire/app-check';
+import { provideFunctions, getFunctions } from '@angular/fire/functions';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +22,12 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
     provideHttpClient(),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFunctions(() => getFunctions()),
+    provideAppCheck(() =>
+      initializeAppCheck(getApp(), {
+        provider: new ReCaptchaV3Provider(firebaseConfig.recaptchaSiteKey),
+      })
+    ),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
