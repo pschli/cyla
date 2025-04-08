@@ -12,6 +12,7 @@ import {
   setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 import { firstValueFrom, from, lastValueFrom, map, Observable } from 'rxjs';
 
 interface DurationPayload {
@@ -35,6 +36,7 @@ interface TimeslotData {
 })
 export class FirestoreService {
   firestore = inject(Firestore);
+  private functions = inject(Functions);
   usersCollection?: CollectionReference;
   currentUid: string = '';
   userData$: Observable<DocumentData | null> | undefined;
@@ -216,16 +218,27 @@ export class FirestoreService {
   }
 
   private async sendDeleteRequest(uid: string, idLink: string) {
-    let url = 'https://deleteuserdata-rlvuhdpanq-uc.a.run.app';
-    let params = { uid: uid, idLink: idLink };
     try {
-      const response: any = await lastValueFrom(
-        this.http.get(url, { params, responseType: 'json' })
-      );
-      return response.response.toString();
-    } catch (err) {
-      console.error('Error:', err);
-      return 'error';
+      const deleteUserDataFn = httpsCallable(this.functions, 'deleteUserData');
+      const result = await deleteUserDataFn({ uid, idLink });
+      return result.data;
+    } catch (error) {
+      console.error('Error calling deleteUserData function:', error);
+      throw error;
     }
   }
+
+  // private async sendDeleteRequest(uid: string, idLink: string) {
+  //   let url = 'https://deleteuserdata-rlvuhdpanq-uc.a.run.app';
+  //   let params = { uid: uid, idLink: idLink };
+  //   try {
+  //     const response: any = await lastValueFrom(
+  //       this.http.get(url, { params, responseType: 'json' })
+  //     );
+  //     return response.response.toString();
+  //   } catch (err) {
+  //     console.error('Error:', err);
+  //     return 'error';
+  //   }
+  // }
 }

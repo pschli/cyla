@@ -61,18 +61,6 @@ export class ChooseDurationComponent {
     );
   }
 
-  // private getDurations(idLink: string) {
-  //   let url = 'https://getdurationsfromtoken-rlvuhdpanq-uc.a.run.app';
-  //   let params = { idLink: idLink };
-  //   this.durations$ = this.http.get(url, {
-  //     params: params,
-  //     responseType: 'json',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-  // }
-
   validateSelection() {
     if (this.selection.valid && this.selection.value) {
       this.scheduledMeeting.updateDurationValue(this.selection.value);

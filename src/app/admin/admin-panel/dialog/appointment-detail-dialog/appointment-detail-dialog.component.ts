@@ -26,6 +26,7 @@ import {
 import { RefreshCalendarStateService } from '../../../../services/refresh-calendar-state.service';
 import { Timeslot } from '../../../../interfaces/timeslot';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 
 interface dataType {
   userDates: DateDataService;
@@ -69,6 +70,7 @@ interface ServerResponse {
 })
 export class AppointmentDetailDialogComponent {
   dateFormatter = inject(DateFormatterService);
+  private functions = inject(Functions);
   private _snackBar = inject(MatSnackBar);
   refreshCalendarService = inject(RefreshCalendarStateService);
   userDates: DateDataService;
@@ -150,33 +152,29 @@ ${this.userDates.userBaseData.email}
   }
 
   private async handleTokenAndMessage(omit: boolean) {
-    let url = 'https://cancelbyuser-rlvuhdpanq-uc.a.run.app';
-    if (
-      this.timeslot?.token &&
-      this.timeslot?.email &&
-      this.topic.value &&
-      this.message.value
-    ) {
-      let params = {
-        token: this.timeslot?.token,
-        email: this.timeslot?.email,
-        topic: this.topic.value,
-        message: this.message.value,
-        omit: omit ? 'true' : 'false',
-      };
-      try {
-        const response: ServerResponse = await firstValueFrom(
-          this.http.get<ServerResponse>(url, {
-            params: params,
-            responseType: 'json',
-          })
-        );
-        return response;
-      } catch (err) {
-        return { response: 'error' };
+    try {
+      if (
+        this.timeslot?.token &&
+        this.timeslot?.email &&
+        this.topic.value &&
+        this.message.value
+      ) {
+        const cancelByUserFn = httpsCallable(this.functions, 'cancelbyuser');
+        const params = {
+          token: this.timeslot?.token,
+          email: this.timeslot?.email,
+          topic: this.topic.value,
+          message: this.message.value,
+          omit: omit ? 'true' : 'false',
+        };
+        const result = await cancelByUserFn(params);
+        return result.data as ServerResponse;
       }
+      return { response: 'error' };
+    } catch (err) {
+      console.error('Error calling cancelbyuser function:', err);
+      return { response: 'error' };
     }
-    return { response: 'error' };
   }
 
   private showCancelResult(result: string) {

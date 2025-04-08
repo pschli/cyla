@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { Functions, httpsCallable } from '@angular/fire/functions';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
+import { from, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cancel',
@@ -14,10 +14,11 @@ import { Observable } from 'rxjs';
 })
 export class CancelComponent implements OnInit {
   private router = inject(Router);
+  private functions = inject(Functions);
   private token: string | null = null;
   cancelResponse$: Observable<any> | null = null;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
@@ -26,11 +27,11 @@ export class CancelComponent implements OnInit {
   }
 
   private cancelAppointment(idLink: string) {
-    let url = 'https://cancelappointment-rlvuhdpanq-uc.a.run.app';
-    let params = { idLink: idLink };
-    this.cancelResponse$ = this.http.get(url, {
-      params: params,
-      responseType: 'json',
-    });
+    console.log(idLink);
+    const cancelFn = httpsCallable(this.functions, 'cancelAppointment');
+
+    this.cancelResponse$ = from(cancelFn({ idLink: idLink })).pipe(
+      map((result) => result.data)
+    );
   }
 }

@@ -1,5 +1,4 @@
 import { AsyncPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { Functions, httpsCallable } from '@angular/fire/functions';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +18,7 @@ export class ConfirmComponent implements OnInit {
   private token: string | null = null;
   confirmResponse$: Observable<any> | null = null;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
@@ -34,13 +33,4 @@ export class ConfirmComponent implements OnInit {
       map((result) => result.data)
     );
   }
-
-  // private confirmAppointment(idLink: string) {
-  //   let url = 'https://confirmappointment-rlvuhdpanq-uc.a.run.app';
-  //   let params = { idLink: idLink };
-  //   this.confirmResponse$ = this.http.get(url, {
-  //     params: params,
-  //     responseType: 'json',
-  //   });
-  // }
 }
