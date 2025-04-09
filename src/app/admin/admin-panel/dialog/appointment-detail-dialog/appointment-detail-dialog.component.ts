@@ -112,9 +112,9 @@ export class AppointmentDetailDialogComponent {
     this.message.setValue(`Hallo ${this.timeslot!.name},
 Leider müssen wir deinen Termin am ${this.formatDate(this.date)} um ${
       this.time.time
-    } Uhr absagen. Vereinbare gerne einen neuen Termin unter: ${
+    } Uhr absagen. Vereinbare gerne einen neuen Termin unter: <a href="https://cyla.info/schedule/${
       this.userDates.userBaseData.publiclink
-    }. 
+    }">cyla.info/schedule/${this.userDates.userBaseData.publiclink}</a>. 
 Mit freundlichen Grüßen
 ${this.userDates.userBaseData.firstname} ${this.userDates.userBaseData.lastname}
 ${this.userDates.userBaseData.email}
