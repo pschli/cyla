@@ -22,6 +22,7 @@ import { Router, RouterLink } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { LoginContainerComponent } from '../login-container/login-container.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CookiesService } from '../../legal/cookies.service';
 
 type NonNullData = {
   email: string;
@@ -52,6 +53,7 @@ export class SignupComponent {
   readonly dialogRef = inject(MatDialogRef<LoginContainerComponent>);
   @Output() changeDialog = new EventEmitter<string>();
   router = inject(Router);
+  cookieService = inject(CookiesService);
   authService = inject(AuthService);
   loading: boolean = false;
   ppChecked = false;
@@ -202,6 +204,7 @@ export class SignupComponent {
       )
       .subscribe({
         next: () => {
+          this.cookieService.setCookieConsent();
           this.router.navigateByUrl('admin/overview');
           this.formData.reset();
           this.dialogRef.close();

@@ -17,7 +17,6 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,

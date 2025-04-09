@@ -17,6 +17,7 @@ import { PwSendComponent } from './maincontent/pw-send/pw-send.component';
 import { ImprintComponent } from './legal/imprint/imprint.component';
 import { DatenschutzComponent } from './legal/datenschutz/datenschutz.component';
 import { ContactComponent } from './contact/contact.component';
+import { CookiesComponent } from './legal/cookies/cookies.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -32,6 +33,7 @@ export const routes: Routes = [
   { path: 'impressum', component: ImprintComponent },
   { path: 'datenschutz', component: DatenschutzComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'cookies', component: CookiesComponent },
   {
     path: 'admin',
     component: AdminComponent,

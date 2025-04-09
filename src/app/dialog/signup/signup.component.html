@@ -154,7 +154,10 @@
         >Ich akzeptiere die
         <a (click)="closeDialog()" [routerLink]="['/datenschutz']"
           >Datenschutzerklärung</a
-        ></mat-checkbox
+        >
+        und stimme der Verwendung von
+        <a (click)="closeDialog()" [routerLink]="['/cookies']">Cookies</a>
+        zu</mat-checkbox
       >
       <div>
         <mat-dialog-actions>

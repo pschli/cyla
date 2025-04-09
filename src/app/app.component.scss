@@ -1,0 +1,39 @@
+@keyframes cookies-in {
+  from {
+    bottom: -72px;
+  }
+  to {
+    bottom: 0;
+  }
+}
+
+.cookies {
+  width: 100%;
+  min-height: 72px;
+  background-color: var(--mat-app-background-color);
+  box-shadow: var(--mat-app-elevation-shadow-level-10);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  animation: cookies-in 600ms ease-in-out;
+}
+
+.cookie-buttons {
+  height: 72px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.cookie-table {
+  margin: 16px;
+  table {
+    width: 100%;
+  }
+}

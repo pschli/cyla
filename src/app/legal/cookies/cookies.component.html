@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="content">
+    <div class="inner">
+      <div class="button-container">
+        <a mat-button [routerLink]="['']"
+          ><mat-icon>chevron_left</mat-icon>zurück zur Startseite</a
+        >
+        <a mat-button [routerLink]="['/datenschutz']"
+          >zur Datenschutzerklärung<mat-icon>chevron_right</mat-icon></a
+        >
+      </div>
+      <div class="headline">
+        <h1>Cookies</h1>
+        <p>
+          Diese Wesite verwendet technisch notwendige Cookies, um die Sicherheit
+          und Funktion des Angebots sicherzustellen.
+        </p>
+        <div class="cookie-table">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="domain">
+              <th mat-header-cell *matHeaderCellDef>Domain</th>
+              <td mat-cell *matCellDef="let element">{{ element.domain }}</td>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef>Erklärung</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.description }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

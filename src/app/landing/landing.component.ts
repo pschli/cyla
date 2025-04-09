@@ -7,11 +7,14 @@ import { AuthService } from '../services/auth.service';
 import { LearnmoreComponent } from '../learnmore/learnmore.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { LoginContainerComponent } from '../dialog/login-container/login-container.component';
+import * as cookies from '../cookies';
+import { MatTableModule } from '@angular/material/table';
+import { CookiesService } from '../legal/cookies.service';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [MatButtonModule, LearnmoreComponent],
+  imports: [MatButtonModule, LearnmoreComponent, MatTableModule],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss',
   animations: [
@@ -26,6 +29,7 @@ import { LoginContainerComponent } from '../dialog/login-container/login-contain
 export class LandingComponent implements OnInit {
   authService = inject(AuthService);
   router = inject(Router);
+
   learnmoreClicked = false;
   showBanner = false;
 
