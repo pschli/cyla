@@ -40,3 +40,42 @@
     }
   }
 }
+
+@media (max-width: 1280px) {
+  .inner {
+    > div {
+      &:first-child {
+        margin-left: 48px;
+      }
+      &:last-child {
+        margin-right: 48px;
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .inner {
+    > div {
+      &:first-child {
+        margin-left: 24px;
+      }
+      &:last-child {
+        margin-right: 24px;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .inner {
+    > div {
+      &:first-child {
+        margin-left: 16px;
+      }
+      &:last-child {
+        margin-right: 16px;
+      }
+    }
+  }
+}
