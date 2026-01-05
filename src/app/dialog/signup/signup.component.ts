@@ -208,6 +208,7 @@ export class SignupComponent {
           this.router.navigateByUrl('admin/overview');
           this.formData.reset();
           this.dialogRef.close();
+          this.loading = false;
         },
         error: (err) => {
           this.handleSigninError(err.code);

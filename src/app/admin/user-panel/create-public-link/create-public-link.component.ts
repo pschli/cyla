@@ -60,12 +60,15 @@ export class CreatePublicLinkComponent {
   userDates = inject(DateDataService);
   router = inject(Router);
   fs = inject(FirestoreService);
+
   regex = /^[a-zA-Z0-9_-]*$/;
   linkFormControl = new FormControl('', [
     Validators.pattern(this.regex),
     Validators.required,
   ]);
+
   triedLinks: Array<string> = [];
+  isLoading: boolean = false;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -86,6 +89,7 @@ export class CreatePublicLinkComponent {
   }
 
   async sendLink() {
+    this.isLoading = true;
     const link = this.linkFormControl.value;
     if (link) {
       let linkState = await this.sendPublicLink(link);
@@ -114,6 +118,7 @@ export class CreatePublicLinkComponent {
       case 'data saved':
         this.userDates.publicLink$.next(link);
         this.router.navigateByUrl('admin/overview');
+        this.isLoading = false;
         break;
       case 'link exists':
         this.handleLinkExists(link);
@@ -122,6 +127,7 @@ export class CreatePublicLinkComponent {
   }
 
   handleLinkExists(link: string) {
+    this.isLoading = false;
     this.triedLinks.push(link);
     this.checkTriedLinks();
   }
@@ -144,6 +150,7 @@ export class CreatePublicLinkComponent {
   }
 
   showDBErrorMessage() {
+    this.isLoading = false;
     this._snackBar.open(
       'Fehler beim Erstellen des Links. Bitte versuche es erneut.',
       'OK',

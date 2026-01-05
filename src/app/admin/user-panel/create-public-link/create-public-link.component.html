@@ -37,9 +37,9 @@
         <button
           mat-flat-button
           (click)="sendLink()"
-          [disabled]="linkFormControl.invalid"
+          [disabled]="linkFormControl.invalid || isLoading"
         >
-          übernehmen
+          {{ isLoading ? "gesendet" : "übernehmen" }}
         </button>
         <button mat-button (click)="generateLink()">zufällig</button>
       </div>
