@@ -11,7 +11,6 @@
               [formControl]="formData.controls.firstname"
               (blur)="updateErrorMessage('firstname')"
               required
-              [disabled]="loading"
             />
             @if (formData.controls.firstname.invalid) {
             <mat-error>{{ errorMessage.firstname }}</mat-error>
@@ -24,7 +23,6 @@
               [formControl]="formData.controls.lastname"
               (blur)="updateErrorMessage('lastname')"
               required
-              [disabled]="loading"
             />
             @if (formData.controls.lastname.invalid) {
             <mat-error>{{ errorMessage.lastname }}</mat-error>
@@ -40,7 +38,6 @@
             [formControl]="formData.controls.email"
             (blur)="updateErrorMessage('email')"
             required
-            [disabled]="loading"
           />
           @if (formData.controls.email.invalid) {
           <mat-error>{{ errorMessage.email }}</mat-error>
@@ -57,7 +54,6 @@
             [formControl]="formData.controls.password"
             (blur)="updateErrorMessage('password')"
             required
-            [disabled]="loading"
           />
           <button
             mat-icon-button
@@ -139,7 +135,6 @@
             [formControl]="formData.controls.repeatpw"
             autocomplete="new-password"
             (input)="checkEqual()"
-            [disabled]="loading"
           />
           <button
             mat-icon-button
@@ -155,9 +150,7 @@
           >}
         </mat-form-field>
       </mat-dialog-content>
-      <mat-checkbox
-        (change)="getCheckState($event.checked)"
-        [disabled]="loading"
+      <mat-checkbox (change)="getCheckState($event.checked)"
         >Ich akzeptiere die
         <a (click)="closeDialog()" [routerLink]="['/datenschutz']"
           >Datenschutzerklärung</a
@@ -181,6 +174,11 @@
         </mat-dialog-actions>
       </div>
     </form>
+    @if (signupError?.state) {
+    <div class="errorBox">
+      <p class="errorText">Fehler: {{ signupError?.text }}</p>
+    </div>
+    }
 
     <div class="loginlink">
       <span>Du hast bereits ein Konto?&nbsp;</span

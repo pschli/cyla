@@ -89,6 +89,12 @@ export class LoginComponent {
     }
   }
 
+  getErrorText(msg: string) {
+    if (msg === 'appCheck/fetch-status-error')
+      return 'Netzwerkfehler, bitte versuche es erneut';
+    return 'E-Mail oder Passwort ungültig.';
+  }
+
   passwordHelp() {
     this.passwordHelpError = false;
     if (
@@ -105,7 +111,8 @@ export class LoginComponent {
             this.dialogRef.close();
           },
           error: (err) => {
-            this.firebaseErrorMessage = err.code;
+            this.firebaseErrorMessage = this.getErrorText(err.code);
+            this.formData.enable();
             this.loading = false;
           },
         });
@@ -123,16 +130,19 @@ export class LoginComponent {
 
   loginUser() {
     let rawData = this.formData.getRawValue();
+    this.formData.disable();
     this.loading = true;
     if (rawData.email && rawData.password)
       this.authService.login(rawData.email, rawData.password).subscribe({
         next: () => {
           this.router.navigateByUrl('admin/overview');
           this.formData.reset();
+          this.loading = false;
           this.dialogRef.close();
         },
         error: (err) => {
-          this.firebaseErrorMessage = err.code;
+          this.firebaseErrorMessage = this.getErrorText(err.code);
+          this.formData.enable();
           this.loading = false;
         },
       });

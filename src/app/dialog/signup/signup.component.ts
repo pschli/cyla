@@ -31,6 +31,11 @@ type NonNullData = {
   lastname: string;
 };
 
+type ErrorResponse = {
+  state: boolean;
+  text: string;
+};
+
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -56,6 +61,7 @@ export class SignupComponent {
   cookieService = inject(CookiesService);
   authService = inject(AuthService);
   loading: boolean = false;
+  signupError: ErrorResponse | null = null;
   ppChecked = false;
 
   strongPasswordRegx: RegExp =
@@ -194,6 +200,7 @@ export class SignupComponent {
 
   registerUser() {
     let validData: NonNullData = this.processRawData();
+    this.formData.disable();
     this.loading = true;
     this.authService
       .register(
@@ -207,10 +214,12 @@ export class SignupComponent {
           this.cookieService.setCookieConsent();
           this.router.navigateByUrl('admin/overview');
           this.formData.reset();
+          this.signupError = null;
           this.dialogRef.close();
           this.loading = false;
         },
         error: (err) => {
+          console.log(err.code);
           this.handleSigninError(err.code);
         },
       });
@@ -244,11 +253,18 @@ export class SignupComponent {
       case 'auth/email-already-in-use':
         this.emailAlreadyInUse();
         break;
+      case 'appCheck/fetch-status-error':
+        this.signupError = {
+          state: true,
+          text: 'Nutzer konnte nicht angelegt werden.',
+        };
+        break;
       default:
-        //  console.error(error);
+        this.signupError = { state: true, text: error };
         break;
     }
     this.loading = false;
+    this.formData.enable();
   }
 
   emailAlreadyInUse() {

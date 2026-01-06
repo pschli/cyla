@@ -3,7 +3,7 @@
     <form action="" [formGroup]="formData">
       <mat-dialog-content class="formfield"
         >@if (firebaseErrorMessage) {
-        <p class="login-error">E-Mail oder Passwort ungültig.</p>
+        <p class="login-error">{{ firebaseErrorMessage }}</p>
         } @else if (passwordHelpError) {
         <p class="login-error">Bitte E-Mail eingeben.</p>
         }
@@ -48,9 +48,9 @@
             type="submit"
             class="signup-btn"
             (click)="loginUser()"
-            [disabled]="formData.invalid"
+            [disabled]="formData.invalid || loading"
           >
-            Log in
+            {{ loading ? "Gesendet" : "Log in" }}
           </button>
         </mat-dialog-actions>
       </div>

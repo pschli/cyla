@@ -78,3 +78,17 @@
   justify-content: space-between;
   gap: 12px;
 }
+
+.errorBox {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--mat-form-field-error-text-color);
+}
+
+.errorText {
+  color: var(--mat-form-field-error-text-color, var(--mat-app-error));
+  text-align: center;
+}
